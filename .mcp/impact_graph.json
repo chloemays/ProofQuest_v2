@@ -1,0 +1,545 @@
+{
+  "imports": {
+    "mcp-global-rules\\agent_comms.py": [
+      "pathlib",
+      "socket",
+      "json",
+      "time",
+      "sys",
+      "os"
+    ],
+    "mcp-global-rules\\mcp.py": [
+      "pathlib",
+      "os",
+      "traceback",
+      "sys"
+    ],
+    "mcp-global-rules\\model_manager.py": [
+      "pathlib",
+      "json",
+      "os",
+      "sys"
+    ],
+    "mcp-global-rules\\scripts\\agent_comms.py": [
+      "pathlib",
+      "socket",
+      "json",
+      "subprocess",
+      "importlib.util",
+      "time",
+      "sys",
+      "os",
+      "traceback"
+    ],
+    "mcp-global-rules\\scripts\\agent_launcher.py": [
+      "pathlib",
+      "subprocess",
+      "signal",
+      "time",
+      "sys",
+      "os"
+    ],
+    "mcp-global-rules\\scripts\\aggregator.py": [
+      "pathlib",
+      "utils",
+      "os",
+      "sys"
+    ],
+    "mcp-global-rules\\scripts\\antigravity_automation.py": [
+      "pathlib",
+      "json",
+      "subprocess",
+      "typing",
+      "agent_comms",
+      "time",
+      "sys",
+      "playwright.sync_api",
+      "os",
+      "traceback"
+    ],
+    "mcp-global-rules\\scripts\\api_docs.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\architecture.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\astgrep.py": [
+      "pathlib",
+      "json",
+      "subprocess",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\autocontext.py": [
+      "pathlib",
+      "json",
+      "treesitter_utils",
+      "collections",
+      "memory",
+      "os",
+      "datetime",
+      "utils",
+      "vector_store",
+      "deps",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\auto_docs.py": [
+      "pathlib",
+      "ast",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\auto_learn.py": [
+      "pathlib",
+      "functools",
+      "utils",
+      "sys",
+      "learning",
+      "typing",
+      "traceback"
+    ],
+    "mcp-global-rules\\scripts\\auto_test.py": [
+      "pathlib",
+      "ast",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\changelog.py": [
+      "pathlib",
+      "re",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\cicd.py": [
+      "pathlib",
+      "json",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\config_index.py": [
+      "pathlib",
+      "json",
+      "re",
+      "typing",
+      "utils",
+      "sys",
+      "dataclasses",
+      "os"
+    ],
+    "mcp-global-rules\\scripts\\context.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "collections",
+      "math",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\coverage_index.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "utils",
+      "sqlite3",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\cybersec.py": [
+      "pathlib",
+      "subprocess",
+      "shutil",
+      "typing",
+      "sys",
+      "os"
+    ],
+    "mcp-global-rules\\scripts\\dead_code.py": [
+      "pathlib",
+      "ast",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\deps.py": [
+      "pathlib",
+      "ast",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\doc_coverage.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\doc_index.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\embeddings.py": [
+      "pathlib",
+      "re",
+      "sentence_transformers",
+      "numpy",
+      "math",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\errors.py": [
+      "pathlib",
+      "ast",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\finder.py": [
+      "pathlib",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\fix.py": [
+      "pathlib",
+      "ast",
+      "subprocess",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\git_index.py": [
+      "pathlib",
+      "json",
+      "subprocess",
+      "re",
+      "datetime",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\impact.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\index_all.py": [
+      "pathlib",
+      "todo_index",
+      "json",
+      "config_index",
+      "doc_index",
+      "impact",
+      "datetime",
+      "utils",
+      "vector_store",
+      "git_index",
+      "coverage_index",
+      "time",
+      "sys"
+    ],
+    "mcp-global-rules\\scripts\\learning.py": [
+      "pathlib",
+      "json",
+      "collections",
+      "datetime",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\memory.py": [
+      "pathlib",
+      "embeddings",
+      "json",
+      "hashlib",
+      "datetime",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\migrate.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\model_manager.py": [
+      "pathlib",
+      "json",
+      "os",
+      "sys"
+    ],
+    "mcp-global-rules\\scripts\\multi_repo.py": [
+      "pathlib",
+      "json",
+      "datetime",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\nsync.py": [
+      "pathlib",
+      "socket",
+      "watchdog.observers",
+      "subprocess",
+      "shutil",
+      "tempfile",
+      "threading",
+      "typing",
+      "watchdog.events",
+      "time",
+      "sys",
+      "os"
+    ],
+    "mcp-global-rules\\scripts\\predict.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\profile.py": [
+      "pathlib",
+      "ast",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\record.py": [
+      "pathlib",
+      "subprocess",
+      "datetime",
+      "utils",
+      "sys",
+      "memory",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\refactor.py": [
+      "pathlib",
+      "ast",
+      "hashlib",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\review.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "enum",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\security.py": [
+      "pathlib",
+      "ast",
+      "re",
+      "enum",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\setup.py": [
+      "pathlib",
+      "index_all",
+      "shutil",
+      "cicd",
+      "utils",
+      "stat",
+      "sys",
+      "os"
+    ],
+    "mcp-global-rules\\scripts\\summarize.py": [
+      "pathlib",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\telegram_bridge.py": [
+      "requests",
+      "pathlib",
+      "json",
+      "tempfile",
+      "agent_comms",
+      "time",
+      "sys",
+      "os",
+      "traceback"
+    ],
+    "mcp-global-rules\\scripts\\test_gen.py": [
+      "pathlib",
+      "ast",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\todo_index.py": [
+      "pathlib",
+      "json",
+      "re",
+      "collections",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\treesitter_utils.py": [
+      "pathlib",
+      "ast",
+      "tree_sitter",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\trigger_loop.py": [
+      "sys",
+      "utils",
+      "config.loop_config",
+      "pathlib"
+    ],
+    "mcp-global-rules\\scripts\\utils.py": [
+      "pathlib",
+      "ast",
+      "json",
+      "subprocess",
+      "os",
+      "datetime",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\vector_store.py": [
+      "pathlib",
+      "embeddings",
+      "json",
+      "faiss",
+      "hashlib",
+      "numpy",
+      "treesitter_utils",
+      "utils",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\warm.py": [
+      "pathlib",
+      "todo_index",
+      "concurrent.futures",
+      "utils",
+      "vector_store",
+      "time",
+      "sys"
+    ],
+    "mcp-global-rules\\scripts\\watcher.py": [
+      "pathlib",
+      "json",
+      "watchdog.observers",
+      "hashlib",
+      "signal",
+      "os",
+      "datetime",
+      "utils",
+      "watchdog.events",
+      "vector_store",
+      "time",
+      "sys",
+      "dataclasses",
+      "typing"
+    ],
+    "mcp-global-rules\\scripts\\__init__.py": [
+      "utils"
+    ],
+    "mcp-global-rules\\tests\\test_scripts.py": [
+      "scripts.changelog",
+      "pathlib",
+      "ast",
+      "scripts.summarize",
+      "pytest",
+      "scripts.utils",
+      "scripts.review",
+      "scripts.dead_code",
+      "tempfile",
+      "scripts.deps",
+      "scripts.auto_docs",
+      "scripts.auto_test",
+      "os"
+    ]
+  },
+  "imported_by": {},
+  "file_count": 56
+}

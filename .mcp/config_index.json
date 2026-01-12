@@ -1,0 +1,93 @@
+{
+  "config_files": [],
+  "env_vars": {},
+  "env_usage": {
+    "mcp-global-rules\\mcp.py": [
+      "MCP_ROOT"
+    ],
+    "mcp-global-rules\\scripts\\agent_comms.py": [
+      "AGENT_IDENTITY"
+    ],
+    "mcp-global-rules\\scripts\\agent_launcher.py": [
+      "TEMP"
+    ],
+    "mcp-global-rules\\scripts\\config_index.py": [
+      "yaml",
+      "json",
+      "py",
+      "yml"
+    ],
+    "mcp-global-rules\\scripts\\telegram_bridge.py": [
+      "last_update_id"
+    ],
+    "mcp-global-rules\\scripts\\utils.py": [
+      "MCP_ROOT"
+    ],
+    "game.js": [
+      "sweep",
+      "defense",
+      "y2",
+      "endX",
+      "startX",
+      "r",
+      "endY",
+      "y",
+      "userStmt",
+      "grayVal",
+      "largeArc",
+      "upgradeBadge",
+      "displaySrc",
+      "upgradedLevel",
+      "x2",
+      "x1",
+      "popLoss",
+      "icon",
+      "penetrationThreshold",
+      "index",
+      "y1",
+      "region",
+      "startY",
+      "x",
+      "defScore",
+      "castleImg",
+      "bgImage"
+    ]
+  },
+  "missing_vars": [
+    "MCP_ROOT",
+    "sweep",
+    "defense",
+    "y2",
+    "endX",
+    "startX",
+    "r",
+    "TEMP",
+    "yaml",
+    "endY",
+    "y",
+    "userStmt",
+    "last_update_id",
+    "grayVal",
+    "largeArc",
+    "upgradeBadge",
+    "displaySrc",
+    "upgradedLevel",
+    "x2",
+    "x1",
+    "popLoss",
+    "icon",
+    "penetrationThreshold",
+    "py",
+    "index",
+    "y1",
+    "json",
+    "region",
+    "yml",
+    "startY",
+    "x",
+    "defScore",
+    "castleImg",
+    "bgImage",
+    "AGENT_IDENTITY"
+  ]
+}

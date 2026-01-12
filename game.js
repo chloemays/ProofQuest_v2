@@ -1,0 +1,3620 @@
+/**
+ * The Chronicles of Euclid - Game Logic
+ */
+
+const gameAssets = {
+  images: {
+    title: "Images/CastleTitle.jpg",
+    ruinedVillage: "Images/BeforeVillage.png",
+    restoredVillage: "Images/AfterVillage.png",
+    characters: {
+      male: "Images/MaleCharacter.png",
+      female: "Images/FemaleCharacter.png",
+      grandVizier: "Images/GrandVisor.png",
+      architect: "Images/AdvisorArchitect.png",
+      merchant: "Images/AdvisorMerchant.png",
+      sentinel: "Images/AdvisorSentinel.png",
+      sage: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_sage_of_logic_1768112817791.png",
+      architectFemale: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_architect_of_the_grids_female_1768112830831.png"
+    },
+    centralCastle: {
+      "Isocele": {
+        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_before_isocele_1768112849249.png",
+        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_after_isocele_1768112862743.png"
+      },
+      "The Rhombic Sands": {
+        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/pyramid_before_rhombic_sands_1768112877483.png",
+        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/pyramid_after_rhombic_sands_1768112892079.png"
+      },
+      "The Gaelic Grids": {
+        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_before_isocele_1768112849249.png", // Reuse or placeholder
+        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_after_isocele_1768112862743.png"
+      }
+    },
+    mapBackground: {
+      before: "Images/MapBG_Before.png",
+      after: "Images/MapBG_After.png"
+    },
+    levels: [
+      { id: 1, structure: "Moat Bridge", before: "Images/BeforeBridge.png", after: "Images/AfterBridge.png" },
+      { id: 2, structure: "Market Stalls", before: "Images/BeforeMarket.png", after: "Images/AfterMarket.png" },
+      { id: 3, structure: "Sentry Wall", before: "Images/BeforeWall.png", after: "Images/AfterWall.png" },
+      { id: 4, structure: "Blacksmith Tongs", before: "Images/BeforeForge.png", after: "Images/AfterForge.png" },
+      { id: 5, structure: "Fishing Docks", before: "Images/BeforeDocks.png", after: "Images/AfterDocks.png" },
+      { id: 6, structure: "Stable Rafters", before: "Images/BeforeStables.png", after: "Images/AfterStables.png" },
+      { id: 7, structure: "Palace Vault", before: "Images/BeforeVault.png", after: "Images/AfterVault.png" },
+      { id: 8, structure: "Grand Portcullis", before: "Images/BeforePortcullis.png", after: "Images/AfterPortcullis.png" },
+      { id: 9, structure: "Bell Tower", before: "Images/BeforeCathedrial.png", after: "Images/AfterCathedrial.png" },
+      { id: 10, structure: "Royal Vineyard", before: "Images/BeforeVineyard.png", after: "Images/AfterVineyard.png" }
+    ],
+    music: {
+      intro: "Music/renaissance-epic-orchestral-cinematic-219596.mp3",
+      hub: "Music/medieval-music-castle-of-dreams-212203.mp3",
+      quest: "Music/plain-old-folk-drumming-on-a-remo-206892.mp3",
+      victory: "Music/renaissance-refrain-212279.mp3",
+      correct: "Music/renaissance-reverie-214451.mp3",
+      interact: "Music/along-to-the-fortress-353549.mp3"
+    },
+    scenarios: {
+      invasion: "Images/ScenarioInvasion.png",
+      famine: "Images/ScenarioFamine.png",
+      storm: "Images/ScenarioStorm.png",
+      plague: "Images/ScenarioPlague.png",
+      harvest: "Images/ScenarioHarvest.png",
+      trade: "Images/ScenarioTrade.png",
+      festival: "Images/ScenarioFestival.png"
+    },
+    regions: {
+      "Isocele": "Images/MapBG_After.png",
+      "The Rhombic Sands": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhombic_sands_bg_minimalist_1768112789574.png",
+      "The Gaelic Grids": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/gaelic_grids_bg_minimalist_1768112802862.png"
+    }
+  },
+};
+
+// --- Audio Management ---
+window.AudioManager = {
+  tracks: {}, // Cache of Audio objects
+  currentTrackKey: null,
+  isMuted: localStorage.getItem("proofQuestMuted") === "true",
+
+  getTrack(key) {
+    if (this.tracks[key]) return this.tracks[key];
+    const src = gameAssets.images.music[key];
+    if (!src) return null;
+    const audio = new Audio(src);
+    this.tracks[key] = audio;
+    return audio;
+  },
+
+  playMusic(key, loop = true) {
+    const track = this.getTrack(key);
+    if (!track) return;
+
+    // 1. Validation: Only one music track plays at a time
+    // Pause all other tracks that might be playing
+    Object.keys(this.tracks).forEach(k => {
+      if (k !== key && !this.tracks[k].paused) {
+        this.tracks[k].pause();
+      }
+    });
+
+    // 2. Validation: If the same track is already playing, do not restart
+    if (this.currentTrackKey === key && !track.paused) {
+      return;
+    }
+
+    this.currentTrackKey = key;
+    track.loop = loop;
+    track.muted = this.isMuted;
+
+    // If the track was finished, reset to beginning
+    if (track.ended) {
+      track.currentTime = 0;
+    }
+
+    // Note: track.play() resumes from where it left off if it was just paused
+    track.play().catch(e => console.log("Audio play blocked until interaction."));
+    this.updateToggleIcon();
+  },
+
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    localStorage.setItem("proofQuestMuted", this.isMuted);
+
+    // Apply mute state to all cached tracks
+    Object.values(this.tracks).forEach(track => {
+      track.muted = this.isMuted;
+    });
+
+    this.updateToggleIcon();
+  },
+
+  updateToggleIcon() {
+    const btn = document.getElementById("nav-btn-audio");
+    if (!btn) return;
+    const icon = btn.querySelector("i");
+    if (this.isMuted) {
+      icon.className = "bi bi-volume-mute-fill";
+      btn.title = "Unmute Music";
+    } else {
+      icon.className = "bi bi-volume-up-fill";
+      btn.title = "Mute Music";
+    }
+  },
+
+  playSFX(key) {
+    if (this.isMuted) return;
+    // In ProofQuest, assets under Music/ are treated as musical tracks
+    // and thus follow the "one track at a time" validation rule.
+    this.playMusic(key, false);
+  }
+};
+
+const levels = [
+  {
+    id: 1,
+    region: "Isocele",
+    name: "Moat Bridge",
+    theorem: "SSS",
+    repairTime: "3 Days",
+    narrative: {
+      intro: "Your Highness, the Moat Bridge has crumbled! Without it, we are isolated. Lady Aurelia and Commander Kaelen are debating how to proceed.",
+      choices: [
+        {
+          speaker: "Lady Aurelia",
+          text: "We should focus on the structural integrity. A bridge of stone and reason will last for centuries.",
+          options: [
+            { text: "Prioritize Stone", impact: { food: 5, plague: 5 } },
+            { text: "Prioritize Speed", impact: { population: 20 } }
+          ]
+        }
+      ],
+      victory: "Magnificent! The stones bind together as one. The path is open once more."
+    },
+    proofData: {
+      given: ["AD ≅ DC", "AB ≅ CB", "BD shared"],
+      prove: "△ABD ≅ △CBD",
+      steps: [
+        { statement: "AD ≅ DC", reason: "Given" },
+        { statement: "AB ≅ CB", reason: "Given" },
+        { statement: "BD ≅ BD", reason: "Reflexive Property" },
+        { statement: "△ABD ≅ △CBD", reason: "SSS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABD ≅ △CBD", "BD ≅ BD", "AD ≅ DC", "AB ≅ CB"],
+        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 50, label: "A" },
+        { id: "B", x: 80, y: 220, label: "B" },
+        { id: "C", x: 240, y: 220, label: "C" },
+        { id: "D", x: 160, y: 220, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "AD", from: "A", to: "D" },
+        { id: "BD", from: "B", to: "D" },
+        { id: "DC", from: "D", to: "C" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }, { line: "AD", count: 2 }, { line: "DC", count: 2 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 2,
+    region: "Isocele",
+    name: "Market Stalls",
+    theorem: "SAS",
+    repairTime: "5 Days",
+    narrative: {
+      intro: "The market is a ghost town, Your Highness. Valerius has a proposal to stimulate the economy.",
+      choices: [
+        {
+          speaker: "Valerius",
+          text: "If we lower the tariffs now, we can attract traders from the Oasis. It's a risk to our immediate treasury, but the people will be fed.",
+          options: [
+            { text: "Lower Tariffs", impact: { food: 15, sovereign: -50 } },
+            { text: "Keep High Tariffs", impact: { sovereign: 50, food: -5 } }
+          ]
+        }
+      ],
+      victory: "The market thrives again! The stalls are sturdy and balanced."
+    },
+    proofData: {
+      given: ["AB ≅ AD", "∠1 ≅ ∠2", "AC shared"],
+      prove: "△ABC ≅ △ADC",
+      steps: [
+        { statement: "AB ≅ AD", reason: "Given" },
+        { statement: "∠1 ≅ ∠2", reason: "Given" },
+        { statement: "AC ≅ AC", reason: "Reflexive Property" },
+        { statement: "△ABC ≅ △ADC", reason: "SAS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △ADC", "AC ≅ AC", "∠1 ≅ ∠2", "AB ≅ AD"],
+        reasons: ["Given", "Reflexive Property", "SAS Congruence", "ASA Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 50, label: "A" },
+        { id: "B", x: 60, y: 150, label: "B" },
+        { id: "C", x: 160, y: 230, label: "C" },
+        { id: "D", x: 260, y: 150, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "AD", from: "A", to: "D" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "DC", from: "D", to: "C" },
+        { id: "AC", from: "A", to: "C" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "A", rays: ["D", "C"], count: 1 }]
+      }
+    }
+  },
+  {
+    id: 3,
+    region: "Isocele",
+    name: "Sentry Wall",
+    theorem: "Reflexive Property",
+    repairTime: "1 Week",
+    narrative: {
+      intro: "Commander Kaelen warns that the Northern Watch is blinded without the Sentry Wall. We must decide on a patrol strategy.",
+      choices: [
+        {
+          speaker: "Commander Kaelen",
+          text: "We can either double the patrols along the jagged cliffs or focus our archers on the main road. Which do you command?",
+          options: [
+            { text: "Double Patrols", impact: { defense: 20, food: -5 } },
+            { text: "Focus Road", impact: { population: 20, defense: 5 } }
+          ]
+        }
+      ],
+      victory: "The wall stands firm. The Reflexive Property has made it unbreakable."
+    },
+    proofData: {
+      given: ["△ABC", "AD ≅ CD", "BD bisects ∠ADC"],
+      prove: "△ABD ≅ △CBD",
+      steps: [
+        { statement: "AD ≅ CD", reason: "Given" },
+        { statement: "BD bisects ∠ADC", reason: "Given" },
+        { statement: "∠ADB ≅ ∠CDB", reason: "Def. of Angle Bisector" },
+        { statement: "BD ≅ BD", reason: "Reflexive Property" },
+        { statement: "△ABD ≅ △CBD", reason: "SAS Congruence" }
+      ],
+      bank: {
+        statements: ["BD ≅ BD", "∠ADB ≅ ∠CDB", "△ABD ≅ △CBD", "AD ≅ CD", "BD bisects ∠ADC"],
+        reasons: ["Given", "Reflexive Property", "Def. of Angle Bisector", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 80, y: 50, label: "A" },
+        { id: "C", x: 240, y: 50, label: "C" },
+        { id: "D", x: 160, y: 50, label: "D" },
+        { id: "B", x: 160, y: 220, label: "B" }
+      ],
+      lines: [
+        { id: "AD", from: "A", to: "D" },
+        { id: "CD", from: "C", to: "D" },
+        { id: "AB", from: "A", to: "B" },
+        { id: "CB", from: "C", to: "B" },
+        { id: "DB", from: "D", to: "B" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AD", count: 1 }, { line: "CD", count: 1 }],
+        arcs: [{ vertex: "D", rays: ["A", "B"], count: 1 }, { vertex: "D", rays: ["C", "B"], count: 1 }]
+      }
+    }
+  },
+  {
+    id: 4,
+    region: "Isocele",
+    name: "Blacksmith Tongs",
+    theorem: "Vertical Angles",
+    repairTime: "8 Days",
+    narrative: {
+      intro: "Master Valerius and the Blacksmith are arguing over the quality of the iron. We need a decision on the forge's fuel.",
+      choices: [
+        {
+          speaker: "Valerius",
+          text: "If we import the expensive Blue Coal, the tools will be unbreakable, but it will cost us dearly. Otherwise, we use local peat.",
+          options: [
+            { text: "Import Blue Coal", impact: { food: 5, defense: 5, sovereign: -40 } },
+            { text: "Use Local Peat", impact: { sovereign: 40, population: 5 } }
+          ]
+        }
+      ],
+      victory: "The tongs are true once more. The forge is ready for your crown."
+    },
+    proofData: {
+      given: ["Lines AE and BD intersect at C", "AC ≅ CE", "BC ≅ CD"],
+      prove: "△ABC ≅ △EDC",
+      steps: [
+        { statement: "AC ≅ CE", reason: "Given" },
+        { statement: "BC ≅ CD", reason: "Given" },
+        { statement: "∠ACB ≅ ∠ECD", reason: "Vertical Angles Theorem" },
+        { statement: "△ABC ≅ △EDC", reason: "SAS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △EDC", "∠ACB ≅ ∠ECD", "AC ≅ CE", "BC ≅ CD"],
+        reasons: ["Given", "Vertical Angles Theorem", "SAS Congruence", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 60, y: 60, label: "A" },
+        { id: "B", x: 260, y: 60, label: "B" },
+        { id: "C", x: 160, y: 140, label: "C" },
+        { id: "D", x: 60, y: 220, label: "D" },
+        { id: "E", x: 260, y: 220, label: "E" }
+      ],
+      lines: [
+        { id: "AE", from: "A", to: "E" },
+        { id: "BD", from: "B", to: "D" },
+        { id: "AB", from: "A", to: "B" },
+        { id: "DE", from: "D", to: "E" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 5,
+    region: "Isocele",
+    name: "Fishing Docks",
+    theorem: "ASA",
+    repairTime: "2 Weeks",
+    narrative: {
+      intro: "The Docks are failing. Master Valerius wants to prioritize trade, while the Vizier suggests local safety.",
+      choices: [
+        {
+          speaker: "Valerius",
+          text: "Expand the foreign berth! We need the silver from the East more than we need more fish for the locals.",
+          options: [
+            { text: "Expand Berths", impact: { sovereign: 60, population: 15, food: -10 } },
+            { text: "Focus Fisheries", impact: { food: 25, defense: 5 } }
+          ]
+        }
+      ],
+      victory: "The docks are anchored. The kingdom will not go hungry tonight."
+    },
+    proofData: {
+      given: ["∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "∠C ≅ ∠F", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
+        reasons: ["Given", "ASA Congruence", "AAS Congruence", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 100, label: "A" },
+        { id: "B", x: 100, y: 40, label: "B" },
+        { id: "C", x: 140, y: 100, label: "C" },
+        { id: "D", x: 180, y: 100, label: "D" },
+        { id: "E", x: 240, y: 40, label: "E" },
+        { id: "F", x: 280, y: 100, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AC", count: 1 }, { line: "DF", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "C", rays: ["A", "B"], count: 2 }, { vertex: "F", rays: ["D", "E"], count: 2 }]
+      }
+    }
+  },
+  {
+    id: 6,
+    region: "Isocele",
+    name: "Stable Rafters",
+    theorem: "AAS",
+    repairTime: "12 Days",
+    narrative: {
+      intro: "The Rafters of the Stables are precarious. Advisor Aurelia and Commander Kaelen have different visions for the cavalry.",
+      choices: [
+        {
+          speaker: "Commander Kaelen",
+          text: "We need war-ready stalls! If we reinforce with timber from the Elder Forest, our horses will be armored by the spirits.",
+          options: [
+            { text: "War Rafters", impact: { defense: 30, population: -10 } },
+            { text: "Civic Stables", impact: { population: 20, food: 10 } }
+          ]
+        }
+      ],
+      victory: "The roof is secure. The horses are safe from the Logical Decay."
+    },
+    proofData: {
+      given: ["∠A ≅ ∠D", "∠B ≅ ∠E", "BC ≅ EF"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "∠B ≅ ∠E", reason: "Given" },
+        { statement: "BC ≅ EF", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "AAS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "∠B ≅ ∠E", "BC ≅ EF", "∠A ≅ ∠D"],
+        reasons: ["Given", "AAS Congruence", "ASA Congruence", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 60, label: "A" },
+        { id: "B", x: 120, y: 60, label: "B" },
+        { id: "C", x: 40, y: 140, label: "C" },
+        { id: "D", x: 180, y: 60, label: "D" },
+        { id: "E", x: 260, y: 60, label: "E" },
+        { id: "F", x: 180, y: 140, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "BC", count: 1 }, { line: "EF", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      }
+    }
+  },
+  {
+    id: 7,
+    region: "Isocele",
+    name: "Palace Vault",
+    theorem: "CPCTC",
+    repairTime: "3 Weeks",
+    narrative: {
+      intro: "Advisor Aurelia and Valerius are outside the Vault. They disagree on how to handle the treasure found within.",
+      choices: [
+        {
+          speaker: "Valerius",
+          text: "If we use this gold to pay off the foreign debt, Euclid's sovereignty will be unchallenged. But Aurelia wants to spend it on marble. What say you?",
+          options: [
+            { text: "Pay Foreign Debt", impact: { sovereign: 150, population: 10 } },
+            { text: "Grand Renovation", impact: { food: 10, defense: 10, population: 30 } }
+          ]
+        }
+      ],
+      victory: "The vault is open! CPCTC: Corresponding Parts of Congruent Triangles are Congruent."
+    },
+    proofData: {
+      given: ["AB ≅ AD", "BC ≅ DC"],
+      prove: "∠B ≅ ∠D",
+      steps: [
+        { statement: "AB ≅ AD", reason: "Given" },
+        { statement: "BC ≅ DC", reason: "Given" },
+        { statement: "AC ≅ AC", reason: "Reflexive Property" },
+        { statement: "△ABC ≅ △ADC", reason: "SSS Congruence" },
+        { statement: "∠B ≅ ∠D", reason: "CPCTC" }
+      ],
+      bank: {
+        statements: ["∠B ≅ ∠D", "△ABC ≅ △ADC", "AC ≅ AC", "AB ≅ AD", "BC ≅ DC"],
+        reasons: ["Given", "Reflexive Property", "SSS Congruence", "CPCTC"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 40, label: "A" },
+        { id: "B", x: 80, y: 130, label: "B" },
+        { id: "C", x: 160, y: 220, label: "C" },
+        { id: "D", x: 240, y: 130, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "CD", from: "C", to: "D" },
+        { id: "DA", from: "D", to: "A" },
+        { id: "AC", from: "A", to: "C" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "DA", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 8,
+    region: "Isocele",
+    name: "Grand Portcullis",
+    theorem: "HL Theorem",
+    repairTime: "1 Month",
+    narrative: {
+      intro: "The Portcullis is stuck. Commander Kaelen wants to use it for training, but Valerius sees a tourist opportunity.",
+      choices: [
+        {
+          speaker: "Commander Kaelen",
+          text: "We should reinforce the mechanism for heavy use by the guards. A strong gate is a clear signal to our enemies.",
+          options: [
+            { text: "Reinforce Mechanism", impact: { defense: 25, food: -5 } },
+            { text: "Open for Pilgrims", impact: { sovereign: 80, population: 40 } }
+          ]
+        }
+      ],
+      victory: "The gate rises. The Law of HL has proven its worth."
+    },
+    proofData: {
+      given: ["∠B and ∠D are right ∠s", "AC ≅ EC", "AB ≅ ED"],
+      prove: "△ABC ≅ △EDC",
+      steps: [
+        { statement: "∠B and ∠D are right ∠s", reason: "Given" },
+        { statement: "AC ≅ EC", reason: "Given" },
+        { statement: "AB ≅ ED", reason: "Given" },
+        { statement: "△ABC ≅ △EDC", reason: "HL Theorem" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △EDC", "AC ≅ EC", "AB ≅ ED", "∠B and ∠D are right ∠s"],
+        reasons: ["Given", "HL Theorem", "SSS Congruence", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 60, y: 40, label: "A" },
+        { id: "B", x: 60, y: 140, label: "B" },
+        { id: "C", x: 160, y: 140, label: "C" },
+        { id: "D", x: 260, y: 140, label: "D" },
+        { id: "E", x: 260, y: 40, label: "E" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "ED", from: "E", to: "D" },
+        { id: "DC", from: "D", to: "C" },
+        { id: "EC", from: "E", to: "C" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AC", count: 1 }, { line: "EC", count: 1 }, { line: "AB", count: 2 }, { line: "ED", count: 2 }],
+        arcs: [] // Right angles rendered manually or via special mark
+      }
+    }
+  },
+  {
+    id: 9,
+    region: "Isocele",
+    name: "Bell Tower",
+    theorem: "Base Angles",
+    repairTime: "5 Weeks",
+    narrative: {
+      intro: "The Bell Tower's resonance can heal or warn. Lady Aurelia and the Vizier await your word.",
+      choices: [
+        {
+          speaker: "Lady Aurelia",
+          text: "The geometry of the bell can be adjusted to vibrate at a frequency that purifies the air. Or we can use its volume to warn of incoming threats.",
+          options: [
+            { text: "Purify Mist", impact: { plague: 25, food: 10 } },
+            { text: "Sound the Alarm", impact: { defense: 30, population: 10 } }
+          ]
+        }
+      ],
+      victory: "The bell tolls! Its sound banishes the shadows of doubt."
+    },
+    proofData: {
+      given: ["AB ≅ AC", "AD bisects ∠BAC"],
+      prove: "∠B ≅ ∠C",
+      steps: [
+        { statement: "AB ≅ AC", reason: "Given" },
+        { statement: "AD bisects ∠BAC", reason: "Given" },
+        { statement: "∠BAD ≅ ∠CAD", reason: "Def. of Angle Bisector" },
+        { statement: "AD ≅ AD", reason: "Reflexive Property" },
+        { statement: "△ABD ≅ △ACD", reason: "SAS Congruence" },
+        { statement: "∠B ≅ ∠C", reason: "CPCTC" }
+      ],
+      bank: {
+        statements: ["∠B ≅ ∠C", "△ABD ≅ △ACD", "AD ≅ AD", "∠BAD ≅ ∠CAD", "AB ≅ AC", "AD bisects ∠BAC"],
+        reasons: ["Given", "Def. of Angle Bisector", "Reflexive Property", "SAS Congruence", "CPCTC"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 40, label: "A" },
+        { id: "B", x: 80, y: 220, label: "B" },
+        { id: "C", x: 240, y: 220, label: "C" },
+        { id: "D", x: 160, y: 220, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AD", from: "A", to: "D" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "D"], count: 1 }, { vertex: "A", rays: ["C", "D"], count: 1 }]
+      }
+    }
+  },
+  {
+    id: 10,
+    region: "Isocele",
+    name: "Royal Vineyard",
+    theorem: "Converse Parallel",
+    repairTime: "2 Months",
+    narrative: {
+      intro: "The Chaos Rot is thickest here. Commander Kaelen and Valerius disagree on the vineyard's future.",
+      choices: [
+        {
+          speaker: "Valerius",
+          text: "We should bottle the remaining 'Logic-Wine' as a premium vintage to fund the final restoration. Kaelen wants to use it as a medicinal tonic for the infirm.",
+          options: [
+            { text: "Logic-Wine Vintage", impact: { sovereign: 200, population: 20 } },
+            { text: "Medicinal Tonic", impact: { plague: 30, population: 50 } }
+          ]
+        }
+      ],
+      victory: "The vines are pruned and the trellis is straight. You have bound the kingdom together!"
+    },
+    proofData: {
+      given: ["∠1 ≅ ∠2", "Transversal t"],
+      prove: "Line l ∥ Line m",
+      steps: [
+        { statement: "∠1 ≅ ∠2", reason: "Given" },
+        { statement: "∠1 and ∠2 are alt. interior ∠s", reason: "Given" },
+        { statement: "Line l ∥ Line m", reason: "Converse Alt. Int. ∠s Theorem" }
+      ],
+      bank: {
+        statements: ["Line l ∥ Line m", "∠1 and ∠2 are alt. interior ∠s", "∠1 ≅ ∠2"],
+        reasons: ["Given", "Converse Alt. Int. ∠s Theorem", "Alt. Int. ∠s Theorem"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 80, label: "" },
+        { id: "B", x: 280, y: 80, label: "l" },
+        { id: "C", x: 40, y: 180, label: "" },
+        { id: "D", x: 280, y: 180, label: "m" },
+        { id: "E", x: 100, y: 40, label: "" },
+        { id: "F", x: 220, y: 220, label: "t" },
+        { id: "P", x: 130, y: 80, label: "1" },
+        { id: "Q", x: 190, y: 180, label: "2" }
+      ],
+      lines: [
+        { id: "l", from: "A", to: "B" },
+        { id: "m", from: "C", to: "D" },
+        { id: "t", from: "E", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [],
+        arcs: [{ vertex: "P", rays: ["A", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["D", "F"], count: 1, label: "2" }]
+      }
+    }
+  },
+  {
+    id: 11,
+    region: "The Rhombic Sands",
+    name: "Rhind Papyrus Scriptum",
+    theorem: "Rectangular Area",
+    repairTime: "3 Days",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhind_papyrus_before_1768112911915.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhind_papyrus_after_1768112925407.png",
+    narrative: {
+      intro: "We have reached the sun-drenched sands of Egypt. The scribes are in an uproar; the ancient Rhind Papyrus has been damaged. We must prove the area of the scripts to restore them.",
+      choices: [
+        {
+          speaker: "High Scribe",
+          text: "The ink must be made from the finest lotus or the common reed. Which shall we use for the restoration?",
+          options: [
+            { text: "Finest Lotus", impact: { sovereign: -20, food: 5 } },
+            { text: "Common Reed", impact: { population: 10 } }
+          ]
+        }
+      ],
+      victory: "The Papyrus is restored! The wisdom of the ancients flows once more."
+    },
+    proofData: {
+      given: ["Rectangle ABCD", "AB ≅ CD", "BC ≅ DA"],
+      prove: "△ABC ≅ △CDA",
+      steps: [
+        { statement: "AB ≅ CD", reason: "Given" },
+        { statement: "BC ≅ DA", reason: "Given" },
+        { statement: "AC ≅ AC", reason: "Reflexive Property" },
+        { statement: "△ABC ≅ △CDA", reason: "SSS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △CDA", "AC ≅ AC", "AB ≅ CD", "BC ≅ DA"],
+        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 60, y: 60, label: "A" },
+        { id: "B", x: 260, y: 60, label: "B" },
+        { id: "C", x: 260, y: 180, label: "C" },
+        { id: "D", x: 60, y: 180, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "CD", from: "C", to: "D" },
+        { id: "DA", from: "D", to: "A" },
+        { id: "AC", from: "A", to: "C" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "CD", count: 1 }, { line: "BC", count: 2 }, { line: "DA", count: 2 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 12,
+    region: "The Rhombic Sands",
+    name: "Pyramid Capstone",
+    theorem: "Isosceles Triangle",
+    repairTime: "1 Week",
+    narrative: {
+      intro: "The Great Pyramid is missing its golden capstone. The angles must be perfect to catch the first light of Ra.",
+      choices: [
+        {
+          speaker: "Architect Imhotep",
+          text: "Shall we use solid gold, which is heavy and draws thieves, or gilded limestone?",
+          options: [
+            { text: "Solid Gold", impact: { defense: -10, sovereign: 50 } },
+            { text: "Gilded Limestone", impact: { defense: 10, population: 5 } }
+          ]
+        }
+      ],
+      victory: " Ra's light shines upon the pyramid! The capstone is secure."
+    },
+    proofData: {
+      given: ["△ABC is isosceles", "AB ≅ AC", "AD is altitude to BC"],
+      prove: "△ABD ≅ △ACD",
+      steps: [
+        { statement: "AB ≅ AC", reason: "Given" },
+        { statement: "AD ≅ AD", reason: "Reflexive Property" },
+        { statement: "AD ⊥ BC", reason: "Def. of Altitude" },
+        { statement: "∠ADB, ∠ADC are right ∠s", reason: "Def. of Perpendicular" },
+        { statement: "△ABD ≅ △ACD", reason: "HL Theorem" }
+      ],
+      bank: {
+        statements: ["△ABD ≅ △ACD", "∠ADB, ∠ADC are right ∠s", "AD ≅ AD", "AB ≅ AC"],
+        reasons: ["Given", "Reflexive Property", "HL Theorem", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 40, label: "A" },
+        { id: "B", x: 60, y: 220, label: "B" },
+        { id: "C", x: 260, y: 220, label: "C" },
+        { id: "D", x: 160, y: 220, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AD", from: "A", to: "D" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 13,
+    region: "The Rhombic Sands",
+    name: "Pharaoh's Court",
+    theorem: "Parallel Transversal",
+    repairTime: "10 Days",
+    narrative: {
+      intro: "The Pharaoh's court is in disarray. The columns must be aligned perfectly parallel to ensure the roof doesn't collapse under the weight of history.",
+      choices: [
+        {
+          speaker: "Grand Vizier Hemiunu",
+          text: "Should we use cedar from Lebanon or local palm wood? Cedar is stronger but palm is plentiful.",
+          options: [
+            { text: "Lebanese Cedar", impact: { sovereign: -40, defense: 20 } },
+            { text: "Local Palm", impact: { food: 15, population: 10 } }
+          ]
+        }
+      ],
+      victory: "The columns are true. The Pharaoh's court stands grand and parallel."
+    },
+    proofData: {
+      given: ["Line l ∥ Line m", "Transversal t", "∠1 and ∠2 are corresp. ∠s"],
+      prove: "∠1 ≅ ∠2",
+      steps: [
+        { statement: "Line l ∥ Line m", reason: "Given" },
+        { statement: "∠1 and ∠2 are corresp. ∠s", reason: "Given" },
+        { statement: "∠1 ≅ ∠2", reason: "Corresponding Angles Postulate" }
+      ],
+      bank: {
+        statements: ["∠1 ≅ ∠2", "Line l ∥ Line m", "∠1 and ∠2 are corresp. ∠s"],
+        reasons: ["Given", "Corresponding Angles Postulate", "Alt. Interior Angles Theorem"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 80, label: "" },
+        { id: "B", x: 280, y: 80, label: "l" },
+        { id: "C", x: 40, y: 180, label: "" },
+        { id: "D", x: 280, y: 180, label: "m" },
+        { id: "E", x: 100, y: 40, label: "" },
+        { id: "F", x: 220, y: 220, label: "t" },
+        { id: "P", x: 130, y: 80, label: "1" },
+        { id: "Q", x: 165, y: 180, label: "2" }
+      ],
+      lines: [
+        { id: "l", from: "A", to: "B" },
+        { id: "m", from: "C", to: "D" },
+        { id: "t", from: "E", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [],
+        arcs: [{ vertex: "P", rays: ["A", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "E"], count: 1, label: "2" }]
+      }
+    }
+  },
+  {
+    id: 14,
+    region: "The Rhombic Sands",
+    name: "Sphinx's Riddle",
+    theorem: "ASA",
+    repairTime: "2 Weeks",
+    narrative: {
+      intro: "The Sphinx blocks the path to the Nile. To pass, you must prove the congruence of the triangles formed by its paws and the sands.",
+      choices: [
+        {
+          speaker: "Sphinx",
+          text: "Will you offer a sacrifice of grain or solve the riddle with logic?",
+          options: [
+            { text: "Offer Grain", impact: { food: -30, population: 20 } },
+            { text: "Solve Riddle", impact: { sovereign: 100, totalXP: 50 } }
+          ]
+        }
+      ],
+      victory: "The Sphinx is satisfied. The path to the Nile is open."
+    },
+    proofData: {
+      given: ["∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "∠C ≅ ∠F", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
+        reasons: ["Given", "ASA Congruence", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 100, label: "A" },
+        { id: "B", x: 100, y: 40, label: "B" },
+        { id: "C", x: 140, y: 100, label: "C" },
+        { id: "D", x: 180, y: 100, label: "D" },
+        { id: "E", x: 240, y: 40, label: "E" },
+        { id: "F", x: 280, y: 100, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AC", count: 1 }, { line: "DF", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "C", rays: ["A", "B"], count: 2 }, { vertex: "F", rays: ["D", "E"], count: 2 }]
+      }
+    }
+  },
+  {
+    id: 15,
+    region: "The Rhombic Sands",
+    name: "Valley of Kings",
+    theorem: "Similar Triangles",
+    repairTime: "1 Month",
+    narrative: {
+      intro: "The tombs are hidden. By using the shadows of the obelisks, we can find the entrance. We must prove the triangles are similar.",
+      choices: [
+        {
+          speaker: "Priest of Amun",
+          text: "Should we perform a ritual of protection or focus on the precision of the measurements?",
+          options: [
+            { text: "Ritual", impact: { defense: 30, sovereign: -30 } },
+            { text: "Precision", impact: { population: 25, totalXP: 100 } }
+          ]
+        }
+      ],
+      victory: "The shadows show the way. The entrance is revealed."
+    },
+    proofData: {
+      given: ["∠A ≅ ∠D", "∠B ≅ ∠E"],
+      prove: "△ABC ~ △DEF",
+      steps: [
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "∠B ≅ ∠E", reason: "Given" },
+        { statement: "△ABC ~ △DEF", reason: "AA Similarity" }
+      ],
+      bank: {
+        statements: ["△ABC ~ △DEF", "∠A ≅ ∠D", "∠B ≅ ∠E"],
+        reasons: ["Given", "AA Similarity", "SAS Similarity"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 100, label: "A" },
+        { id: "B", x: 100, y: 40, label: "B" },
+        { id: "C", x: 140, y: 100, label: "C" },
+        { id: "D", x: 180, y: 120, label: "D" },
+        { id: "E", x: 260, y: 40, label: "E" },
+        { id: "F", x: 300, y: 120, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      }
+    }
+  },
+  {
+    id: 16,
+    region: "The Gaelic Grids",
+    name: "Academy of Tara",
+    theorem: "SAS",
+    repairTime: "1 Week",
+    narrative: {
+      intro: "We have arrived at the ancient seat of High Kings: Tara. The Arch-Druids are debating the sacred geometry of the Great Hall. We must help them.",
+      choices: [
+        {
+          speaker: "The Arch-Druid",
+          text: "Should the Great Hall be built on the Hill of Tara for authority or in the valley for community?",
+          options: [
+            { text: "Hill of Tara", impact: { totalXP: 50, sovereign: 20 } },
+            { text: "Valley Community", impact: { population: 50, food: -10 } }
+          ]
+        }
+      ],
+      victory: "The Hall of Tara is established. The wisdom of the ancients is preserved."
+    },
+    proofData: {
+      given: ["AB ≅ DE", "∠A ≅ ∠D", "AC ≅ DF"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "AB ≅ DE", reason: "Given" },
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "SAS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "AB ≅ DE", "∠A ≅ ∠D", "AC ≅ DF"],
+        reasons: ["Given", "SAS Congruence", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 100, label: "A" },
+        { id: "B", x: 100, y: 40, label: "B" },
+        { id: "C", x: 140, y: 100, label: "C" },
+        { id: "D", x: 180, y: 100, label: "D" },
+        { id: "E", x: 240, y: 40, label: "E" },
+        { id: "F", x: 280, y: 100, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "AC", count: 2 }, { line: "DF", count: 2 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }]
+      }
+    }
+  },
+  {
+    id: 17,
+    region: "The Gaelic Grids",
+    name: "Newgrange Pillars",
+    theorem: "SSS",
+    repairTime: "2 Weeks",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/parthenon_columns_before_1768112938945.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/parthenon_columns_after_1768112951852.png",
+    narrative: {
+      intro: "Newgrange's entrance is missing its flanking sacred stones. Prove their congruence to ensure the alignment with the solstice sun remains true.",
+      choices: [
+        {
+          speaker: "The High Druid",
+          text: "Shall we use granite from the Wicklow Mountains or quartz from the Boyne Valley? Granite is sturdy, but quartz reflects the sun's glory.",
+          options: [
+            { text: "Wicklow Granite", impact: { population: 15, sovereign: 20 } },
+            { text: "Boyne Quartz", impact: { sovereign: -40, defense: 10 } }
+          ]
+        }
+      ],
+      victory: "Newgrange is restored. The sun's path is secured."
+    },
+    proofData: {
+      given: ["AB ≅ DE", "BC ≅ EF", "AC ≅ DF"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "AB ≅ DE", reason: "Given" },
+        { statement: "BC ≅ EF", reason: "Given" },
+        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "SSS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "AB ≅ DE", "BC ≅ EF", "AC ≅ DF"],
+        reasons: ["Given", "SSS Congruence", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 100, label: "A" },
+        { id: "B", x: 100, y: 40, label: "B" },
+        { id: "C", x: 140, y: 100, label: "C" },
+        { id: "D", x: 180, y: 100, label: "D" },
+        { id: "E", x: 240, y: 40, label: "E" },
+        { id: "F", x: 280, y: 100, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "BC", count: 2 }, { line: "EF", count: 2 }, { line: "AC", count: 3 }, { line: "DF", count: 3 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 18,
+    region: "The Gaelic Grids",
+    name: "Druid's Glen",
+    theorem: "Angle Bisector",
+    repairTime: "3 Weeks",
+    narrative: {
+      intro: "The path through the Glen is split by the mists of Danu. We must prove the bisector is true to ensure the spirits guide us correctly.",
+      choices: [
+        {
+          speaker: "The Seer of Danu",
+          text: "Will you ask about the future of the kingdom or the ancient wisdom of the Tuatha Dé Danann?",
+          options: [
+            { text: "Future of Kingdom", impact: { population: 30, food: 10 } },
+            { text: "Ancient Wisdom", impact: { totalXP: 100, sovereign: 50 } }
+          ]
+        }
+      ],
+      victory: "The mist clears. The path is open."
+    },
+    proofData: {
+      given: ["AD bisects ∠BAC", "AB ≅ AC"],
+      prove: "△ABD ≅ △ACD",
+      steps: [
+        { statement: "AD bisects ∠BAC", reason: "Given" },
+        { statement: "∠BAD ≅ ∠CAD", reason: "Def. of Angle Bisector" },
+        { statement: "AB ≅ AC", reason: "Given" },
+        { statement: "AD ≅ AD", reason: "Reflexive Property" },
+        { statement: "△ABD ≅ △ACD", reason: "SAS Congruence" }
+      ],
+      bank: {
+        statements: ["△ABD ≅ △ACD", "∠BAD ≅ ∠CAD", "AD ≅ AD", "AB ≅ AC"],
+        reasons: ["Given", "Def. of Angle Bisector", "Reflexive Property", "SAS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 160, y: 40, label: "A" },
+        { id: "B", x: 80, y: 220, label: "B" },
+        { id: "C", x: 240, y: 220, label: "C" },
+        { id: "D", x: 160, y: 220, label: "D" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AD", from: "A", to: "D" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "D"], count: 1 }, { vertex: "A", rays: ["C", "D"], count: 1 }]
+      }
+    }
+  },
+  {
+    id: 19,
+    region: "The Gaelic Grids",
+    name: "Tailteann Games",
+    theorem: "HL Theorem",
+    repairTime: "1 Month",
+    narrative: {
+      intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh.",
+      choices: [
+        {
+          speaker: "Lugh the Long-Arm",
+          text: "Should the games be in honor of the Dagda or Brigid? The choice affects the warriors' spirit.",
+          options: [
+            { text: "The Dagda (Strength)", impact: { defense: 40, food: -10 } },
+            { text: "Brigid (Healing)", impact: { population: 40, sovereign: 20 } }
+          ]
+        }
+      ],
+      victory: "The games are true. The champion is crowned!"
+    },
+    proofData: {
+      given: ["△ABC, △DEF are right △s", "AC ≅ DF (hypotenuse)", "AB ≅ DE (leg)"],
+      prove: "△ABC ≅ △DEF",
+      steps: [
+        { statement: "△ABC, △DEF are right △s", reason: "Given" },
+        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "AB ≅ DE", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "HL Theorem" }
+      ],
+      bank: {
+        statements: ["△ABC ≅ △DEF", "AC ≅ DF", "AB ≅ DE"],
+        reasons: ["Given", "HL Theorem", "SSS Congruence"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 40, label: "A" },
+        { id: "B", x: 40, y: 140, label: "B" },
+        { id: "C", x: 140, y: 140, label: "C" },
+        { id: "D", x: 180, y: 40, label: "D" },
+        { id: "E", x: 180, y: 140, label: "E" },
+        { id: "F", x: 280, y: 140, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "AC", count: 2 }, { line: "DF", count: 2 }],
+        arcs: []
+      }
+    }
+  },
+  {
+    id: 20,
+    region: "The Gaelic Grids",
+    name: "Fastnet Beacon",
+    theorem: "Similar Right Triangles",
+    repairTime: "2 Months",
+    narrative: {
+      intro: "The lighthouse must be tall enough to guide ships from across the Mediterranean. Prove the similarity of the base and the tower to complete your legacy.",
+      choices: [
+        {
+          speaker: "Chares of Lindos",
+          text: "Should the light be fueled by oil or the magic of the Sage?",
+          options: [
+            { text: "Oil (Trade)", impact: { sovereign: 300, food: 40 } },
+            { text: "Magic (Logic)", impact: { totalXP: 500, defense: 50 } }
+          ]
+        }
+      ],
+      victory: "The light is lit! Greece is secured, and the Logical Decay retreats. You are truly a Master of Euclid!"
+    },
+    proofData: {
+      given: ["∠B, ∠E right ∠s", "∠A ≅ ∠D", "AB/DE = BC/EF"],
+      prove: "△ABC ~ △DEF",
+      steps: [
+        { statement: "∠B, ∠E right ∠s", reason: "Given" },
+        { statement: "∠B ≅ ∠E", reason: "All right ∠s are ≅" },
+        { statement: "∠A ≅ ∠D", reason: "Given" },
+        { statement: "△ABC ~ △DEF", reason: "AA Similarity" },
+        { statement: "AB/DE = BC/EF", reason: "Corr. sides of ~ △s are proportional" }
+      ],
+      bank: {
+        statements: ["△ABC ~ △DEF", "∠B ≅ ∠E", "∠A ≅ ∠D", "AB/DE = BC/EF", "AC/DF = BC/EF"],
+        reasons: ["Given", "All right ∠s are ≅", "AA Similarity", "SAS Similarity", "Corr. sides of ~ △s are proportional"]
+      }
+    },
+    diagram: {
+      points: [
+        { id: "A", x: 40, y: 140, label: "A" },
+        { id: "B", x: 100, y: 140, label: "B" },
+        { id: "C", x: 100, y: 40, label: "C" },
+        { id: "D", x: 180, y: 160, label: "D" },
+        { id: "E", x: 280, y: 160, label: "E" },
+        { id: "F", x: 280, y: 40, label: "F" }
+      ],
+      lines: [
+        { id: "AB", from: "A", to: "B" },
+        { id: "BC", from: "B", to: "C" },
+        { id: "AC", from: "A", to: "C" },
+        { id: "DE", from: "D", to: "E" },
+        { id: "EF", from: "E", to: "F" },
+        { id: "DF", from: "D", to: "F" }
+      ],
+      givenMarks: {
+        ticks: [],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }]
+      }
+    }
+  }
+];
+
+let gameState = {
+  currentLevel: 0,
+  currentRegion: "Isocele",
+  unlockedRegions: ["Isocele"],
+  totalXP: 0,
+  sovereignPoints: 0,
+  character: null, // "male" or "female"
+  unlockedLevels: [1],
+  graduated: false,
+  introSeen: false,
+  userMarkings: { ticks: {}, arcs: {} },
+  villagePopulation: 15,
+  targetPopulation: 15,
+  maxPopulation: 150,
+  healthMetrics: {
+    plague: 50,
+    defense: 50,
+    food: 50
+  },
+  upgrades: {},
+  focusChoices: {}, // e.g., { 'Sentry Wall': 'Strength', 'Market Stalls': 'Prosperity' }
+  eventsTriggered: [],
+  gameTime: 0, // In days
+  activeEvents: [],
+  incomingEvents: [],
+  hasMightyHero: false,
+  defenseScore: 25 // Default 25%
+};
+
+/**
+ * Initialization
+ */
+/**
+ * Custom Notification logic
+ */
+function showNotification(message, title = "Royal Scroll") {
+  const modal = document.getElementById("notification-modal");
+  const msgEl = document.getElementById("notification-message");
+  const titleEl = document.getElementById("notification-title");
+
+  if (msgEl) msgEl.textContent = message;
+  if (titleEl) titleEl.textContent = title;
+
+  if (modal) {
+    modal.classList.add("active");
+    AudioManager.playSFX('interact');
+  }
+}
+
+function closeNotification() {
+  const modal = document.getElementById("notification-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+function initGame() {
+  try {
+    loadGameState();
+
+    // Reset visibility of all core layers
+    const screens = ["title-screen", "char-selection-screen", "map-hub", "main-wrapper", "cinematic-overlay", "game-area"];
+    screens.forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.style.display = "none";
+    });
+
+    if (gameState.graduated) {
+      const wrapper = document.getElementById("main-wrapper");
+      if (wrapper) wrapper.style.display = "grid";
+      renderDashboard();
+      handleGraduation();
+    } else if (!gameState.character) {
+      const ts = document.getElementById("title-screen");
+      if (ts) ts.style.display = "flex";
+    } else {
+      renderDashboard();
+    }
+
+    updateUI();
+    AudioManager.updateToggleIcon();
+    setupEventListeners();
+  } catch (err) {
+    console.error("Initialization Error:", err);
+    // Emergency reset if something went horribly wrong
+    localStorage.removeItem("euclidState");
+    alert("The Kingdom of Euclid has reset due to a logical rift in time. Please begin anew.");
+    location.reload();
+  }
+}
+
+function loadGameState() {
+  try {
+    const saved = localStorage.getItem("euclidState");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && typeof parsed === 'object') {
+        // Merge saved state with defaults to ensure missing properties don't crash the game
+        gameState = { ...gameState, ...parsed };
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load game state:", e);
+  }
+}
+
+function saveGameState() {
+  localStorage.setItem("euclidState", JSON.stringify(gameState));
+}
+
+function setupEventListeners() {
+  const submitBtn = document.getElementById("submit-proof");
+  if (submitBtn) submitBtn.addEventListener("click", submitProof);
+}
+
+/**
+ * Character Selection
+ */
+window.startStory = function () {
+  const ts = document.getElementById("title-screen");
+  if (ts) ts.style.display = "none";
+  AudioManager.playMusic('intro');
+  startCinematic(true);
+};
+
+window.skipIntro = function () {
+  const ts = document.getElementById("title-screen");
+  if (ts) ts.style.display = "none";
+  showCharacterSelection();
+  AudioManager.playMusic('hub');
+};
+
+function showCharacterSelection() {
+  const overlay = document.getElementById("char-selection-screen");
+  if (overlay) overlay.style.display = "flex";
+}
+
+window.selectCharacter = function (choice) {
+  gameState.character = choice;
+  saveGameState();
+  const selectionScreen = document.getElementById("char-selection-screen");
+  if (selectionScreen) selectionScreen.style.display = "none";
+  renderDashboard();
+};
+
+function startCinematic(leadToCharacter = false) {
+  const overlay = document.getElementById("cinematic-overlay");
+  const content = document.getElementById("cinematic-content");
+  if (!overlay || !content) {
+    if (leadToCharacter) showCharacterSelection();
+    else renderDashboard();
+    return;
+  }
+
+  overlay.style.display = "flex";
+  overlay.style.opacity = "1";
+
+  const paragraphs = [
+    "Isocele was once a beacon of absolute truth...",
+    "A kingdom where every stone was laid with logical precision.",
+    "But your ancestors grew complacent. They traded proof for assumption.",
+    "The Logical Decay crept in, crumbling the bridges and silencing the bells.",
+    "Now, you return to these ruins, the Crown's Compass in hand.",
+    "It falls to you, Royal Heir, to restore the Kingdom of Euclid.",
+    "Prepare yourself... for the restoration begins now."
+  ];
+
+  let current = 0;
+
+  function nextPara() {
+    if (current >= paragraphs.length) {
+      overlay.style.opacity = "0";
+      setTimeout(() => {
+        overlay.style.display = "none";
+        if (leadToCharacter) showCharacterSelection();
+        else renderDashboard();
+      }, 2000);
+      return;
+    }
+
+    content.innerHTML = `<p class="cinematic-text">${paragraphs[current]}</p>`;
+    const p = content.querySelector('.cinematic-text');
+    setTimeout(() => p.classList.add('fade-in'), 100);
+    setTimeout(() => {
+      p.classList.remove('fade-in');
+      setTimeout(() => {
+        current++;
+        nextPara();
+      }, 1000);
+    }, 3000);
+  }
+  nextPara();
+}
+
+/**
+ * UI Rendering & Map Hub
+ */
+function renderDashboard() {
+  renderMap();
+  updateWorldBrightness();
+}
+
+function updateWorldBrightness() {
+  const overlay = document.getElementById("world-brightness-overlay");
+  const mapHub = document.getElementById("map-hub");
+  if (!overlay) return;
+
+  // Progress relative to all levels
+  const progress = Math.min(1, gameState.currentLevel / levels.length);
+
+  // 1. World Brightness Overlay (Dullness)
+  const opacity = 0.3 - (progress * 0.2);
+  overlay.style.opacity = Math.max(0.1, opacity);
+
+  // 2. Map Hub Background Color Transition (More colorful as progress continues)
+  if (mapHub) {
+    // start more gray (100% grayscale) and get more colorful (0% grayscale)
+    const grayVal = Math.max(0, 100 - (progress * 100));
+    mapHub.style.setProperty('--map-grayscale', `${grayVal}%`);
+  }
+}
+
+function renderMap() {
+  const mapHub = document.getElementById("map-hub");
+  const mainWrapper = document.getElementById("main-wrapper");
+  const nodesContainer = document.getElementById("village-map");
+  const villageView = document.getElementById("village-view");
+  const gameArea = document.getElementById("game-area");
+
+  AudioManager.playMusic('hub');
+
+  // Update Map Background per region
+  const bgImage = gameAssets.images.regions[gameState.currentRegion] || gameAssets.images.mapBackground.after;
+  const hubContainer = document.getElementById("map-hub");
+  if (hubContainer) {
+    hubContainer.style.setProperty('--region-bg', `url(${bgImage})`);
+  }
+
+  renderKingdomHUD();
+
+  if (mapHub) mapHub.style.display = "block";
+  if (mainWrapper) mainWrapper.style.display = "none";
+  if (villageView) villageView.style.display = "none";
+  if (gameArea) gameArea.style.display = "none";
+
+  // Hide Home button in nav
+  const navHome = document.getElementById("nav-btn-home");
+  if (navHome) navHome.style.display = "none";
+
+  if (!nodesContainer) return;
+  nodesContainer.innerHTML = "";
+
+  // Draw Central Castle
+  const castle = document.createElement("div");
+  castle.className = "central-castle";
+
+  // Show restored castle ONLY once ALL levels across ALL regions are completed
+  const totalLevels = levels.length;
+  const levelsCompleted = levels.filter(l => gameState.currentLevel >= l.id).length;
+  const isCastleRestored = (levelsCompleted >= totalLevels) || gameState.graduated;
+
+  const regionHubs = gameAssets.images.centralCastle[gameState.currentRegion] || gameAssets.images.centralCastle["Isocele"];
+  const castleImg = isCastleRestored ? regionHubs.after : regionHubs.before;
+  castle.innerHTML = `<img src="${castleImg}" alt="Kingdom Center">`;
+  nodesContainer.appendChild(castle);
+
+  // Position nodes in a circle
+  const regionLevels = levels.filter(l => l.region === gameState.currentRegion);
+
+  regionLevels.forEach((level, index) => {
+    // 360 / map size = angle per node. Start at top (-90 degrees)
+    const angleDeg = (index * (360 / regionLevels.length)) - 90;
+    const angleRad = angleDeg * (Math.PI / 180);
+    const radiusX = 22;
+    const radiusY = 31;
+    const x = 50 + radiusX * Math.cos(angleRad);
+    const y = 35 + radiusY * Math.sin(angleRad);
+    const node = document.createElement("div");
+
+    const isUnlocked = gameState.unlockedLevels.includes(level.id);
+    const isRestored = gameState.currentLevel >= level.id; // Level ID is 1-indexed progression link
+    const asset = gameAssets.images.levels.find(l => l.id === level.id);
+
+    const beforeSrc = level.before || (asset ? asset.before : gameAssets.images.ruinedVillage);
+    const afterSrc = level.after || (asset ? asset.after : gameAssets.images.restoredVillage);
+
+    const isCompleted = gameState.currentLevel >= level.id;
+
+    // Royal Guidance Logic: Find the first unlocked node that isn't completed
+    const isNextQuest = isUnlocked && !isCompleted;
+
+    node.className = `map-node ${isUnlocked ? 'unlocked' : 'locked'} ${isCompleted ? 'completed' : 'not-completed'} ${isNextQuest ? 'royal-guidance' : ''}`;
+    node.style.left = `${x}%`;
+    node.style.top = `${y}%`;
+
+    const displaySrc = isCompleted ? afterSrc : beforeSrc;
+
+    const upgradedLevel = (gameState.upgrades && gameState.upgrades[level.id]) || 0;
+    const upgradeBadge = upgradedLevel > 0 ? `<div class="upgrade-badge"><i class="bi bi-stars"></i> ${upgradedLevel}</div>` : "";
+
+    node.innerHTML = `
+      <img src="${displaySrc}" class="node-img" alt="${level.name}">
+      <div class="node-label">${level.name}</div>
+      ${upgradeBadge}
+    `;
+
+    if (isUnlocked) {
+      if (isCompleted) {
+        node.onclick = () => window.buyUpgrade(level.id);
+        node.title = "Click to Upgrade (100 SP)";
+      } else {
+        node.onclick = () => startLevel(level.id);
+      }
+    }
+
+    nodesContainer.appendChild(node);
+  });
+
+  renderRegionSelector();
+  renderAchievements();
+}
+
+/**
+ * Region Selector UI - Now uses the header-based element exclusively
+ */
+function renderRegionSelector() {
+  const selector = document.getElementById("region-selector");
+  if (!selector) return;
+
+  selector.innerHTML = "";
+  const allRegions = ["Isocele", "The Rhombic Sands", "The Gaelic Grids"];
+
+  allRegions.forEach(region => {
+    const isUnlocked = gameState.unlockedRegions.includes(region);
+    const btn = document.createElement("button");
+    btn.className = `region-btn ${gameState.currentRegion === region ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+    btn.innerHTML = `<span>${region}</span> ${!isUnlocked ? '<i class="bi bi-lock-fill"></i>' : ''}`;
+
+    if (isUnlocked) {
+      btn.onclick = () => window.switchRegion(region);
+    } else {
+      btn.title = "Complete the previous region to unlock!";
+    }
+    selector.appendChild(btn);
+  });
+}
+
+window.switchRegion = function (regionName) {
+  if (gameState.unlockedRegions.includes(regionName)) {
+    gameState.currentRegion = regionName;
+    saveGameState();
+    renderMap();
+    renderKingdomHUD();
+  }
+};
+
+function renderAchievements() {
+  const panel = document.getElementById("achievements-panel");
+  if (!panel) return;
+  panel.innerHTML = ""; // Clear existing
+
+  const badges = [
+    { threshold: 1, name: "Bridge Builder", icon: "bi-hammer" },
+    { threshold: 5, name: "Master of ASA", icon: "bi-shield-check" },
+    { threshold: 10, name: "Sovereign of Truth", icon: "bi-award-fill" }
+  ];
+
+  badges.forEach(badge => {
+    const isEarned = gameState.currentLevel >= badge.threshold;
+    const badgeEl = document.createElement("div");
+    badgeEl.className = "achievement-item";
+
+    // Checkmark icon for earned status
+    const icon = isEarned ? 'bi-check-circle-fill' : 'bi-circle';
+    badgeEl.innerHTML = `<i class="bi ${icon}"></i> ${badge.name}`;
+    panel.appendChild(badgeEl);
+  });
+}
+
+let isDialogueActive = false;
+
+function showNarrative(speaker, text, options = null) {
+  if (isDialogueActive && (!options || options.length === 0)) {
+    console.warn("Dialogue loop prevention: Blocking overlapping narrative.");
+    return;
+  }
+  isDialogueActive = true;
+
+  const overlay = document.getElementById("narrative-overlay");
+  const speakerEl = document.getElementById("speaker-name");
+  const textEl = document.getElementById("dialogue-text");
+  const portrait = document.getElementById("character-portrait");
+  const choiceContainer = document.getElementById("choice-container");
+  const closeBtn = document.getElementById("close-narrative-btn");
+
+  if (!overlay) return;
+
+  if (speakerEl) speakerEl.textContent = speaker;
+  if (textEl) textEl.innerHTML = text;
+
+  if (portrait) {
+    const charMap = {
+      "Grand Vizier": gameAssets.images.characters.grandVizier,
+      "Lady Aurelia": gameAssets.images.characters.architect,
+      "Valerius": gameAssets.images.characters.merchant,
+      "Commander Kaelen": gameAssets.images.characters.sentinel,
+      "Mighty Hero": "Images/MightyHero.png"
+    };
+
+    if (charMap[speaker]) {
+      portrait.src = charMap[speaker];
+    } else {
+      // Default to player character
+      portrait.src = (gameState.character === "male")
+        ? gameAssets.images.characters.male
+        : gameAssets.images.characters.female;
+    }
+  }
+
+  // Handle Choice Buttons
+  if (choiceContainer) {
+    if (options && options.length > 0) {
+      choiceContainer.style.display = "flex";
+      choiceContainer.innerHTML = "";
+      closeBtn.style.display = "none";
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "btn-choice";
+        btn.innerHTML = `<span>${opt.text}</span>`;
+        btn.onclick = () => {
+          opt.callback();
+          isDialogueActive = false;
+        };
+        choiceContainer.appendChild(btn);
+      });
+    } else {
+      choiceContainer.style.display = "none";
+      if (closeBtn) {
+        closeBtn.style.display = "block";
+        closeBtn.onclick = () => {
+          closeNarrative();
+          isDialogueActive = false;
+        }
+      }
+    }
+  }
+
+  overlay.style.display = "flex";
+}
+
+function applyChoiceImpact(impact) {
+  if (!impact) return;
+  if (impact.population) {
+    gameState.targetPopulation = Math.max(0, gameState.targetPopulation + impact.population);
+    // Ensure current population also doesn't go negative if we force it
+    gameState.villagePopulation = Math.max(0, gameState.villagePopulation);
+  }
+  if (impact.food) gameState.healthMetrics.food = Math.min(100, Math.max(0, gameState.healthMetrics.food + impact.food));
+  if (impact.plague) gameState.healthMetrics.plague = Math.min(100, Math.max(0, gameState.healthMetrics.plague + impact.plague));
+  if (impact.defense) gameState.healthMetrics.defense = Math.min(100, Math.max(0, gameState.healthMetrics.defense + impact.defense));
+  if (impact.sovereign) gameState.sovereignPoints = Math.max(0, gameState.sovereignPoints + impact.sovereign);
+
+  if (impact.population > 0) spawnOrbs(10, 'citizen');
+  else if (impact.population < 0) spawnOrbs(10, 'death');
+
+  renderKingdomHUD();
+  saveGameState();
+}
+
+window.closeNarrative = function () {
+  const overlay = document.getElementById("narrative-overlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function updateUI() {
+  const xpEl = document.getElementById("total-xp");
+  const levelEl = document.getElementById("current-level-val");
+  const xpVal = gameState.totalXP || 0;
+  const levelVal = (gameState.currentLevel || 0) + 1;
+
+  if (xpEl) xpEl.textContent = xpVal;
+  if (levelEl) levelEl.textContent = levelVal;
+}
+
+/**
+ * Level Gameplay
+ */
+window.startLevel = function (levelId) {
+  const level = levels.find((l) => l.id === levelId);
+  if (!level) return;
+
+  gameState.activeLevel = level;
+
+  // 1. Show Quest Briefing instead of starting immediately
+  const briefingModal = document.getElementById("quest-briefing-modal");
+  const briefingTitle = document.getElementById("briefing-title");
+  const briefingImg = document.getElementById("briefing-img");
+  const briefingStory = document.getElementById("briefing-story");
+  const briefingTheorem = document.getElementById("briefing-theorem");
+
+  if (briefingTitle) briefingTitle.textContent = `${level.id}. ${level.name}`;
+  if (briefingStory) briefingStory.textContent = level.narrative.intro;
+  if (briefingTheorem) briefingTheorem.style.display = "none";
+
+  const asset = gameAssets.images.levels.find(l => l.id === level.id);
+  if (briefingImg && asset) briefingImg.src = asset.before;
+
+  if (briefingModal) briefingModal.classList.add("active");
+
+  // UI Prep (Hide Map, Show Main Wrapper)
+  const mapHub = document.getElementById("map-hub");
+  if (mapHub) mapHub.style.display = "none";
+
+  // CRITICAL: Hide main-wrapper entirely during math levels to prevent the black gap
+  const mainWrapper = document.getElementById("main-wrapper");
+  if (mainWrapper) mainWrapper.style.display = "none";
+
+  const gameArea = document.getElementById("game-area");
+  if (gameArea) {
+    gameArea.style.display = "flex";
+    gameArea.style.marginTop = "70px"; // Align under fixed header
+    gameArea.style.paddingTop = "2rem"; // Give space from header as requested
+    gameArea.scrollTop = 0;
+  }
+
+  // Ensure orbs container is hidden while in question screen
+  const orbContainer = document.getElementById("orb-container");
+  if (orbContainer) orbContainer.style.display = "none";
+
+  // Show Home button in nav
+  const navHome = document.getElementById("nav-btn-home");
+  if (navHome) navHome.style.display = "flex";
+};
+
+window.beginActivation = function () {
+  const briefingModal = document.getElementById("quest-briefing-modal");
+  if (briefingModal) briefingModal.classList.remove("active");
+
+  const level = gameState.activeLevel;
+  if (level && level.narrative.choices && level.narrative.choices.length > 0) {
+    const choice = level.narrative.choices[0];
+    showNarrative(choice.speaker, choice.text, choice.options.map(opt => ({
+      text: opt.text,
+      callback: () => {
+        applyChoiceImpact(opt.impact);
+        closeNarrative();
+        AudioManager.playMusic('quest');
+        actuallyStartQuest();
+      }
+    })));
+  } else {
+    AudioManager.playMusic('quest');
+    actuallyStartQuest();
+  }
+};
+
+
+function actuallyStartQuest() {
+  const level = gameState.activeLevel;
+  const villageBg = document.getElementById("village-bg");
+  const gameArea = document.getElementById("game-area");
+  const levelTitle = document.getElementById("level-title");
+  const asset = gameAssets.images.levels.find(l => l.id === level.id);
+  const diagramSection = document.querySelector(".diagram-section");
+
+  // Reset markings for new level
+  gameState.userMarkings = { ticks: {}, arcs: {} };
+  gameState.hintState = { lastStepIndex: -1, tier: 0 };
+  saveGameState();
+
+  if (gameArea) gameArea.style.display = "flex";
+
+  if (villageBg && asset) {
+    villageBg.src = asset.before;
+    villageBg.style.opacity = "1";
+    if (diagramSection) {
+      diagramSection.style.setProperty('--panel-bg-img', `url(${asset.before})`);
+    }
+  }
+
+  if (levelTitle) levelTitle.textContent = `${level.id}. ${level.name}`;
+
+  const logicText = document.getElementById("logic-text");
+  if (logicText) {
+    logicText.innerHTML = `<strong>Given:</strong> ${level.proofData.given.join(", ")}<br><strong>Prove:</strong> ${level.proofData.prove}`;
+  }
+
+  renderDiagram(level.diagram);
+  renderProofTable(level.proofData);
+  renderAnswerBank(level.proofData.bank);
+
+  // Hide answer bank as we use dropdowns now
+  const answerBank = document.querySelector(".answer-bank");
+  if (answerBank) answerBank.style.display = "none";
+}
+
+function renderDiagram(diagram) {
+  const svg = document.getElementById("diagram-svg");
+  if (!svg) return;
+  svg.innerHTML = "";
+
+  const getPoint = (id) => diagram.points.find((p) => p.id === id);
+
+  // Draw Lines
+  diagram.lines.forEach((line) => {
+    const from = getPoint(line.from);
+    const to = getPoint(line.to);
+    if (!from || !to) return;
+    const lineEl = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    lineEl.setAttribute("x1", from.x);
+    lineEl.setAttribute("y1", from.y);
+    lineEl.setAttribute("x2", to.x);
+    lineEl.setAttribute("y2", to.y);
+    lineEl.setAttribute("stroke", "var(--logic-cyan)");
+    lineEl.setAttribute("stroke-width", "8"); // Thicker hitbox
+    lineEl.setAttribute("stroke-opacity", "0"); // Invisible hitbox
+    lineEl.style.cursor = "pointer";
+    lineEl.onclick = (e) => toggleUserTick(line.id, e);
+    svg.appendChild(lineEl);
+
+    // Visible line
+    const visibleLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    visibleLine.setAttribute("x1", from.x);
+    visibleLine.setAttribute("y1", from.y);
+    visibleLine.setAttribute("x2", to.x);
+    visibleLine.setAttribute("y2", to.y);
+    visibleLine.setAttribute("stroke", "var(--logic-cyan)");
+    visibleLine.setAttribute("stroke-width", "3");
+    visibleLine.style.pointerEvents = "none";
+    svg.appendChild(visibleLine);
+  });
+
+  // Draw Marks (Ticks & Arcs)
+  // 1. Given Marks
+  if (diagram.givenMarks) {
+    diagram.givenMarks.ticks.forEach(tick => {
+      const line = diagram.lines.find(l => l.id === tick.line);
+      if (line) drawTicks(svg, getPoint(line.from), getPoint(line.to), tick.count);
+    });
+    diagram.givenMarks.arcs.forEach(arc => {
+      const vertex = getPoint(arc.vertex);
+      const rays = arc.rays.map(r => getPoint(r));
+      drawArc(svg, vertex, rays, arc.count, arc.label);
+    });
+  }
+
+  // 2. User Marks
+  Object.keys(gameState.userMarkings.ticks).forEach(lineId => {
+    const marks = gameState.userMarkings.ticks[lineId];
+    if (Array.isArray(marks)) {
+      marks.forEach(m => {
+        const line = diagram.lines.find(l => l.id === lineId);
+        if (line) drawTicks(svg, getPoint(line.from), getPoint(line.to), m.count, true, m.pos);
+      });
+    }
+  });
+
+  Object.keys(gameState.userMarkings.arcs).forEach(arcKey => {
+    const marks = gameState.userMarkings.arcs[arcKey];
+    if (Array.isArray(marks)) {
+      marks.forEach(m => {
+        const [vId, raysPart] = arcKey.split("_");
+        const [r1Id, r2Id] = raysPart.split("-");
+        const vertex = getPoint(vId);
+        const rays = [getPoint(r1Id), getPoint(r2Id)];
+        drawArc(svg, vertex, rays, m.count, null, true, false, null, m.radius);
+      });
+    }
+  });
+
+  // 3. Angle Click Hitboxes (Invisible)
+  // OMNI-ANGLE FIX: Find all rays emanating from each vertex
+  diagram.points.forEach(vertex => {
+    const rawRays = [];
+
+    // a) Lines where vertex is an endpoint
+    diagram.lines.forEach(l => {
+      if (l.from === vertex.id) rawRays.push({ id: l.to, pt: getPoint(l.to) });
+      else if (l.to === vertex.id) rawRays.push({ id: l.from, pt: getPoint(l.from) });
+    });
+
+    // b) Lines where vertex lies in the middle (Colinear detection)
+    diagram.lines.forEach(l => {
+      const p1 = getPoint(l.from);
+      const p2 = getPoint(l.to);
+      if (l.from === vertex.id || l.to === vertex.id) return;
+
+      const d1 = Math.sqrt((vertex.x - p1.x) ** 2 + (vertex.y - p1.y) ** 2);
+      const d2 = Math.sqrt((vertex.x - p2.x) ** 2 + (vertex.y - p2.y) ** 2);
+      const dTotal = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+
+      if (Math.abs(d1 + d2 - dTotal) < 1.0) {
+        rawRays.push({ id: l.from, pt: p1 });
+        rawRays.push({ id: l.to, pt: p2 });
+      }
+    });
+
+    // Deduplicate rays by point ID to prevent redundant hitboxes
+    const rays = [];
+    const seen = new Set();
+    rawRays.forEach(r => {
+      if (!seen.has(r.id)) {
+        seen.add(r.id);
+        rays.push(r);
+      }
+    });
+
+    // Create hitboxes for all pairs of rays
+    for (let i = 0; i < rays.length; i++) {
+      for (let j = i + 1; j < rays.length; j++) {
+        const r1 = rays[i];
+        const r2 = rays[j];
+
+        // Skip 180 deg angles
+        const angle1 = Math.atan2(r1.pt.y - vertex.y, r1.pt.x - vertex.x);
+        const angle2 = Math.atan2(r2.pt.y - vertex.y, r2.pt.x - vertex.x);
+        let diff = Math.abs(angle1 - angle2);
+        if (diff > Math.PI) diff = 2 * Math.PI - diff;
+        if (diff < 0.1 || diff > Math.PI - 0.1) continue;
+        // Create an invisible arc hitbox centered at 45 to cover the 30-60 marking range
+        drawArc(svg, vertex, [r1.pt, r2.pt], 1, null, false, true, (e) => toggleUserArc(vertex.id, r1.id, r2.id, e), 45);
+      }
+    }
+  });
+
+  // Draw Points and Labels
+  diagram.points.forEach((point) => {
+    if (!point.label || point.label.length > 2) return; // Skip helper points/labels
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "5");
+    circle.setAttribute("fill", "var(--medieval-gold)");
+    svg.appendChild(circle);
+
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", point.x + 10);
+    text.setAttribute("y", point.y - 10);
+    text.setAttribute("fill", "white");
+    text.setAttribute("font-family", "Space Mono");
+    text.setAttribute("font-size", "16");
+    text.setAttribute("font-weight", "bold");
+    text.textContent = point.label;
+    svg.appendChild(text);
+  });
+}
+
+window.toggleUserTick = function (lineId, event) {
+  if (!gameState.userMarkings.ticks[lineId]) gameState.userMarkings.ticks[lineId] = [];
+
+  const line = gameState.activeLevel.diagram.lines.find(l => l.id === lineId);
+  const p1 = gameState.activeLevel.diagram.points.find(p => p.id === line.from);
+  const p2 = gameState.activeLevel.diagram.points.find(p => p.id === line.to);
+
+  const svg = document.getElementById("diagram-svg");
+  const CTM = svg.getScreenCTM();
+  const pt = svg.createSVGPoint();
+  pt.x = event.clientX;
+  pt.y = event.clientY;
+  const localPt = pt.matrixTransform(CTM.inverse());
+
+  // Project onto line
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const lenSq = dx * dx + dy * dy;
+  const t = ((localPt.x - p1.x) * dx + (localPt.y - p1.y) * dy) / lenSq;
+  const pos = Math.max(0.1, Math.min(0.9, t));
+
+  const existing = gameState.userMarkings.ticks[lineId].find(m => Math.abs(m.pos - pos) < 0.1);
+  if (existing) {
+    existing.count = (existing.count + 1) % 4;
+    if (existing.count === 0) {
+      gameState.userMarkings.ticks[lineId] = gameState.userMarkings.ticks[lineId].filter(m => m !== existing);
+    }
+  } else {
+    gameState.userMarkings.ticks[lineId].push({ pos: pos, count: 1 });
+  }
+
+  // Push to history for Undo
+  if (!gameState.markHistory) gameState.markHistory = [];
+  gameState.markHistory.push({ type: 'tick', lineId: lineId, pos: pos });
+  if (gameState.markHistory.length > 50) gameState.markHistory.shift();
+
+  saveGameState();
+  renderDiagram(gameState.activeLevel.diagram);
+};
+
+window.toggleUserArc = function (vId, r1Id, r2Id, event) {
+  const arcKey = vId + "_" + [r1Id, r2Id].sort().join("-");
+  if (!gameState.userMarkings.arcs[arcKey]) gameState.userMarkings.arcs[arcKey] = [];
+
+  const svg = document.getElementById("diagram-svg");
+  const CTM = svg.getScreenCTM();
+  const pt = svg.createSVGPoint();
+  pt.x = event.clientX;
+  pt.y = event.clientY;
+  const localPt = pt.matrixTransform(CTM.inverse());
+
+  const vertex = gameState.activeLevel.diagram.points.find(p => p.id === vId);
+  const dist = Math.sqrt((localPt.x - vertex.x) ** 2 + (localPt.y - vertex.y) ** 2);
+
+  // Snap radius to steps of 10 for easier toggling (30, 40, 50, etc.)
+  const radius = Math.round(dist / 10) * 10;
+  const clampedRadius = Math.max(30, Math.min(60, radius));
+
+  const existing = gameState.userMarkings.arcs[arcKey].find(m => Math.abs(m.radius - clampedRadius) < 5);
+  if (existing) {
+    existing.count = (existing.count + 1) % 4;
+    if (existing.count === 0) {
+      gameState.userMarkings.arcs[arcKey] = gameState.userMarkings.arcs[arcKey].filter(m => m !== existing);
+    }
+  } else {
+    gameState.userMarkings.arcs[arcKey].push({ radius: clampedRadius, count: 1 });
+  }
+
+  // Push to history for Undo
+  if (!gameState.markHistory) gameState.markHistory = [];
+  gameState.markHistory.push({ type: 'arc', arcKey: arcKey, radius: clampedRadius });
+  if (gameState.markHistory.length > 50) gameState.markHistory.shift();
+
+  saveGameState();
+  renderDiagram(gameState.activeLevel.diagram);
+};
+
+window.undoMark = function () {
+  if (!gameState.markHistory || gameState.markHistory.length === 0) return;
+  const last = gameState.markHistory.pop();
+
+  if (last.type === 'tick') {
+    const marks = gameState.userMarkings.ticks[last.lineId];
+    if (marks) {
+      const mark = marks.find(m => Math.abs(m.pos - last.pos) < 0.01);
+      if (mark) {
+        mark.count--;
+        if (mark.count <= 0) {
+          gameState.userMarkings.ticks[last.lineId] = marks.filter(m => m !== mark);
+        }
+      }
+    }
+  } else if (last.type === 'arc') {
+    const marks = gameState.userMarkings.arcs[last.arcKey];
+    if (marks) {
+      const mark = marks.find(m => Math.abs(m.radius - last.radius) < 1);
+      if (mark) {
+        mark.count--;
+        if (mark.count <= 0) {
+          gameState.userMarkings.arcs[last.arcKey] = marks.filter(m => m !== mark);
+        }
+      }
+    }
+  }
+
+  saveGameState();
+  renderDiagram(gameState.activeLevel.diagram);
+};
+
+window.clearAllMarks = function () {
+  if (confirm("Are you sure you want to clear all logic markings from this diagram?")) {
+    gameState.userMarkings = { ticks: {}, arcs: {} };
+    gameState.markHistory = [];
+    saveGameState();
+    renderDiagram(gameState.activeLevel.diagram);
+  }
+};
+
+function drawTicks(svg, p1, p2, count, isUser = false, pos = 0.5) {
+  const midX = p1.x + (p2.x - p1.x) * pos;
+  const midY = p1.y + (p2.y - p1.y) * pos;
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const angle = Math.atan2(dy, dx);
+  const perp = angle + Math.PI / 2;
+  const spacing = 8;
+  const tickLen = 10;
+
+  for (let i = 0; i < count; i++) {
+    const offset = (i - (count - 1) / 2) * spacing;
+    const tx = midX + Math.cos(angle) * offset;
+    const ty = midY + Math.sin(angle) * offset;
+
+    const x1 = tx + Math.cos(perp) * (tickLen / 2);
+    const y1 = ty + Math.sin(perp) * (tickLen / 2);
+    const x2 = tx - Math.cos(perp) * (tickLen / 2);
+    const y2 = ty - Math.sin(perp) * (tickLen / 2);
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    line.setAttribute("stroke", isUser ? "var(--logic-cyan)" : "var(--medieval-gold)");
+    line.setAttribute("stroke-width", "2");
+    line.style.pointerEvents = "none";
+    svg.appendChild(line);
+  }
+}
+
+function drawArc(svg, vertex, rays, count, label, isUser = false, isHitbox = false, onClick = null, overrideRadius = null) {
+  // Calculate vector angles from vertex
+  const angles = rays.map(r => Math.atan2(r.y - vertex.y, r.x - vertex.x));
+  let start = angles[0];
+  let end = angles[1];
+
+  // Ensure we take the shortest path between angles
+  let diff = end - start;
+  while (diff < -Math.PI) diff += Math.PI * 2;
+  while (diff > Math.PI) diff -= Math.PI * 2;
+
+  const baseRadius = overrideRadius || 30;
+  const spacing = 6;
+
+  for (let i = 0; i < count; i++) {
+    const r = baseRadius + i * spacing;
+    const x1 = vertex.x + Math.cos(start) * r;
+    const y1 = vertex.y + Math.sin(start) * r;
+    const x2 = vertex.x + Math.cos(start + diff) * r;
+    const y2 = vertex.y + Math.sin(start + diff) * r;
+
+    // SVG large-arc-flag based on diff
+    const largeArc = Math.abs(diff) > Math.PI ? 1 : 0;
+    const sweep = diff > 0 ? 1 : 0;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} ${sweep} ${x2} ${y2}`);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", isHitbox ? "transparent" : (isUser ? "var(--logic-cyan)" : "var(--medieval-gold)"));
+    path.setAttribute("stroke-width", isHitbox ? "25" : "2");
+    if (isHitbox) {
+      path.style.cursor = "pointer";
+      path.onclick = onClick;
+      path.onmouseover = () => path.setAttribute("stroke", "rgba(0, 255, 255, 0.2)");
+      path.onmouseout = () => path.setAttribute("stroke", "transparent");
+    } else {
+      path.style.pointerEvents = "none";
+    }
+    svg.appendChild(path);
+  }
+
+  if (label) {
+    const midAngle = start + diff / 2;
+    const labelR = baseRadius + (count * spacing) + 12;
+    const lx = vertex.x + Math.cos(midAngle) * labelR;
+    const ly = vertex.y + Math.sin(midAngle) * labelR;
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", lx);
+    text.setAttribute("y", ly);
+    text.setAttribute("fill", "white");
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dominant-baseline", "middle");
+    text.setAttribute("font-size", "12");
+    text.setAttribute("font-weight", "bold");
+    text.textContent = label;
+    svg.appendChild(text);
+  }
+}
+
+const GLOBAL_DISTRACTORS = {
+  statements: [
+    "∠A + ∠B = 180°", "AB || CD", "∠1 ≅ ∠3", "AC ≅ BD", "△ABC is Isosceles",
+    "m∠ABC = 90°", "Area = 1/2(base)(height)", "a² + b² = c²", "XY ≅ YZ", "∠X and ∠Y are complementary",
+    "∠1 and ∠2 are supplementary", "BC ⊥ AD", "Point M is the midpoint", "Quadrilateral ABCD is a Parallelogram",
+    "∠ABC is a Right Angle", "Sum of interior angles = 180°", "x + y = 90", "Segment AB is bisected by C"
+  ],
+  reasons: [
+    "Substitution Property", "Angle Addition Postulate", "Segment Addition Postulate",
+    "Definition of Midpoint", "Alternate Interior Angles Theorem", "Corresponding Angles Postulate",
+    "Transitive Property", "Pythagorean Theorem", "Definition of Right Angle", "Symmetric Property",
+    "Reflexive Property", "Vertical Angles Theorem", "Definition of Perpendicular", "Subtraction Property",
+    "Addition Property", "Distributive Property", "Definition of Angle Bisector", "CPCTC"
+  ]
+};
+
+function renderProofTable(proofData) {
+  const tbody = document.getElementById("proof-body");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  const bank = proofData.bank || { statements: [], reasons: [] };
+
+  proofData.steps.forEach((step, index) => {
+    const tr = document.createElement("tr");
+    tr.className = "proof-row";
+
+    // Gather and shuffle more options
+    let stmtOptions = [...new Set([...bank.statements, step.statement, ...GLOBAL_DISTRACTORS.statements])];
+    let reasonOptions = [...new Set([...bank.reasons, step.reason, ...GLOBAL_DISTRACTORS.reasons])];
+
+    // Sort but keep it a bit varied (random subset could be better but let's just use a larger pool)
+    stmtOptions.sort();
+    reasonOptions.sort();
+
+    const isGiven = step.reason === "Given" || step.reason.includes("Given");
+
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>
+        ${isGiven
+        ? `<div class="proof-dropdown-static">${step.statement}</div>`
+        : `<select class="proof-dropdown" data-type="statement" data-index="${index}">
+               <option value="">-- Select Statement --</option>
+               ${stmtOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+             </select>`
+      }
+      </td>
+      <td>
+        ${isGiven
+        ? `<div class="proof-dropdown-static">Given</div>`
+        : `<select class="proof-dropdown" data-type="reason" data-index="${index}">
+               <option value="">-- Select Reason --</option>
+               ${reasonOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+             </select>`
+      }
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+
+function submitProof() {
+  const level = gameState.activeLevel;
+  if (!level) return;
+  const rows = document.querySelectorAll(".proof-row");
+
+  let allCorrect = true;
+
+  level.proofData.steps.forEach((step, index) => {
+    const row = rows[index];
+    const isGiven = step.reason === "Given" || step.reason.includes("Given");
+
+    let userStmt, userReason;
+
+    if (isGiven) {
+      userStmt = step.statement;
+      userReason = "Given";
+    } else {
+      const stmtSelect = row.querySelector('select[data-type="statement"]');
+      const reasonSelect = row.querySelector('select[data-type="reason"]');
+      userStmt = stmtSelect ? stmtSelect.value : "";
+      userReason = reasonSelect ? reasonSelect.value : "";
+    }
+
+    const isStmtCorrect = userStmt === step.statement;
+    const isReasonCorrect = userReason === step.reason;
+
+    if (isStmtCorrect && isReasonCorrect) {
+      row.classList.remove("incorrect");
+      row.classList.add("correct");
+    } else {
+      row.classList.remove("correct");
+      row.classList.add("incorrect");
+      allCorrect = false;
+    }
+  });
+
+  if (allCorrect) {
+    saveGameState();
+    handleVictory();
+  } else {
+    showNotification("The logic is flawed, Royal Heir. Re-examine the scroll.", "Logical Decay Detected");
+    AudioManager.playSFX('interact');
+  }
+}
+
+window.provideHint = function () {
+  const level = gameState.activeLevel;
+  const rows = document.querySelectorAll(".proof-row");
+  const wisdomOverlay = document.getElementById("wisdom-overlay");
+  const wisdomText = document.getElementById("wisdom-text");
+
+  if (!gameState.hintState) {
+    gameState.hintState = { lastStepIndex: -1, tier: 0 };
+  }
+
+  for (let i = 0; i < level.proofData.steps.length; i++) {
+    const row = rows[i];
+    const target = level.proofData.steps[i];
+    const isGiven = target.reason === "Given";
+
+    let userStmt, userReason;
+    let stmtEl, reasonEl;
+
+    if (isGiven) {
+      userStmt = target.statement;
+      userReason = target.reason;
+    } else {
+      stmtEl = row.querySelector('select[data-type="statement"]');
+      reasonEl = row.querySelector('select[data-type="reason"]');
+      userStmt = stmtEl ? stmtEl.value : "";
+      userReason = reasonEl ? reasonEl.value : "";
+    }
+
+    if (userStmt !== target.statement || userReason !== target.reason) {
+      if (gameState.hintState.lastStepIndex === i) {
+        gameState.hintState.tier = Math.min(2, gameState.hintState.tier + 1);
+      } else {
+        gameState.hintState.lastStepIndex = i;
+        gameState.hintState.tier = 0;
+      }
+
+      if (stmtEl && userStmt !== target.statement) stmtEl.classList.add("hint-glow");
+      if (reasonEl && userReason !== target.reason) reasonEl.classList.add("hint-glow");
+
+      let hint = "";
+      const tier = gameState.hintState.tier;
+
+      if (tier === 0) {
+        hint = `The Sage whispers: "Look at the diagram. What is the next logical piece of information we can claim?"`;
+      } else if (tier === 1) {
+        hint = `The Sage speaks clearly: "We need a statement about ${target.statement.split(' ')[0]}. Find it in the bank."`;
+      } else {
+        hint = `The Sage reveals the path: "Select '${target.statement}' and '${target.reason}' to proceed."`;
+      }
+
+      if (wisdomOverlay && wisdomText) {
+        wisdomText.textContent = hint;
+        wisdomOverlay.style.display = "block";
+      }
+
+      setTimeout(() => {
+        if (stmtEl) stmtEl.classList.remove("hint-glow");
+        if (reasonEl) reasonEl.classList.remove("hint-glow");
+      }, 3000);
+      return;
+    }
+  }
+};
+
+window.closeWisdom = function () {
+  const overlay = document.getElementById("wisdom-overlay");
+  if (overlay) overlay.style.display = "none";
+};
+
+function handleVictory() {
+  const level = gameState.activeLevel;
+  AudioManager.playMusic('victory', false);
+
+  gameState.totalXP += 100;
+  gameState.sovereignPoints += 100; // Earn SP for city building
+
+  // Update unlocked levels
+  // No redundant increment here
+
+  saveGameState();
+  showVictoryModal(level);
+}
+
+function renderKingdomHUD() {
+  const popEl = document.getElementById("pop-count");
+  const maxPopEl = document.getElementById("max-pop");
+  const popFill = document.getElementById("pop-bar-fill");
+  const restoreEl = document.getElementById("restore-progress");
+  const sovereignEl = document.getElementById("sovereign-points");
+  const xpEl = document.getElementById("total-xp-display");
+  const villageBg = document.getElementById("village-bg");
+
+  const newPop = Math.floor(gameState.villagePopulation);
+  const maxPop = gameState.maxPopulation || 100;
+
+  if (popEl) {
+    const oldPop = parseInt(popEl.textContent) || 0;
+    popEl.textContent = newPop;
+    if (newPop > oldPop && oldPop !== 0) {
+      popEl.parentElement.classList.add("pulse-growth");
+      setTimeout(() => popEl.parentElement.classList.remove("pulse-growth"), 2000);
+    } else if (newPop < oldPop) {
+      popEl.parentElement.classList.add("pulse-loss");
+      setTimeout(() => popEl.parentElement.classList.remove("pulse-loss"), 2000);
+    }
+  }
+
+  if (maxPopEl) maxPopEl.textContent = maxPop;
+
+  if (popFill) popFill.style.width = `${Math.min(100, (newPop / maxPop) * 100)}%`;
+
+  if (restoreEl) restoreEl.textContent = `${gameState.currentLevel}/${levels.length}`;
+  if (sovereignEl) sovereignEl.textContent = gameState.sovereignPoints;
+  if (xpEl) xpEl.textContent = gameState.totalXP;
+
+  // Update Village Visuals Based on Population Health
+  if (villageBg) {
+    const popPercent = (newPop / maxPop) * 100;
+    if (popPercent >= 90) {
+      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/happy_celebratory_villagers_1768063430779.png";
+    } else if (popPercent >= 50) {
+      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/content_prospering_villagers_1768063446503.png";
+    } else if (popPercent >= 20) {
+      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/struggling_sad_villagers_1768063462753.png";
+    } else {
+      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/desperate_few_villagers_1768063479046.png";
+    }
+  }
+
+  updateEnemyOrbs();
+  spawnOrbs(); // Ensure orbs are spawned/updated
+}
+
+/**
+ * Population Metrics & HUD Helpers
+ */
+window.showPopulationStatus = function () {
+  const modal = document.getElementById("population-modal");
+  if (!modal) return;
+
+  renderPopulationModal();
+  modal.classList.add("active");
+};
+
+window.closePopulationStatus = function () {
+  const modal = document.getElementById("population-modal");
+  if (modal) modal.classList.remove("active");
+};
+
+function renderPopulationModal() {
+  const metricsContainer = document.getElementById("pop-metrics-container");
+  const statusImg = document.getElementById("pop-status-img");
+  const statusText = document.getElementById("pop-status-text");
+  const thematicDesc = document.getElementById("pop-thematic-desc");
+
+  if (!metricsContainer) return;
+
+  const newPop = Math.floor(gameState.villagePopulation);
+  const maxPop = gameState.maxPopulation || 100;
+  const metrics = gameState.healthMetrics || { plague: 50, defense: 50, food: 50 };
+  const popPercent = (newPop / maxPop) * 100;
+
+  // Calculate Total Health based on metrics and population %
+  const avgMetric = (metrics.plague + metrics.defense + metrics.food) / 3;
+  const healthCorrelation = (popPercent + avgMetric) / 2;
+
+  const getStatusText = (correlation) => {
+    if (correlation >= 90) return "Celebratory";
+    if (correlation >= 50) return "Prospering";
+    if (correlation >= 20) return "Struggling";
+    return "Desperate";
+  };
+
+  // Set Visuals and Status
+  if (healthCorrelation >= 90) {
+    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/happy_celebratory_villagers_1768063430779.png";
+    thematicDesc.textContent = "The kingdom is in high spirits. Music fills the air, and children play in the freshly paved streets of Euclid.";
+  } else if (healthCorrelation >= 50) {
+    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/content_prospering_villagers_1768063446503.png";
+    thematicDesc.textContent = "Work continues at a steady pace. The village is well-fed, and its people look toward a bright future.";
+  } else if (healthCorrelation >= 20) {
+    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/struggling_sad_villagers_1768063462753.png";
+    thematicDesc.textContent = "Shadows grow long. Resources are thin, and the worry on the faces of the villagers reflects the heavy toll of restoration.";
+  } else {
+    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/desperate_few_villagers_1768063479046.png";
+    thematicDesc.textContent = "Only the most resilient remain. The kingdom's heart beats faintly, waiting for a savior to restore what remains.";
+  }
+
+  statusText.textContent = getStatusText(healthCorrelation);
+
+  const getMetricDesc = (val, type) => {
+    if (type === 'plague') {
+      if (val > 80) return "Robust health; ancient remedies abound.";
+      if (val > 40) return "Seasonal sniffles, but manageable.";
+      return "The Mist of Decay is gaining a foothold.";
+    }
+    if (type === 'defense') {
+      if (val > 80) return "Unbreakable walls and alert sentries.";
+      if (val > 40) return "Regular patrols, yet we feel vulnerable.";
+      return "Critical gaps in our gates. We are exposed.";
+    }
+    if (type === 'food') {
+      if (val > 80) return "Granaries overflow with bounty.";
+      if (val > 40) return "Rations are sufficient for winter.";
+      return "Hunger gnaws at the village's heart.";
+    }
+  };
+
+  metricsContainer.innerHTML = `
+    ${['plague', 'defense', 'food'].map(key => `
+      <div class="metric-row">
+        <div class="metric-label" style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--medieval-gold);">
+          <span style="text-transform: capitalize;">${key === 'plague' ? 'Plague Resistance' : key}</span>
+          <span>${metrics[key]}%</span>
+        </div>
+        <div class="metric-bar-bg" style="height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; overflow: hidden;">
+          <div class="metric-bar-fill" style="width: ${metrics[key]}%; height: 100%; background: var(--logic-cyan); transition: width 0.5s ease-out;"></div>
+        </div>
+        <div class="metric-desc" style="font-size: 0.8rem; color: #ccc; font-style: italic; margin-top: 0.3rem;">${getMetricDesc(metrics[key], key)}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+window.toggleMetricsPopover = function () {
+  const popover = document.getElementById("metrics-popover");
+  if (!popover) return;
+
+  const isShowing = popover.classList.contains("show");
+  if (!isShowing) {
+    renderPopulationModal(); // Changed from renderMetrics to renderPopulationModal
+    popover.classList.add("show");
+  } else {
+    popover.classList.remove("show");
+  }
+};
+
+window.showTheorems = function () {
+  const theorems = [
+    { name: "SSS Congruence", desc: "If three sides of one triangle are congruent to three sides of another triangle, then the triangles are congruent." },
+    { name: "SAS Congruence", desc: "If two sides and the included angle of one triangle are congruent to two sides and the included angle of another triangle, then the triangles are congruent." },
+    { name: "ASA Congruence", desc: "If two angles and the included side of one triangle are congruent to two angles and the included side of another triangle, then the triangles are congruent." },
+    { name: "AAS Congruence", desc: "If two angles and a non-included side of one triangle are congruent to the corresponding angles and side of another triangle, then the triangles are congruent." },
+    { name: "HL Theorem", desc: "If the hypotenuse and a leg of one right triangle are congruent to the hypotenuse and a leg of another right triangle, then the triangles are congruent." },
+    { name: "Reflexive Property", desc: "Any geometric figure is congruent to itself (e.g., AB ≅ AB)." },
+    { name: "Vertical Angles", desc: "Vertical angles are always congruent." },
+    { name: "CPCTC", desc: "Corresponding Parts of Congruent Triangles are Congruent." }
+  ];
+
+  const content = `
+    <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+      ${theorems.map(t => `
+        <div style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 0.8rem;">
+          <h4 style="color: var(--medieval-gold); margin-bottom: 0.4rem;">${t.name}</h4>
+          <p style="font-size: 0.9rem; color: #eee; line-height: 1.4;">${t.desc}</p>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  showNarrative("Scroll of Ancient Theorems", content);
+};
+
+window.showTutorial = function () {
+  const steps = [
+    { title: "Understand the Goal", text: "Look at the 'Prove' statement. This is your final objective. Every step must build toward this." },
+    { title: "Mark the Diagram", text: "Click lines and angles to mark them based on current proofs. This helps visualize logic." },
+    { title: "Use Your Givens", text: "Always start with the 'Given' information. They are the foundations of your proof." },
+    { title: "Geometric Properties", text: "Is a side shared by two triangles? Use the Reflexive Property. Are lines intersecting? Look for Vertical Angles." },
+    { title: "Definitions as Bridges", text: "If a given says a line 'bisects' an angle, your next step should likely use the 'Definition of Angle Bisector' to claim two angles are equal." }
+  ];
+
+  const content = `
+    <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+      ${steps.map((s, i) => `
+        <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;">
+          <div style="background: var(--medieval-gold); color: black; border-radius: 50%; width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: bold;">${i + 1}</div>
+          <div>
+            <h4 style="color: var(--medieval-gold); margin-bottom: 0.3rem;">${s.title}</h4>
+            <p style="font-size: 0.9rem; color: #eee; line-height: 1.4;">${s.text}</p>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  showNarrative("Sage's Tutorial", content);
+};
+
+// --- Visor & Choice System ---
+
+const VISOR_SCENARIOS = {
+  1: { // Moat Bridge
+    name: "Foundation Focus",
+    speaker: "Royal Heir",
+    text: "The Bridge is restored, but how should we maintain the approach?",
+    options: [
+      {
+        text: "Enforce a Merchant Toll",
+        callback: () => finishVisorMoment("Moat Bridge", "Toll", 50, 10, "The treasury grows, but the people grumble at the cost of entry.", { food: -5, defense: 10 })
+      },
+      {
+        text: "Make it a Free Passage",
+        callback: () => finishVisorMoment("Moat Bridge", "Free", 0, 30, "Travelers flock to the village, eager for a new beginning.", { food: 5, plague: -10 })
+      }
+    ]
+  },
+  2: { // Market Stalls
+    name: "Trade Policy",
+    speaker: "Royal Heir",
+    text: "The Market Stalls are up. Should we invite foreign silk traders or local farmers first?",
+    options: [
+      {
+        text: "Invite Foreign Traders",
+        callback: () => finishVisorMoment("Market Stalls", "Trade", 75, 5, "Exotic goods arrive, filling our coffers but leaving some larders empty.", { food: -10, plague: -15 })
+      },
+      {
+        text: "Subsidize Local Farmers",
+        callback: () => finishVisorMoment("Market Stalls", "Farming", 0, 40, "The village is well-fed and growing fast. Contentment is high.", { food: 25, plague: 10 })
+      }
+    ]
+  },
+  3: { // Sentry Wall
+    name: "Defensive Strategy",
+    speaker: "Royal Heir",
+    text: "The Sentry Wall stands tall. Where should our watchers focus?",
+    options: [
+      {
+        text: "Fortify Against Siege",
+        callback: () => finishVisorMoment("Sentry Wall", "Strength", 0, 5, "The wall is bristling with defenses. No army could breach this.", { defense: 40, food: -5 })
+      },
+      {
+        text: "Open Watchtowers for Trade",
+        callback: () => finishVisorMoment("Sentry Wall", "Wealth", 100, 15, "Security is lighter, but the view brings merchants from far and wide.", { defense: -15, plague: -5 })
+      }
+    ]
+  },
+  4: { // Blacksmith
+    name: "Industrial Direction",
+    speaker: "Royal Heir",
+    text: "The Forge is hot. Should we prioritized plowshares or swords?",
+    options: [
+      {
+        text: "Forge Swords",
+        callback: () => finishVisorMoment("Blacksmith", "Swords", 0, 5, "Our soldiers are well-equipped. We are ready for any threat.", { defense: 30, food: -5 })
+      },
+      {
+        text: "Forge Plowshares",
+        callback: () => finishVisorMoment("Blacksmith", "Plows", 0, 50, "The land is tilled and the people are numerous. The village thrives.", { food: 30, defense: -10 })
+      }
+    ]
+  },
+  5: { // Docks
+    name: "Maritime Expansion",
+    speaker: "Royal Heir",
+    text: "The Docks are ready. Should we build fishing boats or exploration galleys?",
+    options: [
+      {
+        text: "Fishing Boats",
+        callback: () => finishVisorMoment("Fishing Docks", "Food", 20, 35, "The sea provides a steady supply of food for our growing numbers.", { food: 35, plague: 5 })
+      },
+      {
+        text: "Exploration Galleys",
+        callback: () => finishVisorMoment("Fishing Docks", "Exotic", 150, 0, "Explorers find massive treasure, but the voyage is too long for families.", { food: -10, defense: 10 })
+      }
+    ]
+  },
+  6: { // Stables
+    name: "Cavalry vs Caravan",
+    speaker: "Royal Heir",
+    text: "The Stables are grand. Should we train warhorses or pack mules?",
+    options: [
+      {
+        text: "Warhorses",
+        callback: () => finishVisorMoment("Stable Rafters", "Military", 0, 10, "Our knights are now the pride of Euclid. We are ready to strike back.", { defense: 35, plague: -5 })
+      },
+      {
+        text: "Pack Mules",
+        callback: () => finishVisorMoment("Stable Rafters", "Trade", 120, 10, "The roads are busy with merchants. Prosperity is within our grasp.", { food: 15, plague: -10 })
+      }
+    ]
+  },
+  7: { // Vault
+    name: "Reserve Management",
+    speaker: "Royal Heir",
+    text: "The Vault is secure. Should we store grain for the winter or gold for the guards?",
+    options: [
+      {
+        text: "Store Grain",
+        callback: () => finishVisorMoment("Palace Vault", "Grain", 0, 20, "Our silos are full. No drought will break our spirit.", { food: 50, plague: 10 })
+      },
+      {
+        text: "Store Gold",
+        callback: () => finishVisorMoment("Palace Vault", "Gold", 300, 0, "The treasury overflows, allowing for grander future projects.", { defense: 20, food: -10 })
+      }
+    ]
+  },
+  8: { // Portcullis
+    name: "Border Policy",
+    speaker: "Royal Heir",
+    text: "The Portcullis is strong. Should we keep it closed to outsiders or open it to refugees?",
+    options: [
+      {
+        text: "Close the Gates",
+        callback: () => finishVisorMoment("Grand Portcullis", "Isolation", 0, 0, "We are safe from the troubles of the world, but we grow alone.", { defense: 25, plague: 20, food: 10 })
+      },
+      {
+        text: "Open to Refugees",
+        callback: () => finishVisorMoment("Grand Portcullis", "Open", 0, 100, "Thousands seek safety within our walls. The village becomes a city!", { food: -40, plague: -30, defense: -20 })
+      }
+    ]
+  },
+  9: { // Bell Tower
+    name: "Spiritual Guidance",
+    speaker: "Royal Heir",
+    text: "The Bell Tower rings out. Should the bells signal prayer or alert the militia?",
+    options: [
+      {
+        text: "Signal Prayer",
+        callback: () => finishVisorMoment("Bell Tower", "Faith", 0, 30, "A sense of peace settles over Euclid. The people walk with purpose.", { plague: 25, food: 5 })
+      },
+      {
+        text: "Signal Militia",
+        callback: () => finishVisorMoment("Bell Tower", "Alert", 0, 5, "Every villager knows their post. We will never be caught off guard.", { defense: 30, food: -5 })
+      }
+    ]
+  },
+  10: { // Vineyard
+    name: "The Final Toast",
+    speaker: "Royal Heir",
+    text: "The Vineyard is lush. Is this wine for celebration or for medicinal export?",
+    options: [
+      {
+        text: "Grand Celebration",
+        callback: () => finishVisorMoment("Royal Vineyard", "Fest", 500, 50, "The finest vintage is shared with all. Long live the Kingdom!", { food: 20, plague: 10 })
+      },
+      {
+        text: "Medicinal Export",
+        callback: () => finishVisorMoment("Royal Vineyard", "Cure", 200, 20, "Our healers study the vine, creating salves that reach distant lands.", { plague: 40, food: 5 })
+      }
+    ]
+  }
+};
+
+function triggerVisorMoment(levelId) {
+  const scenario = VISOR_SCENARIOS[levelId];
+  const level = levels.find(l => l.id === levelId);
+  if (!scenario || !level) {
+    closeVictoryModal();
+    return;
+  }
+
+  // Check if already made choice for this level by NAME
+  if (gameState.focusChoices[level.name]) {
+    proceedLevelTransition();
+    return;
+  }
+
+  // Find the character name for the speaker
+  const charName = gameState.character === 'male' ? 'The Prince' : 'The Princess';
+  showNarrative(charName, scenario.text, scenario.options);
+}
+
+function finishVisorMoment(location, choice, spGain, popGain, resultText, metricChanges = null) {
+  gameState.focusChoices[location] = choice;
+  gameState.sovereignPoints += spGain;
+
+  // Set Target Population instead of instant change
+  gameState.targetPopulation = Math.max(0, Math.min(gameState.maxPopulation, gameState.targetPopulation + popGain));
+
+  // Apply Metric Changes if any
+  if (metricChanges) {
+    Object.keys(metricChanges).forEach(key => {
+      gameState.healthMetrics[key] = Math.max(0, Math.min(100, gameState.healthMetrics[key] + metricChanges[key]));
+    });
+  }
+
+  saveGameState();
+  renderKingdomHUD();
+
+  // Trigger orbs to reflect the change
+  if (popGain !== 0) {
+    spawnOrbs(popGain, popGain > 0 ? 'citizen' : 'death');
+  }
+
+  showNarrative("Grand Vizier", resultText);
+
+  // Override the close button for this specific narrative to close everything
+  const closeBtn = document.getElementById("close-narrative-btn");
+  closeBtn.onclick = () => {
+    closeNarrative();
+    // CRITICAL: Always proceed with level transition after the visor result
+    proceedLevelTransition();
+
+    // Re-bind to default for next time
+    closeBtn.onclick = () => {
+      closeNarrative();
+      isDialogueActive = false;
+    };
+    isDialogueActive = false;
+  };
+}
+
+/**
+ * Orb Animation Logic
+ */
+function spawnOrbs(count, type) {
+  if (type === 'death' && gameState.villagePopulation <= 0) return;
+
+  const container = document.getElementById("orb-container");
+  const mapHub = document.getElementById("map-hub");
+
+  // Only spawn if kingdom map is visible
+  if (!container || !mapHub || mapHub.style.display === 'none') return;
+  container.style.display = "block";
+
+  const rawCount = Math.abs(count);
+  if (rawCount === 0) return;
+
+  const emojiMap = {
+    'citizen': '👩‍🌾',
+    'death': '💀',
+    'defense': '🛡️',
+    'food': '🍎',
+    'plague': '🦠',
+    'sovereign': '💰'
+  };
+
+  const orbTypeEmoji = emojiMap[type] || '✨';
+  // 1:1 Mapping: Spawn exactly the number of orbs requested
+  const absCount = Math.max(1, rawCount);
+
+  for (let i = 0; i < absCount; i++) {
+    setTimeout(() => {
+      const orb = document.createElement("div");
+      // Use premium golden-orb class
+      orb.className = "orb golden-orb pulse";
+
+      const icon = document.createElement("div");
+      icon.className = "orb-icon";
+      icon.textContent = orbTypeEmoji;
+      orb.appendChild(icon);
+
+      // Center is the village heart - use fixed coordinates relative to screen center
+      const centerX = window.innerWidth / 2;
+      const centerY = (window.innerHeight / 2) - 50; // Slightly above exact center for visual balance
+
+      let startX, startY, endX, endY;
+
+      // Logic: Citizens/Benefits fly IN. Death/Plague fly OUT.
+      const isPositive = count > 0;
+
+      if (isPositive) {
+        // IN: Edges -> Center
+        const isFull = gameState.villagePopulation >= gameState.maxPopulation;
+
+        const side = Math.floor(Math.random() * 4);
+        if (side === 0) { startX = -100; startY = Math.random() * window.innerHeight; }
+        else if (side === 1) { startX = window.innerWidth + 100; startY = Math.random() * window.innerHeight; }
+        else if (side === 2) { startX = Math.random() * window.innerWidth; startY = -100; }
+        else { startX = Math.random() * window.innerWidth; startY = window.innerHeight + 100; }
+
+        endX = centerX + (Math.random() * 200 - 100);
+        endY = centerY + (Math.random() * 200 - 100);
+
+        if (isFull && type === 'citizen') {
+          orb.classList.add('animate-bounce');
+        } else {
+          orb.classList.add('animate-in');
+        }
+      } else {
+        // OUT: Center -> Edges
+        startX = centerX + (Math.random() * 120 - 60);
+        startY = centerY + (Math.random() * 120 - 60);
+
+        const side = Math.floor(Math.random() * 4);
+        if (side === 0) { endX = -100; endY = Math.random() * window.innerHeight; }
+        else if (side === 1) { endX = window.innerWidth + 100; endY = Math.random() * window.innerHeight; }
+        else if (side === 2) { endX = Math.random() * window.innerWidth; endY = -100; }
+        else { endX = Math.random() * window.innerWidth; endY = window.innerHeight + 100; }
+
+        orb.classList.add('animate-out');
+      }
+
+      // Ensure orb is VISIBLY above background
+      orb.style.zIndex = "100000";
+
+      orb.style.setProperty('--startX', `${startX}px`);
+      orb.style.setProperty('--startY', `${startY}px`);
+      orb.style.setProperty('--endX', `${endX}px`);
+      orb.style.setProperty('--endY', `${endY}px`);
+
+      container.appendChild(orb);
+
+      // When orb "arrives" or finishes (3s), update population and remove
+      setTimeout(() => {
+        const valueChange = count / absCount;
+        const isFull = gameState.villagePopulation >= gameState.maxPopulation;
+
+        // Don't increase population if it's already full and it's a positive citizen orb
+        if (!(isFull && isPositive && type === 'citizen')) {
+          gameState.villagePopulation = Math.max(0, Math.min(gameState.maxPopulation, gameState.villagePopulation + valueChange));
+        }
+
+        renderKingdomHUD();
+        saveGameState();
+        orb.remove();
+      }, 3000);
+    }, i * 350);
+  }
+}
+
+/**
+ * Game Heartbeat for Population Drift
+ */
+setInterval(() => {
+  if (!gameState) return;
+
+  const metrics = gameState.healthMetrics || { plague: 50, defense: 50, food: 50 };
+  let drift = 0;
+
+  // Health-Based Drift: Growth is faster when health is high
+  const averageHealth = (metrics.plague + metrics.defense + metrics.food) / 3;
+
+  if (averageHealth > 80) {
+    drift += 2.0; // Prospering
+  } else if (averageHealth > 60) {
+    drift += 1.0; // OK
+  } else if (averageHealth < 40) {
+    drift -= 1.5; // Suffering
+  }
+
+  // Drift towards target (from events)
+  if (Math.abs(gameState.targetPopulation - gameState.villagePopulation) > 0.1) {
+    drift += (gameState.targetPopulation - gameState.villagePopulation) * 0.2;
+  }
+
+  if (drift !== 0) {
+    // Round to nearest integer for orb spawning
+    const roundedDrift = Math.round(drift);
+    if (roundedDrift !== 0) {
+      spawnOrbs(roundedDrift, roundedDrift > 0 ? 'citizen' : 'death');
+    }
+  }
+}, 6000); // Pulse every 6 seconds (Increased frequency for "Steady Flow")
+
+function updateEnemyOrbs() {
+  const container = document.getElementById("orb-container");
+  if (!container) return;
+
+  // Remove existing enemy orbs if condition no longer met
+  const isThreatened = gameState.healthMetrics.defense < 30 || gameState.eventsTriggered.some(e => ['invasion'].includes(e) && !gameState.currentLevel > levels.find(l => l.id === 5).id); // Rough check for active invasion
+
+  const existingEnemies = container.querySelectorAll(".enemy");
+  if (!isThreatened) {
+    existingEnemies.forEach(e => {
+      e.classList.remove('animate-in');
+      e.classList.add('animate-out');
+      setTimeout(() => e.remove(), 3000);
+    });
+    return;
+  }
+
+  // Spawn enemy orbs on sides if not already there
+  if (existingEnemies.length < 10) {
+    for (let i = 0; i < 5; i++) {
+      const orb = document.createElement("div");
+      orb.className = "orb enemy pulse";
+      const icon = document.createElement("i");
+      icon.className = "bi bi-shield-slash-fill orb-icon";
+      orb.appendChild(icon);
+
+      const x = Math.random() > 0.5 ? 50 : window.innerWidth - 70;
+      const y = Math.random() * window.innerHeight;
+
+      orb.style.left = `${x}px`;
+      orb.style.top = `${y}px`;
+      container.appendChild(orb);
+    }
+  }
+}
+
+function triggerCatastrophicEvent(type) {
+  const modal = document.getElementById("catastrophic-modal");
+  const img = document.getElementById("cat-event-img");
+  const titleElem = document.getElementById("cat-event-title");
+  const descElem = document.getElementById("cat-event-desc");
+  const impactElem = document.getElementById("cat-event-impact");
+
+  if (!modal) return;
+
+  img.src = gameAssets.images.scenarios[type] || "";
+
+  let title = "";
+  let description = "";
+  let popLoss = 0;
+
+  if (type === 'invasion') {
+    title = "THE CRIMSON LEGION APPROACHES!";
+    const hasWallStrength = gameState.focusChoices['Sentry Wall'] === 'Strength';
+    const hasWarhorses = gameState.focusChoices['Stable Rafters'] === 'Military';
+
+    if (hasWallStrength && hasWarhorses) {
+      description = "The Crimson Legion is pulverized! Your fortified walls hold firm while your knights strike from the flank.";
+      popLoss = 0;
+    } else if (hasWallStrength) {
+      description = "The army breaks against your fortified walls. The kingdom is safe, though the outskirts are singed.";
+      popLoss = 5;
+    } else {
+      description = "Without reinforced defenses, the Legion breaches the village. A dark day for Euclid.";
+      popLoss = 60;
+    }
+  } else if (type === 'famine') {
+    title = "THE GREAT DROUGHT";
+    const hasGrain = gameState.focusChoices['Palace Vault'] === 'Grain';
+    const hasLocalFarms = gameState.focusChoices['Market Stalls'] === 'Farming';
+
+    if (hasGrain || hasLocalFarms) {
+      description = "The fields turn to dust, but your reserves keep the people fed. Euclid endures.";
+      popLoss = 10;
+    } else {
+      description = "Starvation haunts the streets. Without reserves, the population withers.";
+      popLoss = 50;
+    }
+  } else if (type === 'storm') {
+    title = "THE GULF TEMPEST";
+    const hasBoats = gameState.focusChoices['Fishing Docks'] === 'Food';
+    const hasBridgeFree = gameState.focusChoices['Moat Bridge'] === 'Free';
+
+    if (hasBoats && hasBridgeFree) {
+      description = "The storm rages, but your sturdy fleet and clear paths minimize the devastation.";
+      popLoss = 15;
+    } else {
+      description = "Massive waves tear through the docks and flood the lowlands. Much is lost.";
+      popLoss = 45;
+    }
+  } else if (type === 'plague') {
+    title = "THE MIST OF DECAY";
+    const hasRefugees = gameState.focusChoices['Grand Portcullis'] === 'Open';
+    const hasMedicines = gameState.focusChoices['Royal Vineyard'] === 'Cure';
+
+    if (hasMedicines) {
+      description = "The Mist arrives, but your medicinal wine provides the cure. The plague is short-lived.";
+      popLoss = 5;
+    } else if (hasRefugees) {
+      description = "Overcrowding turns the Mist into a catastrophe. The sickness spreads like wildfire.";
+      popLoss = 60;
+    } else {
+      description = "The sickness takes many, but isolation prevents a total collapse.";
+      popLoss = 25;
+    }
+  }
+
+  // Update target population for drift and UI
+  gameState.targetPopulation = Math.max(0, gameState.targetPopulation - popLoss);
+
+  titleElem.textContent = title;
+  descElem.textContent = description;
+  impactElem.textContent = popLoss === 0 ? "No Casualties" : `-${popLoss} Population`;
+
+  modal.classList.add("active");
+  saveGameState();
+}
+
+window.closeCatastrophicEvent = function () {
+  const modal = document.getElementById("catastrophic-modal");
+  if (modal) modal.classList.remove("active");
+
+  // Transition logic after event modal closes
+  renderKingdomHUD();
+  proceedLevelTransition();
+}
+
+window.buyUpgrade = function (levelId) {
+  if (levelId === 'hero') {
+    if (gameState.hasMightyHero) {
+      alert("The Mighty Hero is already patrolling your borders!");
+      return;
+    }
+    if (gameState.sovereignPoints >= 500) {
+      gameState.sovereignPoints -= 500;
+      gameState.hasMightyHero = true;
+      saveGameState();
+      renderKingdomHUD();
+      renderMap();
+
+      // Show specialized hero join narrative
+      const content = `
+        <div style="text-align: center;">
+          <img src="Images/MightyHero.png" style="width: 100%; max-height: 300px; object-fit: cover; border: 3px solid var(--medieval-gold); border-radius: 8px; margin-bottom: 1rem;">
+          <p>A champion of Logic has arrived! Their presence bolsters our defenses by 5%, ensuring even Level 5 threats face a formidable challenge.</p>
+        </div>
+      `;
+      showNarrative("Mighty Hero", content);
+    } else {
+      showNotification("You need 500 Sovereign Points to hire a champion!");
+    }
+    return;
+  }
+
+  if (gameState.sovereignPoints >= 100) {
+    gameState.sovereignPoints -= 100;
+    if (!gameState.upgrades) gameState.upgrades = {};
+    gameState.upgrades[levelId] = (gameState.upgrades[levelId] || 0) + 1;
+    saveGameState();
+    renderMap();
+    showNotification("Infrastructure Upgraded! The Kingdom thrives.");
+  } else {
+    showNotification("Not enough Sovereign Points! Prove more theorems to earn them.");
+  }
+};
+
+function showVictoryModal(level) {
+  const modal = document.getElementById("victory-modal");
+  const beforeImg = document.getElementById("victory-before-img");
+  const afterImg = document.getElementById("victory-after-img");
+  const hammer = document.getElementById("architect-hammer");
+  const congratsLabel = document.getElementById("congrats-label");
+  const huzzahTitle = document.querySelector(".huzzah-title");
+  const story = document.getElementById("victory-story");
+  const victoryBtns = document.getElementById("victory-buttons");
+  const content = modal.querySelector(".victory-modal-content");
+
+  // Safety check: Find asset with defensive id matching
+  const asset = gameAssets.images.levels.find(l => l.id == level.id);
+
+  if (!asset) {
+    console.error("Victory Modal Error: No asset found for level", level.id);
+  }
+
+  // Initial State: Reset visibility
+  if (beforeImg) {
+    beforeImg.src = asset ? asset.before : gameAssets.images.ruinedVillage;
+    beforeImg.style.opacity = "1";
+  }
+  if (afterImg) {
+    afterImg.src = asset ? asset.after : gameAssets.images.restoredVillage;
+    afterImg.style.opacity = "0";
+  }
+  if (congratsLabel) congratsLabel.style.display = "none";
+  if (huzzahTitle) huzzahTitle.style.display = "none";
+  if (story) {
+    story.textContent = level.narrative.victory;
+    story.style.display = "none";
+  }
+  if (victoryBtns) victoryBtns.style.display = "none";
+  if (hammer) hammer.style.opacity = "0";
+
+  if (modal) modal.classList.add("active");
+
+  // Cinematic Sequence
+  let hits = 0;
+  const totalHits = 3;
+
+  const hitSequence = setInterval(() => {
+    hits++;
+
+    // 1. Swing Hammer
+    if (hammer) {
+      hammer.classList.remove("swinging");
+      void hammer.offsetWidth; // Trigger reflow
+      hammer.classList.add("swinging");
+    }
+
+    // 2. Shake Frame on Impact
+    setTimeout(() => {
+      if (content) {
+        content.classList.remove("shake");
+        void content.offsetWidth;
+        content.classList.add("shake");
+      }
+    }, 200);
+
+    // 3. Final Hit
+    if (hits === totalHits) {
+      clearInterval(hitSequence);
+      setTimeout(() => {
+        // Reveal After Image
+        if (afterImg) afterImg.style.opacity = "1";
+        if (beforeImg) beforeImg.style.opacity = "0";
+
+        // Show Celebration
+        if (huzzahTitle) huzzahTitle.style.display = "block";
+        if (congratsLabel) congratsLabel.style.display = "block";
+        if (story) story.style.display = "block";
+        if (victoryBtns) victoryBtns.style.display = "grid"; // Show buttons container
+
+        AudioManager.playSFX('victory'); // Huzzah!
+        burstConfetti();
+      }, 300);
+    }
+  }, 800);
+}
+
+function burstConfetti() {
+  const container = document.getElementById("confetti-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const colors = ["#d4af37", "#f9f1d0", "#fff", "#00ffff", "#39ff14"];
+  const count = 50;
+
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece animate";
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.setProperty("--x", `${Math.random() * 100 - 50}px`);
+    piece.style.setProperty("--x2", `${Math.random() * 400 - 200}px`);
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.animationDelay = `${Math.random() * 0.5}s`;
+    container.appendChild(piece);
+  }
+}
+
+function handleGraduation() {
+  const villageBg = document.getElementById("village-bg");
+  villageBg.src = gameAssets.images.restoredVillage;
+
+  setTimeout(() => {
+    const text = `
+            Grand Vizier: "Your Highness... look upon Isocele. It is no longer a ruin of the past, but a monument to the future."
+            <br><br>
+            Chancellor: "By the Laws of SSS and the power of the Reflexive Property, you have bound this kingdom together. The Chaos Rot has been banished."
+            <br><br>
+            <div style="font-family: 'Orbitron'; color: var(--medieval-gold); text-align: center; border-top: 1px solid gold; padding-top: 1rem;">
+                THE CORONATION OF LOGIC
+                <br>
+                <small>You have graduated from Architect to Sovereign. The Kingdom of Euclid stands firm, balanced by Reason and proven by Truth.</small>
+            </div>
+        `;
+    showNarrative("The High Council", text);
+
+    // Final UI Cleanup
+    gameState.graduated = true;
+    saveGameState();
+  }, 1000);
+}
+
+function renderAnswerBank(bank) {
+  const bankEl = document.getElementById("bank-items");
+  if (!bankEl) return;
+  bankEl.innerHTML = "";
+
+  const allItems = [
+    ...bank.statements.map((s) => ({ text: s, type: "statement" })),
+    ...bank.reasons.map((r) => ({ text: r, type: "reason" })),
+  ];
+
+  allItems.sort(() => Math.random() - 0.5);
+
+  bankEl.innerHTML = `
+    <div class="bank-scroll-container">
+      <div class="bank-title-medieval">Scroll of Truths</div>
+      <div class="bank-list">
+        ${allItems.map(item => `
+          <div class="bank-item-static">
+            <span class="bank-item-type">[${item.type.toUpperCase()}]</span>
+            <span class="bank-item-text">${item.text}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+let draggedItem = null;
+
+// Global scope expose
+window.initGame = initGame;
+
+document.addEventListener("DOMContentLoaded", initGame);
+
+window.closeVictoryModal = function () {
+  const modal = document.getElementById("victory-modal");
+  if (modal) modal.classList.remove("active");
+
+  const completedLevelId = gameState.activeLevel ? gameState.activeLevel.id : (gameState.currentLevel + 1);
+
+  // Check for Visor Moment (CYOA) before proceeding to map/event
+  if (VISOR_SCENARIOS[completedLevelId]) {
+    const level = levels.find(l => l.id === completedLevelId);
+    if (level && !gameState.focusChoices[level.name]) {
+      triggerVisorMoment(completedLevelId);
+      return;
+    }
+  }
+
+  proceedLevelTransition();
+};
+
+function proceedLevelTransition() {
+  const currentLevelId = gameState.currentLevel + 1;
+  const completedLevel = levels.find(l => l.id === currentLevelId);
+
+  // 1. Advance Time based on Repair Time
+  if (completedLevel && completedLevel.repairTime) {
+    advanceTime(completedLevel.repairTime);
+  }
+
+  // 2. Increase Max Population for restoration
+  gameState.maxPopulation = 100 + (gameState.currentLevel * 50);
+
+  // 3. Region Unlock Logic (Moved from buyUpgrade)
+  if (gameState.currentLevel === 10 && !gameState.unlockedRegions.includes("The Rhombic Sands")) {
+    gameState.unlockedRegions.push("The Rhombic Sands");
+    showNotification("The Rhombic Sands have been revealed! A new region is accessible.", "Region Unlocked");
+  } else if (gameState.currentLevel === 15 && !gameState.unlockedRegions.includes("The Gaelic Grids")) {
+    gameState.unlockedRegions.push("The Gaelic Grids");
+    showNotification("The Gaelic Grids, the land of ancient Ireland, is now open to your wisdom.", "Region Unlocked");
+  }
+
+  // 4. Check for Catastrophic Event Milestones
+  const eventMilestones = {
+    2: 'storm',
+    5: 'invasion',
+    8: 'famine',
+    10: 'plague'
+  };
+
+  if (eventMilestones[currentLevelId] && !gameState.eventsTriggered.includes(eventMilestones[currentLevelId])) {
+    const eventType = eventMilestones[currentLevelId];
+    gameState.eventsTriggered.push(eventType);
+
+    const catEvent = {
+      id: `catastrophe_${eventType}`,
+      name: eventType.charAt(0).toUpperCase() + eventType.slice(1) + " Approaching",
+      type: 'threat',
+      level: 3,
+      countdown: 2,
+      duration: 4,
+      flavor: `Scouts report an incoming ${eventType}! We must prepare our defenses.`
+    };
+    gameState.incomingEvents.push(catEvent);
+    showNotification(`URGENT: Scouts report a ${eventType} approaching the kingdom! Check the Event Board.`, "Scout Report");
+  }
+
+  // 5. Finish level transition
+  if (gameState.currentLevel === levels.length - 1) {
+    handleGraduation();
+    return;
+  }
+
+  // Unlock the next level
+  const nextLevelId = gameState.currentLevel + 2;
+  const nextLevel = levels.find(l => l.id === nextLevelId);
+  if (nextLevel && !gameState.unlockedLevels.includes(nextLevel.id)) {
+    gameState.unlockedLevels.push(nextLevel.id);
+  }
+
+  gameState.currentLevel++;
+  saveGameState();
+  renderMap();
+}
+
+// --- UI Toggles ---
+window.toggleAchievements = function () {
+  const panel = document.getElementById("achievements-panel");
+  const btn = document.getElementById("achievements-toggle");
+  if (panel) {
+    const isShowing = panel.classList.contains("show");
+
+    // Close other possible dropdowns if they existed
+    panel.classList.toggle("show");
+    btn.classList.toggle("active");
+  }
+};
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+  const dropdown = document.getElementById("achievements-dropdown");
+  const panel = document.getElementById("achievements-panel");
+  const btn = document.getElementById("achievements-toggle");
+  if (dropdown && !dropdown.contains(e.target)) {
+    if (panel) panel.classList.remove("show");
+    if (btn) btn.classList.remove("active");
+  }
+});
+
+// Intercept dashboard/map transitions to handle floating home button & HUD updates
+// Consolidation: We only need ONE global renderMap override for external logic
+const originalRenderMapInternal = renderMap;
+renderMap = function () {
+  if (typeof originalRenderMapInternal === 'function') {
+    originalRenderMapInternal();
+  }
+
+  // 1. Manage Navigation Buttons
+  const homeBtn = document.getElementById("nav-btn-home");
+  if (homeBtn) homeBtn.style.display = "none";
+
+  // 2. Inject repair times and update boards
+  const nodes = document.querySelectorAll(".map-node");
+  levels.forEach((level, idx) => {
+    const node = nodes[idx];
+    if (node && !(gameState.currentLevel > idx)) {
+      const timeLabel = document.createElement("div");
+      timeLabel.className = "node-repair-time";
+      timeLabel.innerHTML = `<i class="bi bi-clock-history"></i> ${level.repairTime}`;
+      node.appendChild(timeLabel);
+    }
+  });
+
+  renderEventBoard();
+  renderKingdomHUD();
+};
+
+// Intercept quest start to show home button (handled by startLevel in this case)
+const originalStartQuest = window.startQuest; // Assuming startQuest triggers the level
+if (typeof window.startQuest === 'undefined') {
+  // If startQuest isn't global, we'll need to find where it is or how it's called
+}
+// --- Event & Time System ---
+
+const EVENT_LIBRARY = {
+  threats: [
+    { id: 'famine_l1', name: "Local Famine", level: 1, type: 'threat', flavor: "Crops wither in the fields." },
+    { id: 'marauders_l2', name: "Forest Marauders", level: 2, type: 'threat', flavor: "Bandits harass our borders." },
+    { id: 'plague_l3', name: "Mist Fever", level: 3, type: 'threat', flavor: "A sickly green fog settles." },
+    { id: 'invasion_l4', name: "Crimson Legion", level: 4, type: 'threat', flavor: "The enemy army approaches." },
+    { id: 'chaos_l5', name: "Reality Rift", level: 5, type: 'threat', flavor: "Logic itself starts to warp." }
+  ],
+  prosperity: [
+    { id: 'trade_fair', name: "Grand Trade Fair", type: 'prosperity', flavor: "Merchants bring exotic goods." },
+    { id: 'harvest', name: "Bountiful Harvest", type: 'prosperity', flavor: "The silos are overflowing." },
+    { id: 'pilgrimage', name: "Holy Pilgrimage", type: 'prosperity', flavor: "Seekers of truth visit." }
+  ]
+};
+
+function parseTimeToDays(str) {
+  if (!str) return 0;
+  const num = parseInt(str);
+  if (str.includes("Day")) return num;
+  if (str.includes("Week")) return num * 7;
+  if (str.includes("Month")) return num * 30; // Approximation
+  return 0;
+}
+
+window.advanceTime = function (daysStr) {
+  const days = parseTimeToDays(daysStr);
+  gameState.gameTime += days;
+
+  // Update Incoming Events
+  gameState.incomingEvents.forEach(ev => {
+    ev.countdown -= days;
+    if (ev.countdown <= 0) {
+      ev.countdown = 0;
+      gameState.activeEvents.push(ev);
+    }
+  });
+
+  // Remove events that have moved to active
+  gameState.incomingEvents = gameState.incomingEvents.filter(ev => ev.countdown > 0);
+
+  // Process Active Events & Impacts
+  processEventImpacts();
+
+  // Potentially schedule new events if none are incoming
+  if (gameState.incomingEvents.length === 0) {
+    scheduleRandomEvent();
+  }
+
+  saveGameState();
+  renderEventBoard();
+  renderKingdomHUD();
+};
+
+function scheduleRandomEvent() {
+  const isThreat = Math.random() < 0.6;
+  const pool = isThreat ? EVENT_LIBRARY.threats : EVENT_LIBRARY.prosperity;
+  const base = pool[Math.floor(Math.random() * pool.length)];
+
+  const event = {
+    ...base,
+    countdown: 5 + Math.floor(Math.random() * 15), // 5-20 days
+    duration: 3 + Math.floor(Math.random() * 5)    // 3-8 days
+  };
+
+  gameState.incomingEvents.push(event);
+}
+
+function processEventImpacts() {
+  const defense = updateDefenseScore();
+
+  gameState.activeEvents.forEach(ev => {
+    if (ev.type === 'threat') {
+      const penetrationThreshold = ev.level * 20;
+      if (defense < penetrationThreshold) {
+        // Threat penetrates!
+        const popLoss = ev.level * 10;
+        gameState.targetPopulation = Math.max(0, gameState.targetPopulation - popLoss);
+        spawnOrbs(-5, 'death');
+        console.log(`Threat ${ev.name} penetrated defense (${defense}% < ${penetrationThreshold}%)!`);
+      }
+
+      // Threats can destroy prosperity
+      if (Math.random() < 0.3) {
+        gameState.activeEvents = gameState.activeEvents.filter(e => e.type !== 'prosperity');
+      }
+    } else {
+      // Prosperity buffs
+      gameState.sovereignPoints += 2;
+      gameState.targetPopulation = Math.min(gameState.maxPopulation, gameState.targetPopulation + 2);
+    }
+
+    ev.duration -= 1; // Simplification: events last a bit
+  });
+
+  gameState.activeEvents = gameState.activeEvents.filter(ev => ev.duration > 0);
+}
+
+function updateDefenseScore() {
+  let score = gameState.healthMetrics.defense;
+  if (gameState.hasMightyHero) score += 5;
+
+  // Cap at 100
+  gameState.defenseScore = Math.min(100, score);
+  return gameState.defenseScore;
+}
+
+function renderEventBoard() {
+  const activeList = document.getElementById("active-events-list");
+  const incomingList = document.getElementById("incoming-events-list");
+  if (!activeList || !incomingList) return;
+
+  activeList.innerHTML = gameState.activeEvents.length ? "" : "<div class='event-empty'>Peaceful days.</div>";
+  incomingList.innerHTML = gameState.incomingEvents.length ? "" : "<div class='event-empty'>No rumors.</div>";
+
+  gameState.activeEvents.forEach(ev => {
+    const div = document.createElement("div");
+    div.className = `event-item ${ev.type}`;
+    div.innerHTML = `
+      <strong>${ev.name}</strong>
+      ${ev.level ? `<span class='event-strength'>Strength: ${ev.level}</span>` : ''}
+    `;
+    activeList.appendChild(div);
+  });
+
+  gameState.incomingEvents.forEach(ev => {
+    const div = document.createElement("div");
+    div.className = `event-item ${ev.type}`;
+    div.innerHTML = `
+      <strong>${ev.name}</strong>
+      <span class='event-countdown'>Arriving in ${ev.countdown} days</span>
+    `;
+    incomingList.appendChild(div);
+  });
+}
+
+
+// Helper to format gameTime into Month/Day
+function formatKingdomAge(totalDays) {
+  const months = Math.floor(totalDays / 30);
+  const days = totalDays % 30;
+  if (months > 0) return `Month ${months + 1}, Day ${days}`;
+  return `Day ${days + 1}`;
+}
+
+const originalRenderKingdomHUD = renderKingdomHUD;
+renderKingdomHUD = function () {
+  originalRenderKingdomHUD();
+
+  const defEl = document.getElementById("def-count");
+  const defFill = document.getElementById("def-bar-fill");
+  const defScore = updateDefenseScore();
+
+  if (defEl) defEl.textContent = defScore;
+  if (defFill) defFill.style.width = `${defScore}%`;
+
+  // Update population text if target moved
+  const popCount = document.getElementById("pop-count");
+  if (popCount) popCount.textContent = Math.floor(gameState.villagePopulation);
+
+  // Update Kingdom Age
+  const timeVal = document.getElementById("game-time-val");
+  if (timeVal) {
+    timeVal.textContent = formatKingdomAge(gameState.gameTime || 0);
+  }
+};
+
+// Hook into victory to advance time
+const originalHandleVictory = handleVictory;
+handleVictory = function () {
+  const level = gameState.activeLevel;
+  if (level && level.repairTime) {
+    advanceTime(level.repairTime);
+  }
+  originalHandleVictory();
+};

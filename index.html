@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Chronicles of Euclid - Geometry Proof Quest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="title-screen" class="title-screen">
+        <img src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid" class="title-image">
+        <div class="title-content">
+            <h1 class="title-text">THE CHRONICLES OF EUCLID</h1>
+            <p class="title-tagline">Restore Logic. Rebuild the Kingdom.</p>
+            <div class="title-buttons">
+                <button class="btn-primary-medieval start-btn" onclick="startStory()">Start Restoration</button>
+                <button class="btn-primary-medieval btn-small skip-btn" onclick="skipIntro()">Skip Intro</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="world-brightness-overlay" class="world-brightness-overlay"></div>
+    <div id="cinematic-overlay" class="cinematic-overlay" style="display: none;">
+        <div class="cinematic-content" id="cinematic-content">
+            <!-- Paragraphs will be injected here -->
+        </div>
+    </div>
+    <div class="bg-grid"></div>
+
+    <nav class="navbar-custom">
+        <div class="header-left">
+            <a href="#" class="brand">
+                <i class="bi bi-shield-shaded"></i>
+                <span class="brand-text">THE CHRONICLES OF EUCLID</span>
+            </a>
+        </div>
+        <div class="stats-bar">
+            <div id="region-selector" class="region-selector-header"></div>
+            <div id="achievements-dropdown" class="achievements-dropdown-container">
+                <button id="achievements-toggle" class="btn-trophy" onclick="toggleAchievements()"
+                    title="View Achievements">
+                    <i class="bi bi-trophy-fill"></i>
+                </button>
+                <div id="achievements-panel" class="achievements-dropdown-content">
+                    <!-- Achievements Injected Here -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="char-selection-screen" class="char-selection-overlay" style="display: none;">
+        <div class="selection-container">
+            <h1 class="selection-title">CHOOSE YOUR HEIR</h1>
+            <div class="char-cards">
+                <div class="char-card" onclick="selectCharacter('male')">
+                    <img src="Images/MaleCharacter.png" alt="The Prince">
+                    <div class="char-info">
+                        <h3>THE PRINCE</h3>
+                        <p>Architect of Reason</p>
+                    </div>
+                </div>
+                <div class="char-card" onclick="selectCharacter('female')">
+                    <img src="Images/FemaleCharacter.png" alt="The Princess">
+                    <div class="char-info">
+                        <h3>THE PRINCESS</h3>
+                        <p>Sovereign of Truth</p>
+                    </div>
+                </div>
+                <!-- New Characters -->
+                <div class="char-card" onclick="selectCharacter('sage')">
+                    <img src="file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_sage_of_logic_1768112817791.png"
+                        alt="The Sage">
+                    <div class="char-info">
+                        <h3>THE SAGE</h3>
+                        <p>Master of Geometry</p>
+                    </div>
+                </div>
+                <div class="char-card" onclick="selectCharacter('architectFemale')">
+                    <img src="file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_architect_of_the_grids_female_1768112830831.png"
+                        alt="The Architect">
+                    <div class="char-info">
+                        <h3>THE ARCHITECT</h3>
+                        <p>Builder of the Grids</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="map-hub" class="map-hub-container" style="display: none;">
+        <h2 class="medieval-title text-center mt-4 map-title-contrast" style="z-index: 1000; position: relative;">
+            Kingdom of Euclid</h2>
+        <div id="event-board" class="event-board">
+            <h3 class="event-board-title"><i class="bi bi-megaphone-fill"></i> Kingdom Events</h3>
+            <div class="event-sections">
+                <div class="event-section">
+                    <h4>Active</h4>
+                    <div id="active-events-list"></div>
+                </div>
+                <div class="event-section">
+                    <h4>Incoming</h4>
+                    <div id="incoming-events-list"></div>
+                </div>
+            </div>
+        </div>
+        <div id="village-map" class="map-nodes-container">
+            <!-- Map Nodes Injected Here -->
+        </div>
+
+        <div class="kingdom-hud">
+            <div class="hud-item time-hud" id="main-time-hud" title="Kingdom Age">
+                <i class="bi bi-clock-history"></i> Age: <span id="game-time-val">Day 1</span>
+            </div>
+            <div class="hud-item population-hud" id="main-pop-hud" title="Village Population"
+                onclick="showPopulationStatus()">
+                <i class="bi bi-people-fill"></i> Pop: <span id="pop-count">100</span>/<span id="max-pop">100</span>
+                <div class="pop-bar-container">
+                    <div id="pop-bar-fill" class="pop-bar-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="hud-item defense-hud" id="main-def-hud" title="Kingdom Defense">
+                <i class="bi bi-shield-fill-check"></i> Defense: <span id="def-count">50</span>%
+                <div class="def-bar-container">
+                    <div id="def-bar-fill" class="def-bar-fill" style="width: 50%;"></div>
+                </div>
+            </div>
+            <div class="hud-controls">
+                <button class="btn-hud" onclick="showTheorems()" title="Theorem Reference">
+                    <i class="bi bi-book"></i> Theorems
+                </button>
+                <button class="btn-hud" onclick="showTutorial()" title="Game Tutorial">
+                    <i class="bi bi-question-circle"></i> Tutorial
+                </button>
+                <button class="btn-hud" onclick="buyUpgrade('hero')" title="Hire Mighty Hero (500 SP)">
+                    <i class="bi bi-shield-shaded"></i> Hire Hero
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-wrapper" id="main-wrapper" style="display: none;">
+        <!-- Village View: Narrative & Restoration -->
+        <div class="village-view" id="village-view">
+            <img id="village-bg" src="Images/BeforeVillage.png" alt="Kingdom of Euclid" class="village-bg">
+            <img id="scenario-overlay" src="" class="scenario-overlay" style="display: none;">
+        </div>
+
+    </div>
+
+    <!-- Narrative Overlay (Moved outside main-wrapper) -->
+    <div class="narrative-overlay" id="narrative-overlay" style="display: none;">
+        <div class="dialogue-content">
+            <img id="character-portrait" src="Images/MaleCharacter.png" alt="Character" class="character-portrait">
+            <div class="speaker-name" id="speaker-name">Grand Vizier</div>
+            <div class="dialogue-box">
+                <div class="dialogue-text" id="dialogue-text">Welcome, Royal Heir. The Kingdom of Euclid has fallen
+                    into Logical Decay...</div>
+                <div id="choice-container" class="choice-container" style="display: none;">
+                    <!-- Choices will be injected here -->
+                </div>
+            </div>
+            <button id="close-narrative-btn" class="btn-primary-medieval mt-2" onclick="closeNarrative()">I
+                Understand</button>
+        </div>
+    </div>
+
+    <!-- Game Area: Proof Interface (Initially Hidden or for Active Level) -->
+    <div class="game-area" id="game-area" style="display: none;">
+        <div class="diagram-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="brand" style="font-size: 1.2rem; margin: 0;">Crown's Compass</h3>
+                <div id="level-title" style="color: var(--medieval-gold);">Moat Bridge</div>
+            </div>
+            <div id="given-info" class="logic-box">
+                <div id="logic-text" class="mb-2"></div>
+                <div class="logic-controls mt-2 d-flex gap-2">
+                    <button class="btn-logic-sm" onclick="undoMark()" title="Undo Last Mark"><i
+                            class="bi bi-arrow-counterclockwise"></i> Undo</button>
+                    <button class="btn-logic-sm" onclick="clearAllMarks()" title="Clear All Marks"><i
+                            class="bi bi-trash3"></i> Clear</button>
+                </div>
+            </div>
+            <div class="diagram-container">
+                <svg class="diagram-svg" id="diagram-svg" viewBox="0 0 320 270"></svg>
+            </div>
+        </div>
+
+        <div class="proof-section">
+            <div class="section-header">
+                <i class="bi bi-patch-check"></i> PROOF TABLE
+            </div>
+            <div class="proof-header mb-3">
+                <h4 style="color: var(--medieval-gold);">Logic Scroll</h4>
+                <button class="btn-hint" onclick="provideHint()">
+                    <i class="bi bi-lightbulb-fill"></i> Seek Wisdom
+                </button>
+            </div>
+
+            <div id="wisdom-overlay" class="wisdom-overlay" style="display: none;">
+                <div class="wisdom-content">
+                    <div class="wisdom-header">
+                        <i class="bi bi-chat-left-dots-fill"></i> SAGE'S WHISPER
+                        <button class="btn-close-wisdom" onclick="closeWisdom()">×</button>
+                    </div>
+                    <p id="wisdom-text">The ancient texts speak of shared foundations. Look closely at the segments
+                        both triangles share.</p>
+                </div>
+            </div>
+
+            <table class="proof-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Statement</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody id="proof-body">
+                    <!-- Proof rows will be injected here -->
+                </tbody>
+            </table>
+
+            <div class="answer-bank mt-4">
+                <div class="small text-secondary mb-2">Select Truths:</div>
+                <div class="gap-2" id="bank-items">
+                    <!-- Bank items will be injected here -->
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-auto">
+                <button class="btn-primary-medieval w-100" id="submit-proof">Invoke Truth</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Quest Briefing Modal -->
+    <div id="quest-briefing-modal" class="quest-modal-overlay">
+        <div class="quest-modal-content">
+            <div id="briefing-bg" class="briefing-bg-frame">
+                <img id="briefing-img" src="" alt="Ruined Structure">
+            </div>
+            <div class="quest-briefing-info">
+                <h2 id="briefing-title" class="medieval-title">Level Briefing</h2>
+                <div id="briefing-theorem" class="theorem-badge">SSS</div>
+                <p id="briefing-story" class="briefing-text"></p>
+                <button class="btn-primary-medieval w-100" onclick="beginActivation()">Begin Restoration</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="victory-modal" class="victory-modal-overlay">
+        <div id="confetti-container" class="confetti-container"></div>
+        <div class="victory-modal-content">
+            <h1 class="huzzah-title" style="display: none;">HUZZAH!</h1>
+            <div id="congrats-label" class="congrats-text" style="display: none;">Structure Restored</div>
+            <div class="victory-after-frame">
+                <img id="victory-before-img" class="victory-reveal-img" src="" alt="Ruined Structure">
+                <img id="victory-after-img" class="victory-reveal-img" src="" alt="Restored Structure"
+                    style="opacity: 0;">
+                <div id="architect-hammer" class="architect-hammer">
+                    <i class="bi bi-hammer"></i>
+                </div>
+            </div>
+            <p id="victory-story" class="victory-story" style="display: none;"></p>
+            <div id="victory-buttons" class="d-grid gap-2" style="display: none;">
+                <button class="btn-primary-medieval w-100" onclick="closeVictoryModal()">Return to Kingdom</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Population Status Modal -->
+    <div id="population-modal" class="modal-medieval">
+        <div class="modal-content-medieval population-modal-layout">
+            <button class="modal-close" onclick="closePopulationStatus()"><i class="bi bi-x"></i></button>
+            <div class="pop-modal-header">
+                <h2 class="medieval-title">Kingdom Vitals</h2>
+                <div class="pop-status-badge" id="pop-status-text">Prospering</div>
+            </div>
+            <div class="pop-modal-body">
+                <div class="pop-visual-side">
+                    <img id="pop-status-img" src="" alt="Village Status" class="pop-status-img">
+                    <p id="pop-thematic-desc" class="pop-thematic-desc"></p>
+                </div>
+                <div class="pop-metrics-side" id="pop-metrics-container">
+                    <!-- Metrics Injected Here -->
+                </div>
+            </div>
+            <div class="pop-modal-footer">
+                <button class="btn-primary-medieval" onclick="closePopulationStatus()">Back to Map</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catastrophic Event Modal (High Impact) -->
+    <div id="catastrophic-modal" class="modal-medieval catastrophic-overlay">
+        <div class="catastrophic-content">
+            <div class="cat-visual-bg">
+                <img id="cat-event-img" src="" alt="Catastrophe">
+            </div>
+            <div class="cat-info-panel">
+                <h1 id="cat-event-title" class="cat-title">EVENT NAME</h1>
+                <p id="cat-event-desc" class="cat-desc"></p>
+                <div class="cat-impact-report">
+                    <span class="impact-label">Kingdom Impact:</span>
+                    <span id="cat-event-impact" class="impact-value">-50 Population</span>
+                </div>
+                <button class="btn-primary-medieval mt-4" onclick="closeCatastrophicEvent()">The Kingdom
+                    Endures</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="orb-container" class="orb-container"></div>
+    <div id="floating-actions" class="floating-actions">
+        <button id="nav-btn-audio" class="btn-floating" onclick="AudioManager.toggleMute()" title="Toggle Audio">
+            <i class="bi bi-volume-up-fill"></i>
+        </button>
+        <button id="nav-btn-home" class="btn-floating" onclick="renderDashboard()" title="Return to Map"
+            style="display: none;">
+            <i class="bi bi-house-door-fill"></i>
+        </button>
+    </div>
+
+    <!-- Custom Notification Modal -->
+    <div id="notification-modal" class="modal-medieval notification-overlay">
+        <div class="modal-content-medieval notification-layout">
+            <div class="notification-messenger-frame">
+                <img id="notification-img"
+                    src="file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/royal_messenger_scout_1768114053963.png"
+                    alt="Messenger">
+            </div>
+            <div class="notification-body">
+                <h3 id="notification-title" class="medieval-subtitle">Royal Scroll</h3>
+                <p id="notification-message" class="notification-text"></p>
+                <button class="btn-primary-medieval w-100" onclick="closeNotification()">I Acknowledge</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>

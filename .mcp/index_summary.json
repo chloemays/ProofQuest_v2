@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-01-11T05:42:28.418367Z",
+  "duration_seconds": 2.71,
+  "root": "C:\\Users\\Chloe\\Desktop\\Projects\\Shared\\CleverLittleBee\\active_development\\ProofQuest",
+  "indexes": {
+    "semantic": {
+      "status": "ok",
+      "items": 792
+    },
+    "git": {
+      "status": "ok",
+      "commits": 0
+    },
+    "todos": {
+      "status": "ok",
+      "items": 13
+    },
+    "impact": {
+      "status": "ok"
+    },
+    "docs": {
+      "status": "ok",
+      "items": 567
+    },
+    "config": {
+      "status": "ok",
+      "vars": 0
+    },
+    "coverage": {
+      "status": "ok",
+      "files": 0
+    }
+  }
+}
