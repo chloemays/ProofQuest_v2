@@ -15,7 +15,7 @@ const gameAssets = {
       merchant: "Images/AdvisorMerchant.png",
       sentinel: "Images/AdvisorSentinel.png",
       sage: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_sage_of_logic_1768112817791.png",
-      architectFemale: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_architect_of_the_grids_female_1768112830831.png"
+      architectFemale: "file:///C:/Users/Chloe/.gemini/antigravity/brain/5d3668ac-34dd-46cf-a6ee-0fa4a454cdc8/architect_character_no_text_1768196844303.png"
     },
     centralCastle: {
       "Isocele": {
@@ -173,35 +173,35 @@ const levels = [
       victory: "Magnificent! The stones bind together as one. The path is open once more."
     },
     proofData: {
-      given: ["AD ≅ DC", "AB ≅ CB", "BD shared"],
+      given: ["AD ≅ CD", "AB ≅ CB", "BD shared"],
       prove: "△ABD ≅ △CBD",
       steps: [
-        { statement: "AD ≅ DC", reason: "Given" },
+        { statement: "AD ≅ CD", reason: "Given" },
         { statement: "AB ≅ CB", reason: "Given" },
         { statement: "BD ≅ BD", reason: "Reflexive Property" },
         { statement: "△ABD ≅ △CBD", reason: "SSS Congruence" }
       ],
       bank: {
-        statements: ["△ABD ≅ △CBD", "BD ≅ BD", "AD ≅ DC", "AB ≅ CB"],
+        statements: ["△ABD ≅ △CBD", "BD ≅ BD", "AD ≅ CD", "AB ≅ CB"],
         reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 160, y: 50, label: "A" },
-        { id: "B", x: 80, y: 220, label: "B" },
-        { id: "C", x: 240, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
+        { id: "A", x: 40, y: 230, label: "A" },
+        { id: "B", x: 160, y: 30, label: "B" },
+        { id: "C", x: 280, y: 230, label: "C" },
+        { id: "D", x: 160, y: 230, label: "D" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
+        { id: "CB", from: "C", to: "B" },
         { id: "AD", from: "A", to: "D" },
-        { id: "BD", from: "B", to: "D" },
-        { id: "DC", from: "D", to: "C" }
+        { id: "CD", from: "C", to: "D" },
+        { id: "BD", from: "B", to: "D" }
       ],
       givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }, { line: "AD", count: 2 }, { line: "DC", count: 2 }],
+        ticks: [{ line: "AB", count: 1 }, { line: "CB", count: 1 }, { line: "AD", count: 2 }, { line: "CD", count: 2 }],
         arcs: []
       }
     }
@@ -890,39 +890,38 @@ const levels = [
       victory: "The Sphinx is satisfied. The path to the Nile is open."
     },
     proofData: {
-      given: ["∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
-      prove: "△ABC ≅ △DEF",
+      given: ["∠A ≅ ∠E", "AC ≅ EC", "Line segments AE and BD intersect at C"],
+      prove: "△ABC ≅ △EDC",
       steps: [
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "AC ≅ DF", reason: "Given" },
-        { statement: "∠C ≅ ∠F", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
+        { statement: "∠A ≅ ∠E", reason: "Given" },
+        { statement: "AC ≅ EC", reason: "Given" },
+        { statement: "∠ACB ≅ ∠ECD", reason: "Vertical Angles Theorem" },
+        { statement: "△ABC ≅ △EDC", reason: "ASA Congruence" }
       ],
       bank: {
-        statements: ["△ABC ≅ △DEF", "∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
-        reasons: ["Given", "ASA Congruence", "SSS Congruence"]
+        statements: ["△ABC ≅ △EDC", "∠A ≅ ∠E", "AC ≅ EC", "∠ACB ≅ ∠ECD"],
+        reasons: ["Given", "ASA Congruence", "Vertical Angles Theorem", "Reflexive Property"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 100, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" },
-        { id: "F", x: 280, y: 100, label: "F" }
+        { id: "A", x: 40, y: 40, label: "A" },
+        { id: "B", x: 40, y: 140, label: "B" },
+        { id: "C", x: 140, y: 90, label: "C" },
+        { id: "D", x: 240, y: 140, label: "D" },
+        { id: "E", x: 240, y: 40, label: "E" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
         { id: "BC", from: "B", to: "C" },
         { id: "AC", from: "A", to: "C" },
+        { id: "CD", from: "C", to: "D" },
         { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+        { id: "CE", from: "C", to: "E" }
       ],
       givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "DF", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "C", rays: ["A", "B"], count: 2 }, { vertex: "F", rays: ["D", "E"], count: 2 }]
+        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "E", rays: ["D", "C"], count: 1 }]
       }
     }
   },
@@ -989,41 +988,41 @@ const levels = [
     theorem: "SAS",
     repairTime: "1 Week",
     narrative: {
-      intro: "We have arrived at the ancient seat of High Kings: Tara. The Arch-Druids are debating the sacred geometry of the Great Hall. We must help them.",
+      intro: "The Great Hall's dimensions must be verified. The Arch-Druids believe the sacred ratio is the key to Ireland's stability.",
       choices: [
         {
           speaker: "The Arch-Druid",
-          text: "Should the Great Hall be built on the Hill of Tara for authority or in the valley for community?",
+          text: "Should we align the foundations with the rising sun or the setting moon? The choice will affect the hall's spiritual resonance.",
           options: [
-            { text: "Hill of Tara", impact: { totalXP: 50, sovereign: 20 } },
-            { text: "Valley Community", impact: { population: 50, food: -10 } }
+            { text: "Rising Sun (Growth)", impact: { population: 30, sovereign: -20 } },
+            { text: "Setting Moon (Wisdom)", impact: { totalXP: 100, food: 10 } }
           ]
         }
       ],
-      victory: "The Hall of Tara is established. The wisdom of the ancients is preserved."
+      victory: "The sacred ratio is confirmed! Knowledge will flourish here once more."
     },
     proofData: {
-      given: ["AB ≅ DE", "∠A ≅ ∠D", "AC ≅ DF"],
+      given: ["AB ≅ DE", "∠B ≅ ∠E", "BC ≅ EF"],
       prove: "△ABC ≅ △DEF",
       steps: [
         { statement: "AB ≅ DE", reason: "Given" },
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "AC ≅ DF", reason: "Given" },
+        { statement: "∠B ≅ ∠E", reason: "Given" },
+        { statement: "BC ≅ EF", reason: "Given" },
         { statement: "△ABC ≅ △DEF", reason: "SAS Congruence" }
       ],
       bank: {
-        statements: ["△ABC ≅ △DEF", "AB ≅ DE", "∠A ≅ ∠D", "AC ≅ DF"],
-        reasons: ["Given", "SAS Congruence", "SSS Congruence"]
+        statements: ["△ABC ≅ △DEF", "BC ≅ EF", "∠B ≅ ∠E", "AB ≅ DE"],
+        reasons: ["Given", "SAS Congruence", "SSS Congruence", "ASA Congruence"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 100, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" },
-        { id: "F", x: 280, y: 100, label: "F" }
+        { id: "A", x: 40, y: 40, label: "A" },
+        { id: "B", x: 40, y: 140, label: "B" },
+        { id: "C", x: 140, y: 140, label: "C" },
+        { id: "D", x: 200, y: 40, label: "D" },
+        { id: "E", x: 200, y: 140, label: "E" },
+        { id: "F", x: 300, y: 140, label: "F" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
@@ -1034,55 +1033,53 @@ const levels = [
         { id: "DF", from: "D", to: "F" }
       ],
       givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "AC", count: 2 }, { line: "DF", count: 2 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }]
+        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "BC", count: 2 }, { line: "EF", count: 2 }],
+        arcs: [{ vertex: "B", rays: ["A", "C"], count: 1 }, { vertex: "E", rays: ["D", "F"], count: 1 }]
       }
     }
   },
   {
     id: 17,
     region: "The Gaelic Grids",
-    name: "Newgrange Pillars",
-    theorem: "SSS",
-    repairTime: "2 Weeks",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/parthenon_columns_before_1768112938945.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/parthenon_columns_after_1768112951852.png",
+    name: "Glastonbury Gate",
+    theorem: "ASA",
+    repairTime: "10 Days",
     narrative: {
-      intro: "Newgrange's entrance is missing its flanking sacred stones. Prove their congruence to ensure the alignment with the solstice sun remains true.",
+      intro: "The mystical gates are jammed. Two Druids disagree on the incantation needed to release the lock.",
       choices: [
         {
-          speaker: "The High Druid",
-          text: "Shall we use granite from the Wicklow Mountains or quartz from the Boyne Valley? Granite is sturdy, but quartz reflects the sun's glory.",
+          speaker: "Druid Oisin",
+          text: "We should use the melody of the wind to vibrate the lock open. It's gentle and won't harm the ancient stone.",
           options: [
-            { text: "Wicklow Granite", impact: { population: 15, sovereign: 20 } },
-            { text: "Boyne Quartz", impact: { sovereign: -40, defense: 10 } }
+            { text: "Wind Melody", impact: { food: 5, population: 15 } },
+            { text: "Earth Tremor", impact: { defense: 20, sovereign: -30 } }
           ]
         }
       ],
-      victory: "Newgrange is restored. The sun's path is secured."
+      victory: "The gate swings open! The flow of logic is restored to the valley."
     },
     proofData: {
-      given: ["AB ≅ DE", "BC ≅ EF", "AC ≅ DF"],
+      given: ["∠A ≅ ∠D", "AB ≅ DE", "∠B ≅ ∠E"],
       prove: "△ABC ≅ △DEF",
       steps: [
+        { statement: "∠A ≅ ∠D", reason: "Given" },
         { statement: "AB ≅ DE", reason: "Given" },
-        { statement: "BC ≅ EF", reason: "Given" },
-        { statement: "AC ≅ DF", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "SSS Congruence" }
+        { statement: "∠B ≅ ∠E", reason: "Given" },
+        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
       ],
       bank: {
-        statements: ["△ABC ≅ △DEF", "AB ≅ DE", "BC ≅ EF", "AC ≅ DF"],
-        reasons: ["Given", "SSS Congruence", "SAS Congruence"]
+        statements: ["△ABC ≅ △DEF", "∠B ≅ ∠E", "AB ≅ DE", "∠A ≅ ∠D"],
+        reasons: ["Given", "ASA Congruence", "SAS Congruence", "SSS Congruence"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 100, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" },
-        { id: "F", x: 280, y: 100, label: "F" }
+        { id: "A", x: 40, y: 140, label: "A" },
+        { id: "B", x: 140, y: 140, label: "B" },
+        { id: "C", x: 90, y: 40, label: "C" },
+        { id: "D", x: 200, y: 140, label: "D" },
+        { id: "E", x: 300, y: 140, label: "E" },
+        { id: "F", x: 250, y: 40, label: "F" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
@@ -1093,8 +1090,8 @@ const levels = [
         { id: "DF", from: "D", to: "F" }
       ],
       givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "BC", count: 2 }, { line: "EF", count: 2 }, { line: "AC", count: 3 }, { line: "DF", count: 3 }],
-        arcs: []
+        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }],
+        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
       }
     }
   },
@@ -1102,10 +1099,10 @@ const levels = [
     id: 18,
     region: "The Gaelic Grids",
     name: "Druid's Glen",
-    theorem: "Angle Bisector",
+    theorem: "Parallel Transversal",
     repairTime: "3 Weeks",
     narrative: {
-      intro: "The path through the Glen is split by the mists of Danu. We must prove the bisector is true to ensure the spirits guide us correctly.",
+      intro: "The path through the Glen is split by the mists of Danu. The ancient stones must be aligned to reflect the moon's light across the parallel pathways.",
       choices: [
         {
           speaker: "The Seer of Danu",
@@ -1116,39 +1113,40 @@ const levels = [
           ]
         }
       ],
-      victory: "The mist clears. The path is open."
+      victory: "The mist clears. The stones are in perfect alignment."
     },
     proofData: {
-      given: ["AD bisects ∠BAC", "AB ≅ AC"],
-      prove: "△ABD ≅ △ACD",
+      given: ["Line l ∥ Line m", "Transversal t", "∠1 and ∠7 are alt. exterior ∠s"],
+      prove: "∠1 ≅ ∠7",
       steps: [
-        { statement: "AD bisects ∠BAC", reason: "Given" },
-        { statement: "∠BAD ≅ ∠CAD", reason: "Def. of Angle Bisector" },
-        { statement: "AB ≅ AC", reason: "Given" },
-        { statement: "AD ≅ AD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △ACD", reason: "SAS Congruence" }
+        { statement: "Line l ∥ Line m", reason: "Given" },
+        { statement: "∠1 and ∠7 are alt. exterior ∠s", reason: "Given" },
+        { statement: "∠1 ≅ ∠7", reason: "Alternate Exterior Angles Theorem" }
       ],
       bank: {
-        statements: ["△ABD ≅ △ACD", "∠BAD ≅ ∠CAD", "AD ≅ AD", "AB ≅ AC"],
-        reasons: ["Given", "Def. of Angle Bisector", "Reflexive Property", "SAS Congruence"]
+        statements: ["∠1 ≅ ∠7", "Line l ∥ Line m", "∠1 and ∠7 are alt. exterior ∠s"],
+        reasons: ["Given", "Alternate Exterior Angles Theorem", "Vertical Angles Theorem"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 80, y: 220, label: "B" },
-        { id: "C", x: 240, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
+        { id: "A", x: 40, y: 80, label: "" },
+        { id: "B", x: 280, y: 80, label: "l" },
+        { id: "C", x: 40, y: 180, label: "" },
+        { id: "D", x: 280, y: 180, label: "m" },
+        { id: "E", x: 100, y: 40, label: "" },
+        { id: "F", x: 220, y: 220, label: "t" },
+        { id: "P", x: 100, y: 80, label: "1" },
+        { id: "Q", x: 200, y: 180, label: "7" }
       ],
       lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AD", from: "A", to: "D" }
+        { id: "l", from: "A", to: "B" },
+        { id: "m", from: "C", to: "D" },
+        { id: "t", from: "E", to: "F" }
       ],
       givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "D"], count: 1 }, { vertex: "A", rays: ["C", "D"], count: 1 }]
+        ticks: [],
+        arcs: [{ vertex: "P", rays: ["B", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "F"], count: 1, label: "7" }]
       }
     }
   },
@@ -1156,10 +1154,10 @@ const levels = [
     id: 19,
     region: "The Gaelic Grids",
     name: "Tailteann Games",
-    theorem: "HL Theorem",
+    theorem: "SSS",
     repairTime: "1 Month",
     narrative: {
-      intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh.",
+      intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh. Using a shared base is the traditional way.",
       choices: [
         {
           speaker: "Lugh the Long-Arm",
@@ -1173,38 +1171,35 @@ const levels = [
       victory: "The games are true. The champion is crowned!"
     },
     proofData: {
-      given: ["△ABC, △DEF are right △s", "AC ≅ DF (hypotenuse)", "AB ≅ DE (leg)"],
-      prove: "△ABC ≅ △DEF",
+      given: ["AB ≅ AD", "BC ≅ DC", "AC is a shared side"],
+      prove: "△ABC ≅ △ADC",
       steps: [
-        { statement: "△ABC, △DEF are right △s", reason: "Given" },
-        { statement: "AC ≅ DF", reason: "Given" },
-        { statement: "AB ≅ DE", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "HL Theorem" }
+        { statement: "AB ≅ AD", reason: "Given" },
+        { statement: "BC ≅ DC", reason: "Given" },
+        { statement: "AC ≅ AC", reason: "Reflexive Property" },
+        { statement: "△ABC ≅ △ADC", reason: "SSS Congruence" }
       ],
       bank: {
-        statements: ["△ABC ≅ △DEF", "AC ≅ DF", "AB ≅ DE"],
-        reasons: ["Given", "HL Theorem", "SSS Congruence"]
+        statements: ["△ABC ≅ △ADC", "AC ≅ AC", "BC ≅ DC", "AB ≅ AD"],
+        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
       }
     },
     diagram: {
       points: [
-        { id: "A", x: 40, y: 40, label: "A" },
-        { id: "B", x: 40, y: 140, label: "B" },
-        { id: "C", x: 140, y: 140, label: "C" },
-        { id: "D", x: 180, y: 40, label: "D" },
-        { id: "E", x: 180, y: 140, label: "E" },
-        { id: "F", x: 280, y: 140, label: "F" }
+        { id: "A", x: 160, y: 50, label: "A" },
+        { id: "B", x: 60, y: 140, label: "B" },
+        { id: "C", x: 160, y: 230, label: "C" },
+        { id: "D", x: 260, y: 140, label: "D" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
         { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+        { id: "CD", from: "C", to: "D" },
+        { id: "DA", from: "D", to: "A" },
+        { id: "AC", from: "A", to: "C" }
       ],
       givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "AC", count: 2 }, { line: "DF", count: 2 }],
+        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
         arcs: []
       }
     }
@@ -1324,6 +1319,7 @@ function closeNotification() {
 }
 
 function initGame() {
+  console.log("initGame: Beginning initialization...");
   try {
     loadGameState();
 
@@ -1359,6 +1355,7 @@ function initGame() {
 }
 
 function loadGameState() {
+  console.log("loadGameState: Loading state...");
   try {
     const saved = localStorage.getItem("euclidState");
     if (saved) {
@@ -1405,6 +1402,7 @@ function showCharacterSelection() {
 }
 
 window.selectCharacter = function (choice) {
+  console.log("selectCharacter: Chosen character:", choice);
   gameState.character = choice;
   saveGameState();
   const selectionScreen = document.getElementById("char-selection-screen");
@@ -1465,6 +1463,7 @@ function startCinematic(leadToCharacter = false) {
  * UI Rendering & Map Hub
  */
 function renderDashboard() {
+  console.log("renderDashboard: Rendering dashboard...");
   renderMap();
   updateWorldBrightness();
 }
@@ -1490,6 +1489,7 @@ function updateWorldBrightness() {
 }
 
 function renderMap() {
+  console.log("renderMap: Rendering map hub...");
   const mapHub = document.getElementById("map-hub");
   const mainWrapper = document.getElementById("main-wrapper");
   const nodesContainer = document.getElementById("village-map");
@@ -1679,10 +1679,9 @@ function showNarrative(speaker, text, options = null) {
     if (charMap[speaker]) {
       portrait.src = charMap[speaker];
     } else {
-      // Default to player character
-      portrait.src = (gameState.character === "male")
-        ? gameAssets.images.characters.male
-        : gameAssets.images.characters.female;
+      // Correct character persistence for all selection roles
+      const charImages = gameAssets.images.characters;
+      portrait.src = charImages[gameState.character] || charImages.female;
     }
   }
 
@@ -1729,8 +1728,8 @@ function applyChoiceImpact(impact) {
   if (impact.defense) gameState.healthMetrics.defense = Math.min(100, Math.max(0, gameState.healthMetrics.defense + impact.defense));
   if (impact.sovereign) gameState.sovereignPoints = Math.max(0, gameState.sovereignPoints + impact.sovereign);
 
-  if (impact.population > 0) spawnOrbs(10, 'citizen');
-  else if (impact.population < 0) spawnOrbs(10, 'death');
+  if (impact.population > 0) spawnOrbs(3, 'citizen');
+  else if (impact.population < 0) spawnOrbs(3, 'death');
 
   renderKingdomHUD();
   saveGameState();
@@ -1755,6 +1754,7 @@ function updateUI() {
  * Level Gameplay
  */
 window.startLevel = function (levelId) {
+  console.log("startLevel: Starting level ID:", levelId);
   const level = levels.find((l) => l.id === levelId);
   if (!level) return;
 
@@ -1825,6 +1825,7 @@ window.beginActivation = function () {
 
 
 function actuallyStartQuest() {
+  console.log("actuallyStartQuest: Level officially starting...");
   const level = gameState.activeLevel;
   const villageBg = document.getElementById("village-bg");
   const gameArea = document.getElementById("game-area");
@@ -2250,13 +2251,31 @@ function renderProofTable(proofData) {
     const tr = document.createElement("tr");
     tr.className = "proof-row";
 
-    // Gather and shuffle more options
-    let stmtOptions = [...new Set([...bank.statements, step.statement, ...GLOBAL_DISTRACTORS.statements])];
-    let reasonOptions = [...new Set([...bank.reasons, step.reason, ...GLOBAL_DISTRACTORS.reasons])];
+    // Start with level's bank options, then add distractors to reach 6-10 options
+    let stmtOptions = [...new Set(bank.statements)];
+    let reasonOptions = [...new Set(bank.reasons)];
 
-    // Sort but keep it a bit varied (random subset could be better but let's just use a larger pool)
-    stmtOptions.sort();
-    reasonOptions.sort();
+    // Add distractors to reach target of 6-10 options
+    const targetMin = 6;
+    const targetMax = 10;
+
+    // Shuffle distractors and add only what's needed
+    const shuffledStmtDistractors = [...GLOBAL_DISTRACTORS.statements].sort(() => Math.random() - 0.5);
+    const shuffledReasonDistractors = [...GLOBAL_DISTRACTORS.reasons].sort(() => Math.random() - 0.5);
+
+    while (stmtOptions.length < targetMin && shuffledStmtDistractors.length > 0) {
+      const distractor = shuffledStmtDistractors.pop();
+      if (!stmtOptions.includes(distractor)) stmtOptions.push(distractor);
+    }
+
+    while (reasonOptions.length < targetMin && shuffledReasonDistractors.length > 0) {
+      const distractor = shuffledReasonDistractors.pop();
+      if (!reasonOptions.includes(distractor)) reasonOptions.push(distractor);
+    }
+
+    // Shuffle final options
+    stmtOptions.sort(() => Math.random() - 0.5);
+    reasonOptions.sort(() => Math.random() - 0.5);
 
     const isGiven = step.reason === "Given" || step.reason.includes("Given");
 
@@ -2461,7 +2480,6 @@ function renderKingdomHUD() {
     }
   }
 
-  updateEnemyOrbs();
   spawnOrbs(); // Ensure orbs are spawned/updated
 }
 
@@ -2540,6 +2558,31 @@ function renderPopulationModal() {
     }
   };
 
+  // Determine kingdom prosperity flow
+  let growthVal = 0;
+  if (avgMetric >= 100) growthVal = 6;
+  else if (avgMetric >= 75) growthVal = 5;
+  else if (avgMetric >= 50) growthVal = 4;
+  else if (avgMetric >= 30) growthVal = 2;
+  else growthVal = -2;
+
+  const prosperityHTML = `
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(212,175,55,0.3);">
+      <h4 style="color: var(--medieval-gold); font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Kingdom Prosperity</h4>
+      <div style="display: flex; gap: 1rem; font-size: 0.85rem;">
+        <div style="flex: 1; color: ${growthVal >= 0 ? 'var(--logic-cyan)' : '#ff4444'};">
+          <strong>Settlers Arriving:</strong> ${growthVal > 0 ? '+' : ''}${growthVal} per cycle
+        </div>
+        <div style="flex: 1; color: #ffaa44;">
+          <strong>Citizens Departing:</strong> -2 per cycle
+        </div>
+      </div>
+      <p style="font-size: 0.75rem; color: #aaa; margin-top: 0.4rem; font-style: italic;">
+        Citizens may leave due to sickness, hunger, or seeking new adventures. Watch the orbs in the hub!
+      </p>
+    </div>
+  `;
+
   metricsContainer.innerHTML = `
     ${['plague', 'defense', 'food'].map(key => `
       <div class="metric-row">
@@ -2553,6 +2596,7 @@ function renderPopulationModal() {
         <div class="metric-desc" style="font-size: 0.8rem; color: #ccc; font-style: italic; margin-top: 0.3rem;">${getMetricDesc(metrics[key], key)}</div>
       </div>
     `).join('')}
+    ${prosperityHTML}
   `;
 }
 
@@ -2788,8 +2832,14 @@ function triggerVisorMoment(levelId) {
     return;
   }
 
-  // Find the character name for the speaker
-  const charName = gameState.character === 'male' ? 'The Prince' : 'The Princess';
+  // Find the character name for the speaker (all 4 characters)
+  const charNameMap = {
+    'male': 'The Prince',
+    'female': 'The Princess',
+    'sage': 'The Sage',
+    'architectFemale': 'The Architect'
+  };
+  const charName = charNameMap[gameState.character] || 'Royal Heir';
   showNarrative(charName, scenario.text, scenario.options);
 }
 
@@ -2850,12 +2900,16 @@ function spawnOrbs(count, type) {
   if (rawCount === 0) return;
 
   const emojiMap = {
-    'citizen': '👩‍🌾',
+    'citizen': '👨‍🌾',
     'death': '💀',
+    'migrate': '🚶',
+    'sick': '🤒',
+    'hungry': '😫',
     'defense': '🛡️',
     'food': '🍎',
     'plague': '🦠',
-    'sovereign': '💰'
+    'sovereign': '💰',
+    'adventurer': '🧭'
   };
 
   const orbTypeEmoji = emojiMap[type] || '✨';
@@ -2942,74 +2996,122 @@ function spawnOrbs(count, type) {
   }
 }
 
+
 /**
  * Game Heartbeat for Population Drift
+ * Single interval (fixed - no longer nested)
  */
 setInterval(() => {
   if (!gameState) return;
 
-  const metrics = gameState.healthMetrics || { plague: 50, defense: 50, food: 50 };
-  let drift = 0;
+  const mapHub = document.getElementById("map-hub");
+  // Only tick population when on the kingdom map
+  if (!mapHub || mapHub.style.display === 'none') return;
 
-  // Health-Based Drift: Growth is faster when health is high
+  const metrics = gameState.healthMetrics || { plague: 50, defense: 50, food: 50 };
   const averageHealth = (metrics.plague + metrics.defense + metrics.food) / 3;
 
-  if (averageHealth > 80) {
-    drift += 2.0; // Prospering
-  } else if (averageHealth > 60) {
-    drift += 1.0; // OK
-  } else if (averageHealth < 40) {
-    drift -= 1.5; // Suffering
+  // Growth based on health
+  let growth = 0;
+  if (averageHealth >= 100) growth = 6;
+  else if (averageHealth >= 75) growth = 5;
+  else if (averageHealth >= 50) growth = 4;
+  else if (averageHealth >= 30) growth = 2;
+  else growth = -2;
+
+  // Only spawn orbs if there's a change and we're under/over capacity
+  if (growth > 0 && gameState.villagePopulation < gameState.maxPopulation) {
+    spawnOrbs(growth, 'citizen');
+  } else if (growth < 0 && gameState.villagePopulation > 0) {
+    spawnOrbs(growth, 'death');
   }
 
-  // Drift towards target (from events)
-  if (Math.abs(gameState.targetPopulation - gameState.villagePopulation) > 0.1) {
-    drift += (gameState.targetPopulation - gameState.villagePopulation) * 0.2;
-  }
+  // Natural attrition: Citizens leave for various reasons (2 seconds after growth)
+  setTimeout(() => {
+    if (!gameState || gameState.villagePopulation <= 0) return;
+    const mapHub = document.getElementById("map-hub");
+    if (!mapHub || mapHub.style.display === 'none') return;
 
-  if (drift !== 0) {
-    // Round to nearest integer for orb spawning
-    const roundedDrift = Math.round(drift);
-    if (roundedDrift !== 0) {
-      spawnOrbs(roundedDrift, roundedDrift > 0 ? 'citizen' : 'death');
+    // Determine departure reason based on lowest health metric
+    const metrics = gameState.healthMetrics || { plague: 50, defense: 50, food: 50 };
+    let departureType = 'migrate';
+
+    if (metrics.plague < metrics.food && metrics.plague < metrics.defense) {
+      departureType = 'sick';
+    } else if (metrics.food < metrics.plague && metrics.food < metrics.defense) {
+      departureType = 'hungry';
+    } else if (Math.random() > 0.6) {
+      departureType = 'adventurer'; // Some just seek new horizons
     }
-  }
-}, 6000); // Pulse every 6 seconds (Increased frequency for "Steady Flow")
+
+    spawnOrbs(-2, departureType);
+  }, 2000);
+
+}, 5000);
 
 function updateEnemyOrbs() {
   const container = document.getElementById("orb-container");
-  if (!container) return;
+  const mapHub = document.getElementById("map-hub");
+  if (!container || !mapHub || mapHub.style.display === 'none') return;
 
-  // Remove existing enemy orbs if condition no longer met
-  const isThreatened = gameState.healthMetrics.defense < 30 || gameState.eventsTriggered.some(e => ['invasion'].includes(e) && !gameState.currentLevel > levels.find(l => l.id === 5).id); // Rough check for active invasion
+  // Check for active invasion threat
+  const hasActiveInvasion = gameState.incomingEvents?.some(e => e.type === 'threat' && e.countdown <= 1) ||
+    gameState.activeEvents?.some(e => e.type === 'threat');
+  const isThreatened = gameState.healthMetrics.defense < 30 || hasActiveInvasion;
 
-  const existingEnemies = container.querySelectorAll(".enemy");
+  const existingEnemies = container.querySelectorAll(".enemy-orb");
+
   if (!isThreatened) {
+    // Army retreats - animate out
     existingEnemies.forEach(e => {
-      e.classList.remove('animate-in');
-      e.classList.add('animate-out');
-      setTimeout(() => e.remove(), 3000);
+      e.classList.add('retreating');
+      setTimeout(() => e.remove(), 1500);
     });
     return;
   }
 
-  // Spawn enemy orbs on sides if not already there
-  if (existingEnemies.length < 10) {
-    for (let i = 0; i < 5; i++) {
+  // Already have enemy orbs
+  if (existingEnemies.length >= 8) return;
+
+  // Spawn enemy army in formation on both sides
+  const formations = [
+    // Left side formation
+    { x: 40, y: window.innerHeight * 0.25 },
+    { x: 60, y: window.innerHeight * 0.35 },
+    { x: 40, y: window.innerHeight * 0.45 },
+    { x: 60, y: window.innerHeight * 0.55 },
+    // Right side formation
+    { x: window.innerWidth - 60, y: window.innerHeight * 0.25 },
+    { x: window.innerWidth - 80, y: window.innerHeight * 0.35 },
+    { x: window.innerWidth - 60, y: window.innerHeight * 0.45 },
+    { x: window.innerWidth - 80, y: window.innerHeight * 0.55 }
+  ];
+
+  formations.forEach((pos, i) => {
+    setTimeout(() => {
       const orb = document.createElement("div");
-      orb.className = "orb enemy pulse";
-      const icon = document.createElement("i");
-      icon.className = "bi bi-shield-slash-fill orb-icon";
-      orb.appendChild(icon);
-
-      const x = Math.random() > 0.5 ? 50 : window.innerWidth - 70;
-      const y = Math.random() * window.innerHeight;
-
-      orb.style.left = `${x}px`;
-      orb.style.top = `${y}px`;
+      orb.className = "orb enemy-orb";
+      orb.innerHTML = '<div class="orb-icon">😠</div>';
+      orb.style.cssText = `
+        position: fixed;
+        left: ${pos.x}px;
+        top: ${pos.y}px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000 60%, #660000);
+        border: 2px solid #ff0000;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        animation: enemyPulse 1.5s infinite ease-in-out, enemyAppear 0.5s ease-out;
+        font-size: 1.2rem;
+      `;
       container.appendChild(orb);
-    }
-  }
+    }, i * 150);
+  });
 }
 
 function triggerCatastrophicEvent(type) {
@@ -3106,11 +3208,11 @@ window.closeCatastrophicEvent = function () {
 window.buyUpgrade = function (levelId) {
   if (levelId === 'hero') {
     if (gameState.hasMightyHero) {
-      alert("The Mighty Hero is already patrolling your borders!");
+      showNotification("The Mighty Hero is already patrolling your borders!", "Hero Status");
       return;
     }
-    if (gameState.sovereignPoints >= 500) {
-      gameState.sovereignPoints -= 500;
+    // Hero joins when kingdom is thriving (100+ population)
+    if (gameState.villagePopulation >= 100) {
       gameState.hasMightyHero = true;
       saveGameState();
       renderKingdomHUD();
@@ -3120,25 +3222,26 @@ window.buyUpgrade = function (levelId) {
       const content = `
         <div style="text-align: center;">
           <img src="Images/MightyHero.png" style="width: 100%; max-height: 300px; object-fit: cover; border: 3px solid var(--medieval-gold); border-radius: 8px; margin-bottom: 1rem;">
-          <p>A champion of Logic has arrived! Their presence bolsters our defenses by 5%, ensuring even Level 5 threats face a formidable challenge.</p>
+          <p>Your prosperous kingdom has attracted a legendary champion! The Mighty Hero now patrols our borders, bolstering defenses by 5% against all threats.</p>
         </div>
       `;
       showNarrative("Mighty Hero", content);
     } else {
-      showNotification("You need 500 Sovereign Points to hire a champion!");
+      showNotification(`Your kingdom needs ${100 - Math.floor(gameState.villagePopulation)} more citizens to attract a hero! Current: ${Math.floor(gameState.villagePopulation)}/100`, "Hero Requirement");
     }
     return;
   }
 
+  // Level upgrades still use sovereign points if they exist
   if (gameState.sovereignPoints >= 100) {
     gameState.sovereignPoints -= 100;
     if (!gameState.upgrades) gameState.upgrades = {};
     gameState.upgrades[levelId] = (gameState.upgrades[levelId] || 0) + 1;
     saveGameState();
     renderMap();
-    showNotification("Infrastructure Upgraded! The Kingdom thrives.");
+    showNotification("Infrastructure Upgraded! The Kingdom thrives.", "Upgrade Complete");
   } else {
-    showNotification("Not enough Sovereign Points! Prove more theorems to earn them.");
+    showNotification("Not enough Sovereign Points! Prove more theorems to earn them.", "Insufficient Points");
   }
 };
 
