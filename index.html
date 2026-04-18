@@ -171,10 +171,11 @@
     <!-- Game Area: Proof Interface (Initially Hidden or for Active Level) -->
     <div class="game-area" id="game-area" style="display: none;">
         <div class="diagram-section">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="brand" style="font-size: 1.2rem; margin: 0;">Crown's Compass</h3>
-                <div id="level-title" style="color: var(--medieval-gold);">Moat Bridge</div>
+            <div class="mb-3">
+                <h3 id="level-title" class="brand" style="font-size: 1.2rem; margin: 0; color: var(--medieval-gold);">
+                </h3>
             </div>
+
             <div id="given-info" class="logic-box">
                 <div id="logic-text" class="mb-2"></div>
                 <div class="logic-controls mt-2 d-flex gap-2">
@@ -342,7 +343,32 @@
         </div>
     </div>
 
+    <!-- Epic Victory Modal (All Lands Completed) -->
+    <div id="epic-victory-modal" class="modal-medieval epic-victory-overlay">
+        <div class="epic-victory-content">
+            <div id="epic-confetti-container" class="confetti-container"></div>
+            <div class="epic-victory-visual">
+                <img id="epic-victory-img" src="" alt="All Kingdoms Restored">
+            </div>
+            <div class="epic-victory-info">
+                <h1 class="epic-victory-title">THE KINGDOMS UNITED!</h1>
+                <p class="epic-victory-subtitle">By the Laws of Logic, You Have Conquered All Lands!</p>
+                <div class="epic-stats-panel">
+                    <div class="epic-stat"><span id="epic-total-xp">0</span> Total XP Earned</div>
+                    <div class="epic-stat"><span id="epic-total-levels">0</span> Structures Restored</div>
+                    <div class="epic-stat"><span id="epic-total-pop">0</span> Citizens in Your Realm</div>
+                </div>
+                <p class="epic-victory-story">You have proven theorems across three realms: the medieval lands of
+                    Isocele, the sun-drenched Rhombic Sands of Egypt, and the mystical Gaelic Grids of Ireland. Logic
+                    has triumphed over chaos. The kingdoms are united under your rule!</p>
+                <button class="btn-primary-medieval epic-victory-btn" onclick="closeEpicVictory()">Long Live the
+                    Sovereign of Truth!</button>
+            </div>
+        </div>
+    </div>
+
     <script src="game.js"></script>
+
 </body>
 
 </html>

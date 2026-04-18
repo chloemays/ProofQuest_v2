@@ -53,24 +53,36 @@ const gameAssets = {
       quest: "Music/plain-old-folk-drumming-on-a-remo-206892.mp3",
       victory: "Music/renaissance-refrain-212279.mp3",
       correct: "Music/renaissance-reverie-214451.mp3",
-      interact: "Music/along-to-the-fortress-353549.mp3"
+      interact: "Music/along-to-the-fortress-353549.mp3",
+      sands: "Music/the-sand-surfers-of-dune-450481.mp3",
+      grids: "Music/celtic-winds-439101.mp3"
     },
     scenarios: {
+      // Isocele (Medieval)
       invasion: "Images/ScenarioInvasion.png",
       famine: "Images/ScenarioFamine.png",
       storm: "Images/ScenarioStorm.png",
       plague: "Images/ScenarioPlague.png",
       harvest: "Images/ScenarioHarvest.png",
       trade: "Images/ScenarioTrade.png",
-      festival: "Images/ScenarioFestival.png"
+      festival: "Images/ScenarioFestival.png",
+      // Rhombic Sands (Egyptian themed)
+      sandstorm: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/sandstorm_event_rhombic_1768363259287.png",
+      locusts: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/locusts_event_rhombic_1768363274729.png",
+      // Gaelic Grids (Celtic themed)
+      celtic_raid: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/celtic_raid_event_gaelic_1768363289731.png",
+      druid_curse: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/druid_curse_event_gaelic_1768363303899.png"
     },
+
     regions: {
       "Isocele": "Images/MapBG_After.png",
       "The Rhombic Sands": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhombic_sands_bg_minimalist_1768112789574.png",
       "The Gaelic Grids": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/gaelic_grids_bg_minimalist_1768112802862.png"
-    }
+    },
+    epicVictory: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/epic_victory_kingdoms_1768363319528.png"
   },
 };
+
 
 // --- Audio Management ---
 window.AudioManager = {
@@ -688,10 +700,10 @@ const levels = [
         { id: "B", x: 280, y: 80, label: "l" },
         { id: "C", x: 40, y: 180, label: "" },
         { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 100, y: 40, label: "" },
-        { id: "F", x: 220, y: 220, label: "t" },
-        { id: "P", x: 130, y: 80, label: "1" },
-        { id: "Q", x: 190, y: 180, label: "2" }
+        { id: "E", x: 100, y: 30, label: "t" },
+        { id: "F", x: 220, y: 230, label: "" },
+        { id: "P", x: 140, y: 80, label: "" },
+        { id: "Q", x: 180, y: 180, label: "" }
       ],
       lines: [
         { id: "l", from: "A", to: "B" },
@@ -700,8 +712,12 @@ const levels = [
       ],
       givenMarks: {
         ticks: [],
-        arcs: [{ vertex: "P", rays: ["A", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["D", "F"], count: 1, label: "2" }]
+        arcs: [
+          { vertex: "P", rays: ["A", "F"], count: 1, label: "1", radius: 18 },
+          { vertex: "Q", rays: ["D", "E"], count: 1, label: "2", radius: 18 }
+        ]
       }
+
     }
   },
   {
@@ -766,6 +782,9 @@ const levels = [
     name: "Pyramid Capstone",
     theorem: "Isosceles Triangle",
     repairTime: "1 Week",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pyramid_capstone_before_v2_1768281201025.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pyramid_capstone_after_v2_1768281214667.png",
+
     narrative: {
       intro: "The Great Pyramid is missing its golden capstone. The angles must be perfect to catch the first light of Ra.",
       choices: [
@@ -785,15 +804,17 @@ const levels = [
       prove: "△ABD ≅ △ACD",
       steps: [
         { statement: "AB ≅ AC", reason: "Given" },
-        { statement: "AD ≅ AD", reason: "Reflexive Property" },
         { statement: "AD ⊥ BC", reason: "Def. of Altitude" },
         { statement: "∠ADB, ∠ADC are right ∠s", reason: "Def. of Perpendicular" },
+        { statement: "AD ≅ AD", reason: "Reflexive Property" },
         { statement: "△ABD ≅ △ACD", reason: "HL Theorem" }
       ],
+
       bank: {
-        statements: ["△ABD ≅ △ACD", "∠ADB, ∠ADC are right ∠s", "AD ≅ AD", "AB ≅ AC"],
-        reasons: ["Given", "Reflexive Property", "HL Theorem", "SSS Congruence"]
+        statements: ["△ABD ≅ △ACD", "∠ADB, ∠ADC are right ∠s", "AD ≅ AD", "AB ≅ AC", "AD ⊥ BC"],
+        reasons: ["Given", "Reflexive Property", "HL Theorem", "Def. of Altitude", "Def. of Perpendicular"]
       }
+
     },
     diagram: {
       points: [
@@ -820,6 +841,8 @@ const levels = [
     name: "Pharaoh's Court",
     theorem: "Parallel Transversal",
     repairTime: "10 Days",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pharaohs_court_before_v2_1768281228084.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pharaohs_court_after_v2_1768320963894.png",
     narrative: {
       intro: "The Pharaoh's court is in disarray. The columns must be aligned perfectly parallel to ensure the roof doesn't collapse under the weight of history.",
       choices: [
@@ -855,8 +878,9 @@ const levels = [
         { id: "D", x: 280, y: 180, label: "m" },
         { id: "E", x: 100, y: 40, label: "" },
         { id: "F", x: 220, y: 220, label: "t" },
-        { id: "P", x: 130, y: 80, label: "1" },
-        { id: "Q", x: 165, y: 180, label: "2" }
+        { id: "P", x: 130, y: 80, label: "" },
+        { id: "Q", x: 165, y: 180, label: "" }
+
       ],
       lines: [
         { id: "l", from: "A", to: "B" },
@@ -875,6 +899,8 @@ const levels = [
     name: "Sphinx's Riddle",
     theorem: "ASA",
     repairTime: "2 Weeks",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/sphinx_riddle_before_v2_1768320981915.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/sphinx_riddle_after_v2_1768321002327.png",
     narrative: {
       intro: "The Sphinx blocks the path to the Nile. To pass, you must prove the congruence of the triangles formed by its paws and the sands.",
       choices: [
@@ -931,6 +957,8 @@ const levels = [
     name: "Valley of Kings",
     theorem: "Similar Triangles",
     repairTime: "1 Month",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/valley_kings_before_v2_1768321022579.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/valley_kings_after_v2_1768321072684.png",
     narrative: {
       intro: "The tombs are hidden. By using the shadows of the obelisks, we can find the entrance. We must prove the triangles are similar.",
       choices: [
@@ -987,6 +1015,8 @@ const levels = [
     name: "Academy of Tara",
     theorem: "SAS",
     repairTime: "1 Week",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/academy_tara_before_v2_1768321094726.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/academy_tara_after_v2_1768321111942.png",
     narrative: {
       intro: "The Great Hall's dimensions must be verified. The Arch-Druids believe the sacred ratio is the key to Ireland's stability.",
       choices: [
@@ -1044,6 +1074,8 @@ const levels = [
     name: "Glastonbury Gate",
     theorem: "ASA",
     repairTime: "10 Days",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/glastonbury_gate_before_v2_1768321131355.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/glastonbury_gate_after_v2_1768321162611.png",
     narrative: {
       intro: "The mystical gates are jammed. Two Druids disagree on the incantation needed to release the lock.",
       choices: [
@@ -1101,6 +1133,8 @@ const levels = [
     name: "Druid's Glen",
     theorem: "Parallel Transversal",
     repairTime: "3 Weeks",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/druids_glen_before_v2_1768321177358.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/druids_glen_after_v2_1768321196274.png",
     narrative: {
       intro: "The path through the Glen is split by the mists of Danu. The ancient stones must be aligned to reflect the moon's light across the parallel pathways.",
       choices: [
@@ -1156,6 +1190,8 @@ const levels = [
     name: "Tailteann Games",
     theorem: "SSS",
     repairTime: "1 Month",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/tailteann_games_before_v2_1768321211335.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/tailteann_games_after_v2_1768321249242.png",
     narrative: {
       intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh. Using a shared base is the traditional way.",
       choices: [
@@ -1210,6 +1246,8 @@ const levels = [
     name: "Fastnet Beacon",
     theorem: "Similar Right Triangles",
     repairTime: "2 Months",
+    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/fastnet_beacon_before_v2_1768321280147.png",
+    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/fastnet_beacon_after_v2_1768321297104.png",
     narrative: {
       intro: "The lighthouse must be tall enough to guide ships from across the Mediterranean. Prove the similarity of the base and the tower to complete your legacy.",
       choices: [
@@ -1225,20 +1263,20 @@ const levels = [
       victory: "The light is lit! Greece is secured, and the Logical Decay retreats. You are truly a Master of Euclid!"
     },
     proofData: {
-      given: ["∠B, ∠E right ∠s", "∠A ≅ ∠D", "AB/DE = BC/EF"],
+      given: ["∠B, ∠E right ∠s", "∠A ≅ ∠D"],
       prove: "△ABC ~ △DEF",
       steps: [
         { statement: "∠B, ∠E right ∠s", reason: "Given" },
         { statement: "∠B ≅ ∠E", reason: "All right ∠s are ≅" },
         { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "△ABC ~ △DEF", reason: "AA Similarity" },
-        { statement: "AB/DE = BC/EF", reason: "Corr. sides of ~ △s are proportional" }
+        { statement: "△ABC ~ △DEF", reason: "AA Similarity" }
       ],
       bank: {
-        statements: ["△ABC ~ △DEF", "∠B ≅ ∠E", "∠A ≅ ∠D", "AB/DE = BC/EF", "AC/DF = BC/EF"],
-        reasons: ["Given", "All right ∠s are ≅", "AA Similarity", "SAS Similarity", "Corr. sides of ~ △s are proportional"]
+        statements: ["△ABC ~ △DEF", "∠B ≅ ∠E", "∠A ≅ ∠D", "∠B, ∠E right ∠s"],
+        reasons: ["Given", "All right ∠s are ≅", "AA Similarity", "SAS Similarity"]
       }
     },
+
     diagram: {
       points: [
         { id: "A", x: 40, y: 140, label: "A" },
@@ -1503,6 +1541,15 @@ function renderMap() {
   const hubContainer = document.getElementById("map-hub");
   if (hubContainer) {
     hubContainer.style.setProperty('--region-bg', `url(${bgImage})`);
+
+    // Progressive coloring: background becomes more colorful as levels are completed
+    const regionLevels = levels.filter(l => l.region === gameState.currentRegion);
+    const completedInRegion = regionLevels.filter(l => l.id <= gameState.currentLevel).length;
+    const totalInRegion = regionLevels.length;
+    const colorProgress = totalInRegion > 0 ? (completedInRegion / totalInRegion) * 100 : 0;
+    const grayscaleAmount = Math.max(0, 100 - colorProgress);
+    // Use CSS variable so only background is affected, not node images
+    hubContainer.style.setProperty('--map-grayscale', `${grayscaleAmount}%`);
   }
 
   renderKingdomHUD();
@@ -1523,10 +1570,10 @@ function renderMap() {
   const castle = document.createElement("div");
   castle.className = "central-castle";
 
-  // Show restored castle ONLY once ALL levels across ALL regions are completed
-  const totalLevels = levels.length;
-  const levelsCompleted = levels.filter(l => gameState.currentLevel >= l.id).length;
-  const isCastleRestored = (levelsCompleted >= totalLevels) || gameState.graduated;
+  // Show restored castle once ALL levels in CURRENT REGION are completed
+  const regionLevelsForCastle = levels.filter(l => l.region === gameState.currentRegion);
+  const regionComplete = regionLevelsForCastle.every(l => gameState.currentLevel >= l.id);
+  const isCastleRestored = regionComplete || gameState.graduated;
 
   const regionHubs = gameAssets.images.centralCastle[gameState.currentRegion] || gameAssets.images.centralCastle["Isocele"];
   const castleImg = isCastleRestored ? regionHubs.after : regionHubs.before;
@@ -1620,6 +1667,15 @@ window.switchRegion = function (regionName) {
     saveGameState();
     renderMap();
     renderKingdomHUD();
+
+    // Play region-specific music
+    if (regionName === "The Rhombic Sands") {
+      AudioManager.playMusic('sands');
+    } else if (regionName === "The Gaelic Grids") {
+      AudioManager.playMusic('grids');
+    } else {
+      AudioManager.playMusic('hub');
+    }
   }
 };
 
@@ -1772,7 +1828,9 @@ window.startLevel = function (levelId) {
   if (briefingTheorem) briefingTheorem.style.display = "none";
 
   const asset = gameAssets.images.levels.find(l => l.id === level.id);
-  if (briefingImg && asset) briefingImg.src = asset.before;
+  const briefingSrc = level.before || (asset ? asset.before : gameAssets.images.ruinedVillage);
+  if (briefingImg) briefingImg.src = briefingSrc;
+
 
   if (briefingModal) briefingModal.classList.add("active");
 
@@ -1806,6 +1864,15 @@ window.beginActivation = function () {
   if (briefingModal) briefingModal.classList.remove("active");
 
   const level = gameState.activeLevel;
+
+  // Region-specific quest music
+  const regionMusicMap = {
+    "Isocele": "quest",
+    "The Rhombic Sands": "sands",
+    "The Gaelic Grids": "grids"
+  };
+  const questTrack = (level && level.region) ? (regionMusicMap[level.region] || "quest") : "quest";
+
   if (level && level.narrative.choices && level.narrative.choices.length > 0) {
     const choice = level.narrative.choices[0];
     showNarrative(choice.speaker, choice.text, choice.options.map(opt => ({
@@ -1813,15 +1880,16 @@ window.beginActivation = function () {
       callback: () => {
         applyChoiceImpact(opt.impact);
         closeNarrative();
-        AudioManager.playMusic('quest');
+        AudioManager.playMusic(questTrack);
         actuallyStartQuest();
       }
     })));
   } else {
-    AudioManager.playMusic('quest');
+    AudioManager.playMusic(questTrack);
     actuallyStartQuest();
   }
 };
+
 
 
 function actuallyStartQuest() {
@@ -1910,8 +1978,10 @@ function renderDiagram(diagram) {
     diagram.givenMarks.arcs.forEach(arc => {
       const vertex = getPoint(arc.vertex);
       const rays = arc.rays.map(r => getPoint(r));
-      drawArc(svg, vertex, rays, arc.count, arc.label);
+      // Pass arc.radius if specified for smaller/larger arcs on specific diagrams
+      drawArc(svg, vertex, rays, arc.count, arc.label, false, false, null, arc.radius || null);
     });
+
   }
 
   // 2. User Marks
@@ -2311,7 +2381,11 @@ function submitProof() {
   if (!level) return;
   const rows = document.querySelectorAll(".proof-row");
 
+  console.log("submitProof: Starting verification for level", level.id, level.name);
+  console.log("submitProof: Found", rows.length, "proof rows");
+
   let allCorrect = true;
+
 
   level.proofData.steps.forEach((step, index) => {
     const row = rows[index];
@@ -2361,6 +2435,26 @@ window.provideHint = function () {
     gameState.hintState = { lastStepIndex: -1, tier: 0 };
   }
 
+  // Helper function to get educational concept hints based on theorem/reason
+  function getConceptHint(reason, theorem) {
+    const conceptExplanations = {
+      "Reflexive Property": "When a segment or angle is compared to itself, it is always congruent. This is called the Reflexive Property. Look for shared sides between your triangles.",
+      "SSS Congruence": "Side-Side-Side (SSS) means all three pairs of corresponding sides must be congruent. Count the tick marks on each side to identify matching pairs.",
+      "SAS Congruence": "Side-Angle-Side (SAS) needs two sides AND the included angle (the angle BETWEEN those sides) to be congruent. The angle must be 'sandwiched' between the sides.",
+      "ASA Congruence": "Angle-Side-Angle (ASA) needs two angles AND the included side (the side BETWEEN those angles) to be congruent.",
+      "AAS Congruence": "Angle-Angle-Side (AAS) needs two angles and a non-included side to be congruent. The side is NOT between the angles.",
+      "HL Theorem": "Hypotenuse-Leg (HL) only works for right triangles. You need the hypotenuse (longest side) and one leg to be congruent.",
+      "CPCTC": "Corresponding Parts of Congruent Triangles are Congruent. Once you prove triangles are congruent, ALL their matching parts are congruent!",
+      "Vertical Angles Theorem": "When two lines cross, they form two pairs of vertical angles. Vertical angles are always congruent - they're the angles that are across from each other.",
+      "Def. of Angle Bisector": "An angle bisector splits an angle into two equal parts. If a ray bisects an angle, the two resulting angles are congruent.",
+      "Def. of Altitude": "An altitude is a perpendicular line from a vertex to the opposite side. It creates right angles.",
+      "Corresponding Angles Postulate": "When parallel lines are cut by a transversal, corresponding angles (in matching positions) are congruent.",
+      "Converse Alt. Int. ∠s Theorem": "If alternate interior angles are congruent, then the lines are parallel. This is the 'reverse' of the parallel lines theorem.",
+      "AA Similarity": "Angle-Angle (AA) Similarity: If two angles of one triangle are congruent to two angles of another, the triangles are similar (same shape, different size)."
+    };
+    return conceptExplanations[reason] || `Think about what property or theorem would justify this step in the proof. Consider the ${theorem} theorem.`;
+  }
+
   for (let i = 0; i < level.proofData.steps.length; i++) {
     const row = rows[i];
     const target = level.proofData.steps[i];
@@ -2381,7 +2475,7 @@ window.provideHint = function () {
 
     if (userStmt !== target.statement || userReason !== target.reason) {
       if (gameState.hintState.lastStepIndex === i) {
-        gameState.hintState.tier = Math.min(2, gameState.hintState.tier + 1);
+        gameState.hintState.tier = Math.min(3, gameState.hintState.tier + 1);
       } else {
         gameState.hintState.lastStepIndex = i;
         gameState.hintState.tier = 0;
@@ -2394,11 +2488,19 @@ window.provideHint = function () {
       const tier = gameState.hintState.tier;
 
       if (tier === 0) {
-        hint = `The Sage whispers: "Look at the diagram. What is the next logical piece of information we can claim?"`;
+        // Tier 0: Teach the concept
+        hint = `The Sage teaches: "${getConceptHint(target.reason, level.theorem)}"`;
       } else if (tier === 1) {
-        hint = `The Sage speaks clearly: "We need a statement about ${target.statement.split(' ')[0]}. Find it in the bank."`;
+        // Tier 1: Explain how to apply it
+        hint = `The Sage explains: "To apply ${target.reason}, look at the diagram. What elements match this property? Consider what relationships are marked or given."`;
+      } else if (tier === 2) {
+        // Tier 2: Guide toward the answer
+        const stmtPreview = target.statement.substring(0, 12);
+        const reasonPreview = target.reason.split(" ")[0];
+        hint = `The Sage guides: "For this step, the statement starts with '${stmtPreview}...' and the reason involves '${reasonPreview}...'"`;
       } else {
-        hint = `The Sage reveals the path: "Select '${target.statement}' and '${target.reason}' to proceed."`;
+        // Tier 3: Full reveal after multiple attempts
+        hint = `The Sage reveals: "Select '${target.statement}' and '${target.reason}' to proceed."`;
       }
 
       if (wisdomOverlay && wisdomText) {
@@ -2414,6 +2516,7 @@ window.provideHint = function () {
     }
   }
 };
+
 
 window.closeWisdom = function () {
   const overlay = document.getElementById("wisdom-overlay");
@@ -3183,7 +3286,56 @@ function triggerCatastrophicEvent(type) {
       description = "The sickness takes many, but isolation prevents a total collapse.";
       popLoss = 25;
     }
+  } else if (type === 'sandstorm') {
+    // Rhombic Sands Event
+    title = "THE DESERT'S WRATH";
+    const hasOasis = gameState.focusChoices['Rhind Papyrus Scriptum'] === 'Finest Lotus';
+
+    if (hasOasis) {
+      description = "The sandstorm rages for three days, but your lotus gardens provided shelter. The pyramids stand defiant.";
+      popLoss = 10;
+    } else {
+      description = "Walls of sand bury the outer settlements. Many workers are lost beneath the dunes.";
+      popLoss = 35;
+    }
+  } else if (type === 'locusts') {
+    // Rhombic Sands Event
+    title = "THE PLAGUE OF LOCUSTS";
+    const hasGrain = gameState.focusChoices['Pyramid Capstone'] === 'Gilded Limestone';
+
+    if (hasGrain) {
+      description = "The locusts swarm, but your efficient construction saved grain for the people. The Nile provides.";
+      popLoss = 15;
+    } else {
+      description = "A black cloud of locusts devours every crop along the Nile. Famine grips the land.";
+      popLoss = 45;
+    }
+  } else if (type === 'celtic_raid') {
+    // Gaelic Grids Event
+    title = "THE RAIDERS FROM THE NORTH";
+    const hasDefense = gameState.defenseScore >= 70;
+
+    if (hasDefense || gameState.hasMightyHero) {
+      description = "The Celtic raiders charge, but your hero and stone walls repel them. The druids chant victory!";
+      popLoss = 5;
+    } else {
+      description = "The painted warriors breach the outer rings. Sacred groves are burned, villages pillaged.";
+      popLoss = 40;
+    }
+  } else if (type === 'druid_curse') {
+    // Gaelic Grids Event
+    title = "THE DRUID'S CURSE";
+    const hasFaith = gameState.villagePopulation >= 80;
+
+    if (hasFaith) {
+      description = "Dark magic swirls through the standing stones, but your people's faith breaks the curse.";
+      popLoss = 10;
+    } else {
+      description = "Arcane runes glow with malevolent power. Children sicken and crops wither under the hex.";
+      popLoss = 35;
+    }
   }
+
 
   // Update target population for drift and UI
   gameState.targetPopulation = Math.max(0, gameState.targetPopulation - popLoss);
@@ -3200,10 +3352,13 @@ window.closeCatastrophicEvent = function () {
   const modal = document.getElementById("catastrophic-modal");
   if (modal) modal.classList.remove("active");
 
-  // Transition logic after event modal closes
+  // Just update the HUD and return to map - DO NOT call proceedLevelTransition here!
+  // The level transition already happened before the event popup was shown.
+  // Calling proceedLevelTransition again was causing levels to skip.
   renderKingdomHUD();
-  proceedLevelTransition();
+  renderMap();
 }
+
 
 window.buyUpgrade = function (levelId) {
   if (levelId === 'hero') {
@@ -3256,22 +3411,21 @@ function showVictoryModal(level) {
   const victoryBtns = document.getElementById("victory-buttons");
   const content = modal.querySelector(".victory-modal-content");
 
-  // Safety check: Find asset with defensive id matching
+  // Prefer level's own before/after, fall back to gameAssets lookup for Isocele
   const asset = gameAssets.images.levels.find(l => l.id == level.id);
-
-  if (!asset) {
-    console.error("Victory Modal Error: No asset found for level", level.id);
-  }
+  const beforeSrc = level.before || (asset ? asset.before : gameAssets.images.ruinedVillage);
+  const afterSrc = level.after || (asset ? asset.after : gameAssets.images.restoredVillage);
 
   // Initial State: Reset visibility
   if (beforeImg) {
-    beforeImg.src = asset ? asset.before : gameAssets.images.ruinedVillage;
+    beforeImg.src = beforeSrc;
     beforeImg.style.opacity = "1";
   }
   if (afterImg) {
-    afterImg.src = asset ? asset.after : gameAssets.images.restoredVillage;
+    afterImg.src = afterSrc;
     afterImg.style.opacity = "0";
   }
+
   if (congratsLabel) congratsLabel.style.display = "none";
   if (huzzahTitle) huzzahTitle.style.display = "none";
   if (story) {
@@ -3346,6 +3500,48 @@ function burstConfetti() {
     container.appendChild(piece);
   }
 }
+
+function showEpicVictory() {
+  // Hide game area first
+  const gameArea = document.getElementById("game-area");
+  if (gameArea) gameArea.style.display = "none";
+
+  const modal = document.getElementById("epic-victory-modal");
+  const img = document.getElementById("epic-victory-img");
+  const xpEl = document.getElementById("epic-total-xp");
+  const levelsEl = document.getElementById("epic-total-levels");
+  const popEl = document.getElementById("epic-total-pop");
+
+
+  if (img && gameAssets.images.epicVictory) {
+    img.src = gameAssets.images.epicVictory;
+  }
+
+  // Populate stats
+  if (xpEl) xpEl.textContent = gameState.totalXP;
+  if (levelsEl) levelsEl.textContent = levels.length;
+  if (popEl) popEl.textContent = gameState.villagePopulation;
+
+  // Play victory music
+  AudioManager.playMusic('victory', false);
+
+  // Show confetti
+  const confettiContainer = document.getElementById("epic-confetti-container");
+  if (confettiContainer) {
+    confettiContainer.innerHTML = "";
+    createConfetti(confettiContainer);
+  }
+
+  // Show modal
+  if (modal) modal.classList.add("active");
+}
+
+window.closeEpicVictory = function () {
+  const modal = document.getElementById("epic-victory-modal");
+  if (modal) modal.classList.remove("active");
+  AudioManager.playMusic('hub');
+  renderDashboard();
+};
 
 function handleGraduation() {
   const villageBg = document.getElementById("village-bg");
@@ -3424,8 +3620,17 @@ window.closeVictoryModal = function () {
 };
 
 function proceedLevelTransition() {
+  // Guard against multiple calls while transition is in progress
+  if (gameState.transitionInProgress) {
+    console.warn("proceedLevelTransition: Blocked duplicate call - transition already in progress");
+    return;
+  }
+  gameState.transitionInProgress = true;
+
   const currentLevelId = gameState.currentLevel + 1;
   const completedLevel = levels.find(l => l.id === currentLevelId);
+
+  console.log("proceedLevelTransition: Processing level", currentLevelId, "currentLevel was:", gameState.currentLevel);
 
   // 1. Advance Time based on Repair Time
   if (completedLevel && completedLevel.repairTime) {
@@ -3435,45 +3640,110 @@ function proceedLevelTransition() {
   // 2. Increase Max Population for restoration
   gameState.maxPopulation = 100 + (gameState.currentLevel * 50);
 
-  // 3. Region Unlock Logic (Moved from buyUpgrade)
-  if (gameState.currentLevel === 10 && !gameState.unlockedRegions.includes("The Rhombic Sands")) {
+
+  // 3. Region Unlock Logic - Grand Celebration!
+  // Use currentLevelId (the level just completed) not gameState.currentLevel (which is 0-indexed and not yet incremented)
+  if (currentLevelId === 10 && !gameState.unlockedRegions.includes("The Rhombic Sands")) {
     gameState.unlockedRegions.push("The Rhombic Sands");
-    showNotification("The Rhombic Sands have been revealed! A new region is accessible.", "Region Unlocked");
-  } else if (gameState.currentLevel === 15 && !gameState.unlockedRegions.includes("The Gaelic Grids")) {
+    // CRITICAL: Unlock the first level of the new region so player can access it
+    if (!gameState.unlockedLevels.includes(11)) {
+      gameState.unlockedLevels.push(11);
+    }
+    saveGameState();
+    const celebrationContent = `
+      <div style="text-align: center;">
+        <h2 style="color: var(--medieval-gold); font-size: 1.8rem; margin-bottom: 1rem;">THE RHOMBIC SANDS AWAIT!</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 1rem;">By the power of Logic and Geometry, you have restored the Kingdom of Isocele!</p>
+        <p style="color: var(--logic-cyan);">A new land has been revealed beyond the eastern mountains...</p>
+        <p style="margin-top: 1rem; font-style: italic;">The ancient pyramids of Egypt call to you, Royal Heir. New theorems and challenges await in the sun-scorched sands!</p>
+      </div>
+    `;
+    setTimeout(() => showNarrative("REGION UNLOCKED", celebrationContent), 500);
+  } else if (currentLevelId === 15 && !gameState.unlockedRegions.includes("The Gaelic Grids")) {
     gameState.unlockedRegions.push("The Gaelic Grids");
-    showNotification("The Gaelic Grids, the land of ancient Ireland, is now open to your wisdom.", "Region Unlocked");
+    // CRITICAL: Unlock the first level of the new region so player can access it
+    if (!gameState.unlockedLevels.includes(16)) {
+      gameState.unlockedLevels.push(16);
+    }
+    saveGameState();
+    const celebrationContent = `
+      <div style="text-align: center;">
+        <h2 style="color: var(--medieval-gold); font-size: 1.8rem; margin-bottom: 1rem;">THE GAELIC GRIDS BECKON!</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 1rem;">The wisdom of the Rhombic Sands has been restored!</p>
+        <p style="color: var(--logic-cyan);">Beyond the western seas, the Celtic lands of ancient Ireland await...</p>
+        <p style="margin-top: 1rem; font-style: italic;">Stone circles and mystical proofs call to you. Prepare for the final challenges!</p>
+      </div>
+    `;
+    setTimeout(() => showNarrative("REGION UNLOCKED", celebrationContent), 500);
   }
 
-  // 4. Check for Catastrophic Event Milestones
-  const eventMilestones = {
+  // 4. Check for Catastrophic Event Milestones (themed per region)
+  // WARNINGS appear after completing level X, EVENT POPUP appears after completing level X+1
+
+  // These levels trigger a WARNING popup (upcoming event)
+  const eventWarnings = {
+    // Isocele (Medieval) - warning appears after these levels
+    1: 'storm',      // Warning after level 1, event happens after level 2
+    4: 'invasion',   // Warning after level 4, event happens after level 5
+    7: 'famine',     // Warning after level 7, event happens after level 8
+    9: 'plague',     // Warning after level 9, event happens after level 10
+    // Rhombic Sands (Egyptian)
+    11: 'sandstorm', // Warning after level 11, event happens after level 12
+    13: 'locusts',   // Warning after level 13, event happens after level 14
+    // Gaelic Grids (Celtic)
+    16: 'celtic_raid',  // Warning after level 16, event happens after level 17
+    18: 'druid_curse'   // Warning after level 18, event happens after level 19
+  };
+
+  // These levels trigger the actual EVENT popup (warning was shown on previous level)
+  const eventTriggers = {
     2: 'storm',
     5: 'invasion',
     8: 'famine',
-    10: 'plague'
+    10: 'plague',
+    12: 'sandstorm',
+    14: 'locusts',
+    17: 'celtic_raid',
+    19: 'druid_curse'
   };
 
-  if (eventMilestones[currentLevelId] && !gameState.eventsTriggered.includes(eventMilestones[currentLevelId])) {
-    const eventType = eventMilestones[currentLevelId];
-    gameState.eventsTriggered.push(eventType);
-
+  // Show WARNING notification (one level early)
+  if (eventWarnings[currentLevelId]) {
+    const eventType = eventWarnings[currentLevelId];
     const catEvent = {
       id: `catastrophe_${eventType}`,
       name: eventType.charAt(0).toUpperCase() + eventType.slice(1) + " Approaching",
       type: 'threat',
       level: 3,
-      countdown: 2,
+      countdown: 1,
       duration: 4,
-      flavor: `Scouts report an incoming ${eventType}! We must prepare our defenses.`
+      flavor: `Scouts report an incoming ${eventType}! Complete the next structure to face it.`
     };
     gameState.incomingEvents.push(catEvent);
-    showNotification(`URGENT: Scouts report a ${eventType} approaching the kingdom! Check the Event Board.`, "Scout Report");
+    showNotification(`URGENT: Scouts report a ${eventType} approaching! Prepare before the next restoration.`, "Scout Report");
   }
 
-  // 5. Finish level transition
-  if (gameState.currentLevel === levels.length - 1) {
-    handleGraduation();
+  // Show actual EVENT popup (after warning level)
+  if (eventTriggers[currentLevelId] && !gameState.eventsTriggered.includes(eventTriggers[currentLevelId])) {
+    const eventType = eventTriggers[currentLevelId];
+    gameState.eventsTriggered.push(eventType);
+    setTimeout(() => triggerCatastrophicEvent(eventType), 1500);
+  }
+
+
+  // 5. Finish level transition - check if we just completed the LAST level
+  console.log("proceedLevelTransition: currentLevelId =", currentLevelId, "levels.length =", levels.length);
+  if (currentLevelId >= levels.length) {
+    // All levels in all regions completed - show epic victory!
+    console.log("proceedLevelTransition: Final level completed! Showing epic victory.");
+    showEpicVictory();
+    gameState.graduated = true;
+    gameState.transitionInProgress = false;
+    saveGameState();
     return;
   }
+
+
 
   // Unlock the next level
   const nextLevelId = gameState.currentLevel + 2;
@@ -3483,9 +3753,13 @@ function proceedLevelTransition() {
   }
 
   gameState.currentLevel++;
+  console.log("proceedLevelTransition: Level incremented to", gameState.currentLevel);
+  gameState.transitionInProgress = false; // Reset guard flag
   saveGameState();
+
   renderMap();
 }
+
 
 // --- UI Toggles ---
 window.toggleAchievements = function () {
