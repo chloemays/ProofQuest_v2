@@ -293,37 +293,37 @@ const levels = [
       victory: "The wall stands firm. The Reflexive Property has made it unbreakable."
     },
     proofData: {
-      given: ["△ABC", "AD ≅ CD", "BD bisects ∠ADC"],
+      given: ["AB ≅ CB", "BD bisects AC"],
       prove: "△ABD ≅ △CBD",
       steps: [
-        { statement: "AD ≅ CD", reason: "Given" },
-        { statement: "BD bisects ∠ADC", reason: "Given" },
-        { statement: "∠ADB ≅ ∠CDB", reason: "Definition of Angle Bisector" },
+        { statement: "AB ≅ CB", reason: "Given" },
+        { statement: "BD bisects AC", reason: "Given" },
+        { statement: "AD ≅ CD", reason: "Definition of Segment Bisector" },
         { statement: "BD ≅ BD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △CBD", reason: "SAS Congruence" }
+        { statement: "△ABD ≅ △CBD", reason: "SSS Congruence" }
       ],
       bank: {
-        statements: ["BD ≅ BD", "∠ADB ≅ ∠CDB", "△ABD ≅ △CBD", "AD ≅ CD", "BD bisects ∠ADC"],
-        reasons: ["Given", "Reflexive Property", "Definition of Angle Bisector", "SAS Congruence"]
+        statements: ["BD ≅ BD", "AD ≅ CD", "△ABD ≅ △CBD", "AB ≅ CB", "BD bisects AC"],
+        reasons: ["Given", "Reflexive Property", "Definition of Segment Bisector", "SSS Congruence"]
       }
     },
     diagram: {
       points: [
         { id: "A", x: 80, y: 50, label: "A" },
-        { id: "C", x: 240, y: 50, label: "C" },
         { id: "D", x: 160, y: 50, label: "D" },
+        { id: "C", x: 240, y: 50, label: "C" },
         { id: "B", x: 160, y: 220, label: "B" }
       ],
       lines: [
         { id: "AD", from: "A", to: "D" },
-        { id: "CD", from: "C", to: "D" },
+        { id: "DC", from: "D", to: "C" },
         { id: "AB", from: "A", to: "B" },
         { id: "CB", from: "C", to: "B" },
         { id: "DB", from: "D", to: "B" }
       ],
       givenMarks: {
-        ticks: [{ line: "AD", count: 1 }, { line: "CD", count: 1 }],
-        arcs: [{ vertex: "D", rays: ["A", "B"], count: 1 }, { vertex: "D", rays: ["C", "B"], count: 1 }]
+        ticks: [{ line: "AB", count: 2 }, { line: "CB", count: 2 }, { line: "AD", count: 1 }, { line: "DC", count: 1 }],
+        arcs: []
       }
     }
   },
@@ -2306,7 +2306,7 @@ const GLOBAL_DISTRACTORS = {
     "Definition of Midpoint", "Alternate Interior Angles Theorem", "Corresponding Angles Postulate",
     "Transitive Property", "Pythagorean Theorem", "Definition of Right Angle", "Symmetric Property",
     "Reflexive Property", "Vertical Angles Theorem", "Definition of Perpendicular", "Definition of Altitude", "Subtraction Property",
-    "Addition Property", "Distributive Property", "Definition of Angle Bisector", "CPCTC"
+    "Addition Property", "Distributive Property", "Definition of Angle Bisector", "Definition of Segment Bisector", "CPCTC"
   ]
 };
 
@@ -2451,6 +2451,7 @@ window.provideHint = function () {
       "CPCTC": "Corresponding Parts of Congruent Triangles are Congruent. Once you prove triangles are congruent, ALL their matching parts are congruent!",
       "Vertical Angles Theorem": "When two lines cross, they form two pairs of vertical angles. Vertical angles are always congruent - they're the angles that are across from each other.",
       "Definition of Angle Bisector": "An angle bisector splits an angle into two equal parts. If a ray bisects an angle, the two resulting angles are congruent.",
+      "Definition of Segment Bisector": "A segment bisector divides a segment into two equal parts. If a line bisects a segment, the two resulting segments are congruent.",
       "Definition of Altitude": "An altitude is a perpendicular line from a vertex to the opposite side. It creates right angles at the base.",
       "Definition of Perpendicular": "Perpendicular lines meet at right angles (90 degrees). If a line is perpendicular to another, it creates right angles at the intersection.",
       "Corresponding Angles Postulate": "When parallel lines are cut by a transversal, corresponding angles (in matching positions) are congruent.",
