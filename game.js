@@ -700,8 +700,8 @@ const levels = [
         { id: "B", x: 280, y: 80, label: "l" },
         { id: "C", x: 40, y: 180, label: "" },
         { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 100, y: 30, label: "t" },
-        { id: "F", x: 220, y: 230, label: "" },
+        { id: "E", x: 120, y: 30, label: "t" },
+        { id: "F", x: 200, y: 230, label: "" },
         { id: "P", x: 140, y: 80, label: "" },
         { id: "Q", x: 180, y: 180, label: "" }
       ],
@@ -876,11 +876,10 @@ const levels = [
         { id: "B", x: 280, y: 80, label: "l" },
         { id: "C", x: 40, y: 180, label: "" },
         { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 100, y: 40, label: "" },
-        { id: "F", x: 220, y: 220, label: "t" },
-        { id: "P", x: 130, y: 80, label: "" },
-        { id: "Q", x: 165, y: 180, label: "" }
-
+        { id: "E", x: 120, y: 30, label: "" },
+        { id: "F", x: 200, y: 230, label: "t" },
+        { id: "P", x: 140, y: 80, label: "" },
+        { id: "Q", x: 180, y: 180, label: "" }
       ],
       lines: [
         { id: "l", from: "A", to: "B" },
@@ -934,8 +933,8 @@ const levels = [
         { id: "A", x: 40, y: 40, label: "A" },
         { id: "B", x: 40, y: 140, label: "B" },
         { id: "C", x: 140, y: 90, label: "C" },
-        { id: "D", x: 240, y: 140, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" }
+        { id: "D", x: 240, y: 40, label: "D" },
+        { id: "E", x: 240, y: 140, label: "E" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
@@ -991,9 +990,9 @@ const levels = [
         { id: "A", x: 40, y: 100, label: "A" },
         { id: "B", x: 100, y: 40, label: "B" },
         { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 120, label: "D" },
-        { id: "E", x: 260, y: 40, label: "E" },
-        { id: "F", x: 300, y: 120, label: "F" }
+        { id: "D", x: 160, y: 120, label: "D" },
+        { id: "E", x: 250, y: 30, label: "E" },
+        { id: "F", x: 310, y: 120, label: "F" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
@@ -1168,10 +1167,10 @@ const levels = [
         { id: "B", x: 280, y: 80, label: "l" },
         { id: "C", x: 40, y: 180, label: "" },
         { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 100, y: 40, label: "" },
-        { id: "F", x: 220, y: 220, label: "t" },
-        { id: "P", x: 100, y: 80, label: "1" },
-        { id: "Q", x: 200, y: 180, label: "7" }
+        { id: "E", x: 120, y: 30, label: "" },
+        { id: "F", x: 200, y: 230, label: "t" },
+        { id: "P", x: 140, y: 80, label: "1" },
+        { id: "Q", x: 180, y: 180, label: "7" }
       ],
       lines: [
         { id: "l", from: "A", to: "B" },
@@ -1282,9 +1281,9 @@ const levels = [
         { id: "A", x: 40, y: 140, label: "A" },
         { id: "B", x: 100, y: 140, label: "B" },
         { id: "C", x: 100, y: 40, label: "C" },
-        { id: "D", x: 180, y: 160, label: "D" },
-        { id: "E", x: 280, y: 160, label: "E" },
-        { id: "F", x: 280, y: 40, label: "F" }
+        { id: "D", x: 150, y: 180, label: "D" },
+        { id: "E", x: 240, y: 180, label: "E" },
+        { id: "F", x: 240, y: 30, label: "F" }
       ],
       lines: [
         { id: "AB", from: "A", to: "B" },
