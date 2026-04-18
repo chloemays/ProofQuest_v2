@@ -14,21 +14,21 @@ const gameAssets = {
       architect: "Images/AdvisorArchitect.png",
       merchant: "Images/AdvisorMerchant.png",
       sentinel: "Images/AdvisorSentinel.png",
-      sage: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/character_sage_of_logic_1768112817791.png",
-      architectFemale: "file:///C:/Users/Chloe/.gemini/antigravity/brain/5d3668ac-34dd-46cf-a6ee-0fa4a454cdc8/architect_character_no_text_1768196844303.png"
+      sage: "Images/SageCharacter.png",
+      architectFemale: "Images/ArchitectCharacter.png"
     },
     centralCastle: {
       "Isocele": {
-        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_before_isocele_1768112849249.png",
-        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_after_isocele_1768112862743.png"
+        before: "Images/CastleBeforeIsocele.png",
+        after: "Images/CastleAfterIsocele.png"
       },
       "The Rhombic Sands": {
-        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/pyramid_before_rhombic_sands_1768112877483.png",
-        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/pyramid_after_rhombic_sands_1768112892079.png"
+        before: "Images/PyramidBeforeRhombic.png",
+        after: "Images/PyramidAfterRhombic.png"
       },
       "The Gaelic Grids": {
-        before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_before_isocele_1768112849249.png", // Reuse or placeholder
-        after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/central_castle_after_isocele_1768112862743.png"
+        before: "Images/CastleBeforeIsocele.png", // Reuse from Isocele
+        after: "Images/CastleAfterIsocele.png"
       }
     },
     mapBackground: {
@@ -67,19 +67,19 @@ const gameAssets = {
       trade: "Images/ScenarioTrade.png",
       festival: "Images/ScenarioFestival.png",
       // Rhombic Sands (Egyptian themed)
-      sandstorm: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/sandstorm_event_rhombic_1768363259287.png",
-      locusts: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/locusts_event_rhombic_1768363274729.png",
+      sandstorm: "Images/ScenarioSandstorm.png",
+      locusts: "Images/ScenarioLocusts.png",
       // Gaelic Grids (Celtic themed)
-      celtic_raid: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/celtic_raid_event_gaelic_1768363289731.png",
-      druid_curse: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/druid_curse_event_gaelic_1768363303899.png"
+      celtic_raid: "Images/ScenarioCelticRaid.png",
+      druid_curse: "Images/ScenarioDruidCurse.png"
     },
 
     regions: {
       "Isocele": "Images/MapBG_After.png",
-      "The Rhombic Sands": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhombic_sands_bg_minimalist_1768112789574.png",
-      "The Gaelic Grids": "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/gaelic_grids_bg_minimalist_1768112802862.png"
+      "The Rhombic Sands": "Images/MapBG_RhombicSands.png",
+      "The Gaelic Grids": "Images/MapBG_GaelicGrids.png"
     },
-    epicVictory: "file:///C:/Users/Chloe/.gemini/antigravity/brain/c5df5953-b176-44c3-a025-3db47dd7f0c6/epic_victory_kingdoms_1768363319528.png"
+    epicVictory: "Images/EpicVictory.png"
   },
 };
 
@@ -726,8 +726,8 @@ const levels = [
     name: "Rhind Papyrus Scriptum",
     theorem: "Rectangular Area",
     repairTime: "3 Days",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhind_papyrus_before_1768112911915.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/e8900f96-80d4-46c9-8535-546dac5a9c21/rhind_papyrus_after_1768112925407.png",
+    before: "Images/BeforeRhindPapyrus.png",
+    after: "Images/AfterRhindPapyrus.png",
     narrative: {
       intro: "We have reached the sun-drenched sands of Egypt. The scribes are in an uproar; the ancient Rhind Papyrus has been damaged. We must prove the area of the scripts to restore them.",
       choices: [
@@ -782,8 +782,8 @@ const levels = [
     name: "Pyramid Capstone",
     theorem: "Isosceles Triangle",
     repairTime: "1 Week",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pyramid_capstone_before_v2_1768281201025.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pyramid_capstone_after_v2_1768281214667.png",
+    before: "Images/BeforePyramidCapstone.png",
+    after: "Images/AfterPyramidCapstone.png",
 
     narrative: {
       intro: "The Great Pyramid is missing its golden capstone. The angles must be perfect to catch the first light of Ra.",
@@ -841,8 +841,8 @@ const levels = [
     name: "Pharaoh's Court",
     theorem: "Parallel Transversal",
     repairTime: "10 Days",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pharaohs_court_before_v2_1768281228084.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/pharaohs_court_after_v2_1768320963894.png",
+    before: "Images/BeforePharaohsCourt.png",
+    after: "Images/AfterPharaohsCourt.png",
     narrative: {
       intro: "The Pharaoh's court is in disarray. The columns must be aligned perfectly parallel to ensure the roof doesn't collapse under the weight of history.",
       choices: [
@@ -899,8 +899,8 @@ const levels = [
     name: "Sphinx's Riddle",
     theorem: "ASA",
     repairTime: "2 Weeks",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/sphinx_riddle_before_v2_1768320981915.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/sphinx_riddle_after_v2_1768321002327.png",
+    before: "Images/BeforeSphinxRiddle.png",
+    after: "Images/AfterSphinxRiddle.png",
     narrative: {
       intro: "The Sphinx blocks the path to the Nile. To pass, you must prove the congruence of the triangles formed by its paws and the sands.",
       choices: [
@@ -957,8 +957,8 @@ const levels = [
     name: "Valley of Kings",
     theorem: "Similar Triangles",
     repairTime: "1 Month",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/valley_kings_before_v2_1768321022579.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/valley_kings_after_v2_1768321072684.png",
+    before: "Images/BeforeValleyKings.png",
+    after: "Images/AfterValleyKings.png",
     narrative: {
       intro: "The tombs are hidden. By using the shadows of the obelisks, we can find the entrance. We must prove the triangles are similar.",
       choices: [
@@ -1015,8 +1015,8 @@ const levels = [
     name: "Academy of Tara",
     theorem: "SAS",
     repairTime: "1 Week",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/academy_tara_before_v2_1768321094726.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/academy_tara_after_v2_1768321111942.png",
+    before: "Images/BeforeAcademyTara.png",
+    after: "Images/AfterAcademyTara.png",
     narrative: {
       intro: "The Great Hall's dimensions must be verified. The Arch-Druids believe the sacred ratio is the key to Ireland's stability.",
       choices: [
@@ -1074,8 +1074,8 @@ const levels = [
     name: "Glastonbury Gate",
     theorem: "ASA",
     repairTime: "10 Days",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/glastonbury_gate_before_v2_1768321131355.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/glastonbury_gate_after_v2_1768321162611.png",
+    before: "Images/BeforeGlastonburyGate.png",
+    after: "Images/AfterGlastonburyGate.png",
     narrative: {
       intro: "The mystical gates are jammed. Two Druids disagree on the incantation needed to release the lock.",
       choices: [
@@ -1133,8 +1133,8 @@ const levels = [
     name: "Druid's Glen",
     theorem: "Parallel Transversal",
     repairTime: "3 Weeks",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/druids_glen_before_v2_1768321177358.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/druids_glen_after_v2_1768321196274.png",
+    before: "Images/BeforeDruidsGlen.png",
+    after: "Images/AfterDruidsGlen.png",
     narrative: {
       intro: "The path through the Glen is split by the mists of Danu. The ancient stones must be aligned to reflect the moon's light across the parallel pathways.",
       choices: [
@@ -1190,8 +1190,8 @@ const levels = [
     name: "Tailteann Games",
     theorem: "SSS",
     repairTime: "1 Month",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/tailteann_games_before_v2_1768321211335.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/tailteann_games_after_v2_1768321249242.png",
+    before: "Images/BeforeTailteannGames.png",
+    after: "Images/AfterTailteannGames.png",
     narrative: {
       intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh. Using a shared base is the traditional way.",
       choices: [
@@ -1246,8 +1246,8 @@ const levels = [
     name: "Fastnet Beacon",
     theorem: "Similar Right Triangles",
     repairTime: "2 Months",
-    before: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/fastnet_beacon_before_v2_1768321280147.png",
-    after: "file:///C:/Users/Chloe/.gemini/antigravity/brain/eb4cfb33-c92c-45a8-a907-e10a5a549bd6/fastnet_beacon_after_v2_1768321297104.png",
+    before: "Images/BeforeFastnetBeacon.png",
+    after: "Images/AfterFastnetBeacon.png",
     narrative: {
       intro: "The lighthouse must be tall enough to guide ships from across the Mediterranean. Prove the similarity of the base and the tower to complete your legacy.",
       choices: [
@@ -2573,13 +2573,13 @@ function renderKingdomHUD() {
   if (villageBg) {
     const popPercent = (newPop / maxPop) * 100;
     if (popPercent >= 90) {
-      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/happy_celebratory_villagers_1768063430779.png";
+      villageBg.src = "Images/VillagersHappy.png";
     } else if (popPercent >= 50) {
-      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/content_prospering_villagers_1768063446503.png";
+      villageBg.src = "Images/VillagersContent.png";
     } else if (popPercent >= 20) {
-      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/struggling_sad_villagers_1768063462753.png";
+      villageBg.src = "Images/VillagersStruggling.png";
     } else {
-      villageBg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/desperate_few_villagers_1768063479046.png";
+      villageBg.src = "Images/VillagersDesperate.png";
     }
   }
 
@@ -2628,16 +2628,16 @@ function renderPopulationModal() {
 
   // Set Visuals and Status
   if (healthCorrelation >= 90) {
-    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/happy_celebratory_villagers_1768063430779.png";
+    statusImg.src = "Images/VillagersHappy.png";
     thematicDesc.textContent = "The kingdom is in high spirits. Music fills the air, and children play in the freshly paved streets of Euclid.";
   } else if (healthCorrelation >= 50) {
-    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/content_prospering_villagers_1768063446503.png";
+    statusImg.src = "Images/VillagersContent.png";
     thematicDesc.textContent = "Work continues at a steady pace. The village is well-fed, and its people look toward a bright future.";
   } else if (healthCorrelation >= 20) {
-    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/struggling_sad_villagers_1768063462753.png";
+    statusImg.src = "Images/VillagersStruggling.png";
     thematicDesc.textContent = "Shadows grow long. Resources are thin, and the worry on the faces of the villagers reflects the heavy toll of restoration.";
   } else {
-    statusImg.src = "file:///C:/Users/Chloe/.gemini/antigravity/brain/52027df3-f6d7-421d-be0b-e98805deb7c1/desperate_few_villagers_1768063479046.png";
+    statusImg.src = "Images/VillagersDesperate.png";
     thematicDesc.textContent = "Only the most resilient remain. The kingdom's heart beats faintly, waiting for a savior to restore what remains.";
   }
 
