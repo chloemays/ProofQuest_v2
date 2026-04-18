@@ -298,13 +298,13 @@ const levels = [
       steps: [
         { statement: "AD ≅ CD", reason: "Given" },
         { statement: "BD bisects ∠ADC", reason: "Given" },
-        { statement: "∠ADB ≅ ∠CDB", reason: "Def. of Angle Bisector" },
+        { statement: "∠ADB ≅ ∠CDB", reason: "Definition of Angle Bisector" },
         { statement: "BD ≅ BD", reason: "Reflexive Property" },
         { statement: "△ABD ≅ △CBD", reason: "SAS Congruence" }
       ],
       bank: {
         statements: ["BD ≅ BD", "∠ADB ≅ ∠CDB", "△ABD ≅ △CBD", "AD ≅ CD", "BD bisects ∠ADC"],
-        reasons: ["Given", "Reflexive Property", "Def. of Angle Bisector", "SAS Congruence"]
+        reasons: ["Given", "Reflexive Property", "Definition of Angle Bisector", "SAS Congruence"]
       }
     },
     diagram: {
@@ -632,14 +632,14 @@ const levels = [
       steps: [
         { statement: "AB ≅ AC", reason: "Given" },
         { statement: "AD bisects ∠BAC", reason: "Given" },
-        { statement: "∠BAD ≅ ∠CAD", reason: "Def. of Angle Bisector" },
+        { statement: "∠BAD ≅ ∠CAD", reason: "Definition of Angle Bisector" },
         { statement: "AD ≅ AD", reason: "Reflexive Property" },
         { statement: "△ABD ≅ △ACD", reason: "SAS Congruence" },
         { statement: "∠B ≅ ∠C", reason: "CPCTC" }
       ],
       bank: {
         statements: ["∠B ≅ ∠C", "△ABD ≅ △ACD", "AD ≅ AD", "∠BAD ≅ ∠CAD", "AB ≅ AC", "AD bisects ∠BAC"],
-        reasons: ["Given", "Def. of Angle Bisector", "Reflexive Property", "SAS Congruence", "CPCTC"]
+        reasons: ["Given", "Definition of Angle Bisector", "Reflexive Property", "SAS Congruence", "CPCTC"]
       }
     },
     diagram: {
@@ -804,15 +804,15 @@ const levels = [
       prove: "△ABD ≅ △ACD",
       steps: [
         { statement: "AB ≅ AC", reason: "Given" },
-        { statement: "AD ⊥ BC", reason: "Def. of Altitude" },
-        { statement: "∠ADB, ∠ADC are right ∠s", reason: "Def. of Perpendicular" },
+        { statement: "AD ⊥ BC", reason: "Definition of Altitude" },
+        { statement: "∠ADB, ∠ADC are right ∠s", reason: "Definition of Perpendicular" },
         { statement: "AD ≅ AD", reason: "Reflexive Property" },
         { statement: "△ABD ≅ △ACD", reason: "HL Theorem" }
       ],
 
       bank: {
         statements: ["△ABD ≅ △ACD", "∠ADB, ∠ADC are right ∠s", "AD ≅ AD", "AB ≅ AC", "AD ⊥ BC"],
-        reasons: ["Given", "Reflexive Property", "HL Theorem", "Def. of Altitude", "Def. of Perpendicular"]
+        reasons: ["Given", "Reflexive Property", "HL Theorem", "Definition of Altitude", "Definition of Perpendicular"]
       }
 
     },
@@ -2305,7 +2305,7 @@ const GLOBAL_DISTRACTORS = {
     "Substitution Property", "Angle Addition Postulate", "Segment Addition Postulate",
     "Definition of Midpoint", "Alternate Interior Angles Theorem", "Corresponding Angles Postulate",
     "Transitive Property", "Pythagorean Theorem", "Definition of Right Angle", "Symmetric Property",
-    "Reflexive Property", "Vertical Angles Theorem", "Definition of Perpendicular", "Subtraction Property",
+    "Reflexive Property", "Vertical Angles Theorem", "Definition of Perpendicular", "Definition of Altitude", "Subtraction Property",
     "Addition Property", "Distributive Property", "Definition of Angle Bisector", "CPCTC"
   ]
 };
@@ -2333,14 +2333,18 @@ function renderProofTable(proofData) {
     const shuffledStmtDistractors = [...GLOBAL_DISTRACTORS.statements].sort(() => Math.random() - 0.5);
     const shuffledReasonDistractors = [...GLOBAL_DISTRACTORS.reasons].sort(() => Math.random() - 0.5);
 
+    // Normalize text for deduplication (e.g., "Def." vs "Definition")
+    const normalize = (s) => s.toLowerCase().replace(/\bdef\.\s*/g, "definition ").replace(/\s+/g, " ").trim();
+    const isDuplicate = (arr, item) => arr.some(existing => normalize(existing) === normalize(item));
+
     while (stmtOptions.length < targetMin && shuffledStmtDistractors.length > 0) {
       const distractor = shuffledStmtDistractors.pop();
-      if (!stmtOptions.includes(distractor)) stmtOptions.push(distractor);
+      if (!isDuplicate(stmtOptions, distractor)) stmtOptions.push(distractor);
     }
 
     while (reasonOptions.length < targetMin && shuffledReasonDistractors.length > 0) {
       const distractor = shuffledReasonDistractors.pop();
-      if (!reasonOptions.includes(distractor)) reasonOptions.push(distractor);
+      if (!isDuplicate(reasonOptions, distractor)) reasonOptions.push(distractor);
     }
 
     // Shuffle final options
@@ -2446,8 +2450,9 @@ window.provideHint = function () {
       "HL Theorem": "Hypotenuse-Leg (HL) only works for right triangles. You need the hypotenuse (longest side) and one leg to be congruent.",
       "CPCTC": "Corresponding Parts of Congruent Triangles are Congruent. Once you prove triangles are congruent, ALL their matching parts are congruent!",
       "Vertical Angles Theorem": "When two lines cross, they form two pairs of vertical angles. Vertical angles are always congruent - they're the angles that are across from each other.",
-      "Def. of Angle Bisector": "An angle bisector splits an angle into two equal parts. If a ray bisects an angle, the two resulting angles are congruent.",
-      "Def. of Altitude": "An altitude is a perpendicular line from a vertex to the opposite side. It creates right angles.",
+      "Definition of Angle Bisector": "An angle bisector splits an angle into two equal parts. If a ray bisects an angle, the two resulting angles are congruent.",
+      "Definition of Altitude": "An altitude is a perpendicular line from a vertex to the opposite side. It creates right angles at the base.",
+      "Definition of Perpendicular": "Perpendicular lines meet at right angles (90 degrees). If a line is perpendicular to another, it creates right angles at the intersection.",
       "Corresponding Angles Postulate": "When parallel lines are cut by a transversal, corresponding angles (in matching positions) are congruent.",
       "Converse Alt. Int. ∠s Theorem": "If alternate interior angles are congruent, then the lines are parallel. This is the 'reverse' of the parallel lines theorem.",
       "AA Similarity": "Angle-Angle (AA) Similarity: If two angles of one triangle are congruent to two angles of another, the triangles are similar (same shape, different size)."
