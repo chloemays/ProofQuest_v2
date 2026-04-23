@@ -344,6 +344,31 @@
     </div>
 
     <!-- Epic Victory Modal (All Lands Completed) -->
+    <!-- Premium Paywall Modal -->
+    <div id="premium-modal" class="modal-medieval" style="z-index: 10000;">
+        <div class="modal-content-medieval text-center">
+            <h2 class="medieval-title" style="color: var(--medieval-gold);">The Path is Sealed</h2>
+            <p style="font-family: 'Space Mono', monospace; margin: 1.5rem 0;">
+                You have reached the end of the free trial. To continue your quest and restore the rest of the kingdom, you must unlock the full game.
+            </p>
+            <p style="font-family: 'Space Mono', monospace; margin-bottom: 2rem;">
+                Teachers, purchase the full version and answer key here:<br>
+                <a href="https://www.teacherspayteachers.com/store/house-on-the-lake-math" target="_blank" style="color: var(--logic-cyan); text-decoration: underline; font-weight: bold; margin-top: 0.5rem; display: inline-block;">
+                    House on the Lake Math
+                </a>
+            </p>
+            
+            <div style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--medieval-gold); margin-bottom: 1.5rem;">
+                <label for="premium-password" style="font-family: 'Orbitron', sans-serif; color: var(--medieval-gold); display: block; margin-bottom: 0.5rem;">Enter Unlock Password</label>
+                <input type="password" id="premium-password" placeholder="Password..." style="width: 100%; padding: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid var(--logic-cyan); color: white; font-family: 'Space Mono', monospace; text-align: center; margin-bottom: 1rem;">
+                <button class="btn-primary-medieval w-100" onclick="verifyPremiumPassword()">Unlock Kingdom</button>
+                <div id="premium-error" style="color: #ff3366; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 0.5rem; display: none;">Incorrect password. Please try again.</div>
+            </div>
+
+            <button class="btn-primary-medieval btn-small" onclick="closePremiumModal()">Return to Map</button>
+        </div>
+    </div>
+
     <div id="epic-victory-modal" class="modal-medieval epic-victory-overlay">
         <div class="epic-victory-content">
             <div id="epic-confetti-container" class="confetti-container"></div>

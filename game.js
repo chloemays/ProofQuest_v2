@@ -1169,8 +1169,8 @@ const levels = [
         { id: "D", x: 280, y: 180, label: "m" },
         { id: "E", x: 120, y: 30, label: "" },
         { id: "F", x: 200, y: 230, label: "t" },
-        { id: "P", x: 140, y: 80, label: "1" },
-        { id: "Q", x: 180, y: 180, label: "7" }
+        { id: "P", x: 140, y: 80, label: "" },
+        { id: "Q", x: 180, y: 180, label: "" }
       ],
       lines: [
         { id: "l", from: "A", to: "B" },
@@ -1327,7 +1327,8 @@ let gameState = {
   activeEvents: [],
   incomingEvents: [],
   hasMightyHero: false,
-  defenseScore: 25 // Default 25%
+  defenseScore: 25, // Default 25%
+  gamePurchased: false
 };
 
 /**
@@ -1810,6 +1811,14 @@ function updateUI() {
  */
 window.startLevel = function (levelId) {
   console.log("startLevel: Starting level ID:", levelId);
+  
+  if (levelId > 5 && !gameState.gamePurchased) {
+    const modal = document.getElementById("premium-modal");
+    if (modal) modal.classList.add("active");
+    AudioManager.playSFX('interact');
+    return;
+  }
+
   const level = levels.find((l) => l.id === levelId);
   if (!level) return;
 
@@ -3605,6 +3614,36 @@ let draggedItem = null;
 window.initGame = initGame;
 
 document.addEventListener("DOMContentLoaded", initGame);
+
+window.closePremiumModal = function () {
+  const modal = document.getElementById("premium-modal");
+  if (modal) modal.classList.remove("active");
+  const errorEl = document.getElementById("premium-error");
+  if (errorEl) errorEl.style.display = "none";
+  const inputEl = document.getElementById("premium-password");
+  if (inputEl) inputEl.value = "";
+  AudioManager.playSFX('interact');
+};
+
+window.verifyPremiumPassword = function () {
+  const inputEl = document.getElementById("premium-password");
+  const errorEl = document.getElementById("premium-error");
+  
+  if (inputEl && inputEl.value === "MathI5Fun") {
+    gameState.gamePurchased = true;
+    saveGameState();
+    
+    // Success feedback
+    AudioManager.playSFX('correct');
+    showNotification("The path is open! Thank you for purchasing The Chronicles of Euclid.", "Full Game Unlocked");
+    
+    closePremiumModal();
+    renderMap();
+  } else {
+    if (errorEl) errorEl.style.display = "block";
+    AudioManager.playSFX('interact');
+  }
+};
 
 window.closeVictoryModal = function () {
   const modal = document.getElementById("victory-modal");
