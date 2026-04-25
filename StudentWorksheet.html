@@ -20,29 +20,28 @@
             --midnight: #1a1028;
             --border-ornate: #8b6914;
         }
-        
+
         body {
             font-family: 'Crimson Text', Georgia, serif;
             background-color: #ffffff;
             color: var(--ink-brown);
             margin: 0;
             padding: 2rem;
-            line-height: 1.6;
-            font-size: 1.1rem;
+            line-height: 1.55;
+            font-size: 1.05rem;
         }
-        
+
         .container {
-            max-width: 1200px; 
+            max-width: 1200px;
             margin: 0 auto;
             background: #ffffff;
             border: 3px double var(--border-ornate);
             border-radius: 4px;
-            padding: 2.5rem 3.5rem;
+            padding: 2rem 2.5rem;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             position: relative;
         }
-        
-        /* Ornate corner flourishes */
+
         .container::before,
         .container::after {
             content: '';
@@ -52,88 +51,119 @@
             border: 3px solid var(--royal-gold);
             opacity: 0.5;
         }
-        .container::before {
-            top: 14px; left: 14px;
-            border-right: none; border-bottom: none;
-        }
-        .container::after {
-            bottom: 14px; right: 14px;
-            border-left: none; border-top: none;
-        }
-        
-        .header-banner {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .header-banner img {
-            max-width: 100%;
-            height: auto;
-            max-height: 200px;
-            border-radius: 4px;
-            border: 3px solid var(--royal-gold);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            object-fit: cover;
-        }
-        
+        .container::before { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+        .container::after { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
         h1, h2, h3 {
             font-family: 'Cinzel Decorative', 'MedievalSharp', cursive;
             color: var(--deep-plum);
             text-align: center;
         }
-        
-        h1 {
-            font-size: 2.3rem;
+
+        /* Compact header: image, title, and name field on a single row */
+        .compact-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid var(--burnt-gold);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
+            position: relative;
+        }
+        .compact-header::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .compact-header .banner-img {
+            width: 110px;
+            height: 75px;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            border-radius: 3px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .compact-header .title-block { flex: 1; text-align: center; }
+        .compact-header h1 {
+            font-size: 1.55rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            padding-bottom: 0.5rem;
-            margin-top: 1rem;
-            margin-bottom: 0.3rem;
+            letter-spacing: 3px;
+            margin: 0;
             font-weight: 900;
-            color: var(--deep-plum);
-            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.25);
+            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.2);
+            line-height: 1.1;
         }
-        
-        .ornate-divider {
-            text-align: center;
-            margin: 0.3rem 0 1rem 0;
-            font-size: 1rem;
+        .compact-header .subtitle {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.0rem;
+            color: var(--blood-red);
+            margin-top: 0.15rem;
+            letter-spacing: 1px;
+        }
+        .compact-header .ornate-mini {
             color: var(--royal-gold);
-            letter-spacing: 10px;
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+            margin-top: 0.1rem;
         }
-        
+        .compact-header .name-field {
+            text-align: center;
+            min-width: 220px;
+            padding-left: 1rem;
+            border-left: 1px solid rgba(139, 105, 20, 0.4);
+            flex-shrink: 0;
+        }
+        .compact-header .name-label {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 0.95rem;
+            color: var(--faded-ink);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .compact-header .name-line {
+            border-bottom: 2px solid var(--faded-ink);
+            height: 1.3rem;
+            width: 100%;
+        }
+
         h2 {
             font-family: 'MedievalSharp', cursive;
-            font-size: 1.9rem;
-            margin-top: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.9rem;
             color: var(--blood-red);
             position: relative;
-            padding-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
         }
-        
+
         h2::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20%;
-            width: 60%;
+            left: 25%;
+            width: 50%;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--royal-gold), var(--burnt-gold), var(--royal-gold), transparent);
         }
-        
+
         .tutorial-box {
             background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
             border: 2px solid var(--burnt-gold);
-            padding: 2rem;
+            padding: 1rem 1.2rem;
             border-radius: 4px;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.2rem;
             position: relative;
         }
-        
+
         .tutorial-box::before {
             content: '';
             position: absolute;
@@ -142,267 +172,268 @@
             border-radius: 2px;
             pointer-events: none;
         }
-        
-        .tutorial-content { flex: 1; }
-        
-        .tutorial-image {
-            width: 200px;
-            flex-shrink: 0;
-            text-align: center;
-        }
-        
+
+        .tutorial-content { flex: 1; font-size: 0.95rem; }
+        .tutorial-content p { margin: 0.4rem 0; }
+        .tutorial-image { width: 130px; flex-shrink: 0; text-align: center; }
         .tutorial-image img {
             max-width: 100%;
-            border-radius: 8px;
-            border: 3px solid var(--royal-gold);
-            box-shadow: 0 4px 15px rgba(45, 27, 78, 0.35);
+            border-radius: 6px;
+            border: 2px solid var(--royal-gold);
+            box-shadow: 0 3px 10px rgba(45, 27, 78, 0.3);
         }
-        
         .tutorial-box h3 {
             font-family: 'MedievalSharp', cursive;
             color: var(--deep-plum);
-            margin-top: 0;
+            margin: 0 0 0.4rem 0;
             text-align: left;
             border-bottom: 1px solid rgba(139, 105, 20, 0.3);
-            padding-bottom: 0.5rem;
-            font-size: 1.7rem;
+            padding-bottom: 0.3rem;
+            font-size: 1.3rem;
         }
-        
+
         .hero-label {
             font-family: 'MedievalSharp', cursive;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
             font-weight: bold;
             color: var(--deep-plum);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
-        
-        .student-name-box {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 2rem;
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.4rem;
-            color: var(--faded-ink);
-        }
-        
-        .student-name-line {
-            border-bottom: 2px solid var(--faded-ink);
-            width: 300px;
-            margin-left: 1rem;
-        }
-        
-        /* Two-column layout */
+
+        /* Row-major grid: levels read top-to-bottom in order: 1,2 / 3,4 / ... */
         .levels-grid {
-            column-count: 2;
-            column-gap: 2rem;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem 1.2rem;
+            margin-top: 1.2rem;
         }
-        
+
         .level-card {
             background: #ffffff;
-            border: 2px solid var(--burnt-gold);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1.5px solid var(--burnt-gold);
+            padding: 0.75rem 0.85rem 0.6rem;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             break-inside: avoid;
             page-break-inside: avoid;
-            display: inline-block;
-            width: 100%;
             box-sizing: border-box;
+            position: relative;
         }
-        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* Region-specific accents (subtle, ink-friendly when printed). */
+        .level-card.region-isocele { border-color: #8b6914; }
+        .level-card.region-isocele .quest-symbol { color: #8b6914; }
+        .level-card.region-isocele .level-header { border-bottom-color: #c9a34f; }
+
+        .level-card.region-rhombic-sands { border-color: #b88840; }
+        .level-card.region-rhombic-sands .quest-symbol { color: #b88840; }
+        .level-card.region-rhombic-sands .level-header { border-bottom-color: #d4a86a; }
+        .level-card.region-rhombic-sands::before { border-style: dashed; border-color: rgba(184, 136, 64, 0.22); }
+
+        .level-card.region-gaelic-grids { border-color: #5a7345; }
+        .level-card.region-gaelic-grids .quest-symbol { color: #5a7345; }
+        .level-card.region-gaelic-grids .level-header { border-bottom-color: #8aa672; }
+        .level-card.region-gaelic-grids::before { border-color: rgba(90, 115, 69, 0.25); }
+
         .level-header {
-            font-size: 1.4rem;
+            font-family: 'MedievalSharp', cursive;
             font-weight: bold;
             color: var(--blood-red);
-            margin-bottom: 0.8rem;
-            font-family: 'MedievalSharp', cursive;
+            margin-bottom: 0.3rem;
             text-align: center;
             border-bottom: 1px solid var(--royal-gold);
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.4rem;
+            line-height: 1.15;
         }
-        
+        .quest-number {
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--burnt-gold);
+            margin-bottom: 0.05rem;
+            text-transform: uppercase;
+        }
+        .quest-symbol { font-size: 1rem; margin: 0 0.4rem; }
+        .quest-title { display: block; font-size: 1.25rem; }
+
+        .level-meta {
+            font-size: 0.78rem;
+            text-align: center;
+            color: var(--faded-ink);
+            margin-bottom: 0.35rem;
+            font-style: italic;
+            line-height: 1.25;
+        }
+        .level-meta .region-badge {
+            display: inline-block;
+            border: 1px solid rgba(139, 105, 20, 0.45);
+            border-radius: 10px;
+            padding: 0.05rem 0.55rem;
+            font-style: normal;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 0.78rem;
+            background: rgba(201, 163, 79, 0.06);
+        }
+        .level-card.region-rhombic-sands .level-meta .region-badge { border-color: rgba(184, 136, 64, 0.55); background: rgba(212, 168, 106, 0.08); }
+        .level-card.region-gaelic-grids .level-meta .region-badge { border-color: rgba(90, 115, 69, 0.55); background: rgba(138, 166, 114, 0.08); }
+        .level-meta .pip { color: var(--royal-gold); margin: 0 0.35rem; font-style: normal; }
+        .level-meta strong { font-style: normal; color: var(--ink-brown); }
+
         .given-prove {
-            margin-bottom: 0.8rem;
-            padding: 0.7rem 1rem;
+            margin-bottom: 0.45rem;
+            padding: 0.5rem 0.75rem;
             background: rgba(45, 27, 78, 0.04);
-            border-left: 4px solid var(--royal-gold);
-            border-radius: 0 4px 4px 0;
-            font-size: 1rem;
+            border-left: 3px solid var(--royal-gold);
+            border-radius: 0 3px 3px 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
-        
+
         .diagram-container {
             text-align: center;
-            margin-bottom: 0.8rem;
-            background: rgba(45, 27, 78, 0.025);
+            margin-bottom: 0.5rem;
+            background: rgba(45, 27, 78, 0.02);
             border: 1px dashed rgba(139, 105, 20, 0.25);
-            border-radius: 4px;
-            padding: 0.5rem;
+            border-radius: 3px;
+            padding: 0.3rem;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
-        
+
         th, td {
-            border: 2px solid rgba(139, 105, 20, 0.35);
-            padding: 0.9rem 0.7rem;
+            border: 1.5px solid rgba(139, 105, 20, 0.35);
+            padding: 0.55rem 0.5rem;
             text-align: left;
             vertical-align: top;
         }
-        
-        td { height: 2.5rem; }
-        
+
+        td { height: 1.8rem; }
+
         th {
             background: var(--deep-plum);
             color: var(--parchment);
             font-family: 'MedievalSharp', cursive;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
         }
-        
+
         @media print {
-            @page {
-                size: letter;
-                margin: 0.5in;
-            }
-            body {
-                background: white !important;
-                padding: 0;
-                margin: 0;
-                font-size: 11pt;
-            }
-            .container {
-                box-shadow: none;
-                border: none;
-                padding: 0.5rem 1rem;
-                max-width: 100%;
-                background: white !important;
-            }
+            @page { size: letter; margin: 0.45in; }
+            body { background: white !important; padding: 0; margin: 0; font-size: 9.5pt; line-height: 1.35; color: #000 !important; }
+            .container { box-shadow: none; border: none; padding: 0; max-width: 100%; background: white !important; }
             .container::before, .container::after { display: none; }
-            .header-banner { display: none; }
-            h1 {
-                font-size: 18pt;
-                margin-top: 0;
-                margin-bottom: 0.3rem;
-            }
-            h2 {
-                font-size: 14pt;
-                margin-top: 0.5rem;
-                margin-bottom: 0.5rem;
-            }
-            h2::after { display: none; }
-            .ornate-divider { margin: 0.2rem 0 0.5rem 0; }
-            .tutorial-box {
-                border: 1px solid #aaa;
-                background: white !important;
-                break-inside: avoid;
-                page-break-inside: avoid;
-                gap: 0.8rem;
-                padding: 1rem;
-                margin-bottom: 1.5rem;
-            }
+            .compact-header { border: 1px solid #555 !important; background: white !important; padding: 0.35rem 0.6rem; margin-bottom: 0.5rem; gap: 0.6rem; }
+            .compact-header::before { display: none; }
+            .compact-header .banner-img { display: none; }
+            .compact-header h1 { font-size: 13pt; letter-spacing: 1.5px; color: #000 !important; text-shadow: none !important; }
+            .compact-header .subtitle { font-size: 9.5pt; color: #000 !important; }
+            .compact-header .ornate-mini { color: #777 !important; font-size: 6.5pt; letter-spacing: 2px; }
+            .compact-header .name-field { min-width: 200px; padding-left: 0.6rem; border-left: 1px solid #888 !important; }
+            .compact-header .name-label { font-size: 9pt; color: #000 !important; }
+            .compact-header .name-line { border-bottom: 1.5px solid #000 !important; height: 1rem; }
+            h2 { font-size: 11.5pt; margin-top: 0.3rem; margin-bottom: 0.35rem; color: #000 !important; padding-bottom: 0.25rem; }
+            h2::after { background: #000 !important; height: 1px; left: 30%; width: 40%; }
+            .tutorial-box { border: 1px solid #555; background: white !important; break-inside: avoid; page-break-inside: avoid; gap: 0.5rem; padding: 0.5rem 0.7rem; margin-bottom: 0.6rem; }
             .tutorial-box::before { display: none; }
-            .tutorial-image { width: 120px; }
-            .tutorial-image img { border-width: 2px; }
-            .levels-grid {
-                column-count: 2;
-                column-gap: 1.2rem;
-            }
+            .tutorial-image { width: 80px; }
+            .tutorial-image img { border: 1.5px solid #555 !important; box-shadow: none !important; }
+            .tutorial-box h3 { font-size: 10.5pt; color: #000 !important; padding-bottom: 0.15rem; margin-bottom: 0.25rem; }
+            .tutorial-content { font-size: 8.5pt; }
+            .tutorial-content p { margin: 0.2rem 0; }
+            .hero-label { font-size: 8.5pt; color: #000 !important; }
+            .levels-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; column-gap: 0.5rem; row-gap: 0.45rem; margin-top: 0.4rem; }
             .level-card {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                border: 1.5px solid #999;
-                box-shadow: none;
-                margin-bottom: 12px;
-                padding: 0.7rem;
+                break-inside: avoid; page-break-inside: avoid;
+                border: 1px solid #555 !important;
+                box-shadow: none !important;
+                padding: 0.35rem 0.4rem 0.3rem;
                 background: white !important;
             }
-            .level-header {
-                font-size: 11pt;
-                margin-bottom: 0.4rem;
-                padding-bottom: 0.3rem;
-            }
-            .given-prove {
-                background: white !important;
-                border-left: 3px solid #999;
-                padding: 0.4rem 0.7rem;
-                margin-bottom: 0.5rem;
-                font-size: 9.5pt;
-            }
-            .diagram-container {
-                border: 1px solid #ddd;
-                background: white !important;
-                padding: 0.3rem;
-                margin-bottom: 0.5rem;
-            }
-            .diagram-container svg {
-                max-height: 180px;
-            }
-            table { font-size: 9.5pt; }
-            th, td { padding: 0.5rem; }
-            td { height: 1.8rem; }
-            th {
-                background: #444 !important;
-                color: white !important;
-                font-size: 10pt;
-            }
-            h2.print-break-before {
-                page-break-before: always;
-                break-before: page;
-            }
-            .student-name-box {
-                font-size: 12pt;
-                margin-bottom: 0.8rem;
-            }
+            .level-card::before { border: 1px solid #aaa !important; inset: 2px; }
+            /* Region styles in print: use border style only (ink-friendly). */
+            .level-card.region-isocele { border-color: #555 !important; }
+            .level-card.region-rhombic-sands { border: 1px dashed #555 !important; }
+            .level-card.region-rhombic-sands::before { border: 1px dashed #aaa !important; }
+            .level-card.region-gaelic-grids { border: 1.5px double #555 !important; }
+            .level-card.region-gaelic-grids::before { border: 1px solid #aaa !important; }
+            .level-header { color: #000 !important; padding-bottom: 0.2rem; margin-bottom: 0.25rem; border-bottom: 1px solid #777 !important; }
+            .quest-number { color: #555 !important; font-size: 7.5pt; letter-spacing: 2.5px; }
+            .quest-symbol { color: #555 !important; font-size: 9pt; }
+            .quest-title { font-size: 10.5pt; }
+            .level-meta { color: #333 !important; font-size: 7.4pt; margin-bottom: 0.25rem; }
+            .level-meta .region-badge { background: white !important; border: 1px solid #888 !important; padding: 0.02rem 0.4rem; }
+            .level-meta .pip { color: #888 !important; }
+            .given-prove { background: white !important; border-left: 2px solid #555 !important; padding: 0.25rem 0.45rem; margin-bottom: 0.3rem; font-size: 8.5pt; line-height: 1.3; }
+            .diagram-container { border: 1px solid #bbb !important; background: white !important; padding: 0.15rem; margin-bottom: 0.3rem; }
+            .diagram-container svg { max-height: 110px !important; margin-bottom: -3px; }
+            table { font-size: 8.5pt; }
+            th, td { padding: 0.35rem 0.3rem; border: 1px solid #777 !important; }
+            td { height: 1.4rem; }
+            th { background: #f0f0f0 !important; color: #000 !important; font-size: 8.5pt; padding-top: 0.18rem; padding-bottom: 0.18rem; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            h2.print-break-before { page-break-before: always; break-before: page; }
         }
-        
+
         @media (max-width: 800px) {
-            .levels-grid { column-count: 1; }
+            .levels-grid { grid-template-columns: 1fr; }
+            .compact-header { flex-direction: column; }
+            .compact-header .name-field { border-left: none; border-top: 1px solid rgba(139, 105, 20, 0.4); padding-left: 0; padding-top: 0.4rem; min-width: 0; width: 100%; }
             .tutorial-box { flex-direction: column; }
-            .container { padding: 1.5rem; }
+            .container { padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-banner">
-        <img src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
+    <div class="compact-header">
+        <img class="banner-img" src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
+        <div class="title-block">
+            <h1>The Chronicles of Euclid</h1>
+            <div class="subtitle">&#9874; Student Quest Log &#9874;</div>
+            <div class="ornate-mini">&#10086; &#10070; &#10086; &#10070; &#10086;</div>
+        </div>
+        <div class="name-field">
+            <span class="name-label">&#9876; Squire&#39;s Name &#9876;</span>
+            <div class="name-line"></div>
+        </div>
     </div>
-    
-    <div class="student-name-box">
-        Student Name: <div class="student-name-line"></div>
-    </div>
-    
-    <h1>The Chronicles of Euclid</h1>
-    <div class="ornate-divider">&#9830; &#9830; &#9830;</div>
-    <h2>Student Quest Log</h2>
-    
+
     <div class="tutorial-box">
         <div class="tutorial-image">
             <img src="Images/MightyHero_NoText.png" alt="Royal Heir">
-            <div class="hero-label">Royal Heir</div>
+            <div class="hero-label">&#10070; Royal Heir &#10070;</div>
         </div>
         <div class="tutorial-content">
-            <h3>Your Geometry Quest Begins...</h3>
-            <p>Welcome to <strong>The Chronicles of Euclid</strong>! You are the Royal Heir to the kingdom. Unfortunately, the kingdom is suffering from "Logical Decay."</p>
-            <p>To rebuild the bridges, castles, and farmlands, you must complete <strong>two-column proofs</strong>. Use this Quest Log to write down your work and keep track of your logical deductions before entering them into the magical portals (your computer).</p>
-            <p><strong>Instructions:</strong> For each level below, read the Given information and look at the Prove goal. Then, fill in the blank table with the correct Statements and Reasons to complete the proof.</p>
+            <h3>Thy Geometry Quest Begins...</h3>
+            <p>Hail, brave Heir! Welcome to <strong>The Chronicles of Euclid</strong>. The kingdom hath fallen ill with <em>Logical Decay</em> &mdash; only thou canst restore it. To rebuild the bridges, castles, and farmlands, thou must complete <strong>two-column proofs</strong>.</p>
+            <p><strong>&#10070; Instructions:</strong> For each Quest below, read the <em>Given</em> scroll and behold the <em>Prove</em> goal. Then fill the blank table with the proper Statements and Reasons. Each region of the realm bears its own crest: <strong>&#9884; Isocele</strong> &middot; <strong>&#9671; Rhombic Sands</strong> &middot; <strong>&#10048; Gaelic Grids</strong>.</p>
         </div>
     </div>
 
-    <h2 class="print-break-before">Your Proof Challenges</h2>
-    
+    <h2 class="print-break-before">&#9876; Thy Proof Challenges &#9876;</h2>
+
     <div class="levels-grid">
 
-        <div class="level-card">
-            <div class="level-header">Level 1: Moat Bridge</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;1<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Moat Bridge</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AD ≅ CD, AB ≅ CB, BD shared<br>
+                <strong>Given:</strong> AD ≅ CD, AB ≅ CB<br>
                 <strong>Prove:</strong> △ABD ≅ △CBD
             </div>
             <div class="diagram-container">
@@ -444,30 +475,91 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[1] = {
-      points: [
-        { id: "A", x: 40, y: 230, label: "A" },
-        { id: "B", x: 160, y: 30, label: "B" },
-        { id: "C", x: 280, y: 230, label: "C" },
-        { id: "D", x: 160, y: 230, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 230,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 30,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 280,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 230,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "CB", from: "C", to: "B" },
-        { id: "AD", from: "A", to: "D" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "BD", from: "B", to: "D" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "CB", count: 1 }, { line: "AD", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 2: Market Stalls</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;2<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Market Stalls</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AB ≅ AD, ∠1 ≅ ∠2, AC shared<br>
+                <strong>Given:</strong> AB ≅ AD, ∠1 ≅ ∠2<br>
                 <strong>Prove:</strong> △ABC ≅ △ADC
             </div>
             <div class="diagram-container">
@@ -509,28 +601,98 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[2] = {
-      points: [
-        { id: "A", x: 160, y: 50, label: "A" },
-        { id: "B", x: 60, y: 150, label: "B" },
-        { id: "C", x: 160, y: 230, label: "C" },
-        { id: "D", x: 260, y: 150, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 150,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 150,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AD", from: "A", to: "D" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "AC", from: "A", to: "C" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "A", rays: ["D", "C"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "C"
+            ],
+            "count": 1
+          }
+        ]
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 3: Sentry Wall</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;3<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Sentry Wall</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ CB, BD bisects AC<br>
                 <strong>Prove:</strong> △ABD ≅ △CBD
@@ -579,28 +741,89 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[3] = {
-      points: [
-        { id: "A", x: 80, y: 50, label: "A" },
-        { id: "D", x: 160, y: 50, label: "D" },
-        { id: "C", x: 240, y: 50, label: "C" },
-        { id: "B", x: 160, y: 220, label: "B" }
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 50,
+          "label": "D"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 50,
+          "label": "C"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 220,
+          "label": "B"
+        }
       ],
-      lines: [
-        { id: "AD", from: "A", to: "D" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "AB", from: "A", to: "B" },
-        { id: "CB", from: "C", to: "B" },
-        { id: "DB", from: "D", to: "B" }
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "DB",
+          "from": "D",
+          "to": "B"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 2 }, { line: "CB", count: 2 }, { line: "AD", count: 1 }, { line: "DC", count: 1 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "CB",
+            "count": 2
+          },
+          {
+            "line": "AD",
+            "count": 1
+          },
+          {
+            "line": "DC",
+            "count": 1
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 4: Blacksmith Tongs</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;4<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Blacksmith Tongs</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> Lines AE and BD intersect at C, AC ≅ CE, BC ≅ CD<br>
                 <strong>Prove:</strong> △ABC ≅ △EDC
@@ -644,28 +867,90 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[4] = {
-      points: [
-        { id: "A", x: 60, y: 60, label: "A" },
-        { id: "B", x: 260, y: 60, label: "B" },
-        { id: "C", x: 160, y: 140, label: "C" },
-        { id: "D", x: 60, y: 220, label: "D" },
-        { id: "E", x: 260, y: 220, label: "E" }
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 220,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 220,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AE", from: "A", to: "E" },
-        { id: "BD", from: "B", to: "D" },
-        { id: "AB", from: "A", to: "B" },
-        { id: "DE", from: "D", to: "E" }
+      "lines": [
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "CE",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 5: Fishing Docks</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;5<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Fishing Docks</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠A ≅ ∠D, AC ≅ DF, ∠C ≅ ∠F<br>
                 <strong>Prove:</strong> △ABC ≅ △DEF
@@ -709,31 +994,131 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[5] = {
-      points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 100, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" },
-        { id: "F", x: 280, y: 100, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 100,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 40,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 140,
+          "y": 100,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 100,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 240,
+          "y": 40,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 280,
+          "y": 100,
+          "label": "F"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "DF", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "C", rays: ["A", "B"], count: 2 }, { vertex: "F", rays: ["D", "E"], count: 2 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "DF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "F",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 2
+          }
+        ]
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 6: Stable Rafters</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;6<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Stable Rafters</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠A ≅ ∠D, ∠B ≅ ∠E, BC ≅ EF<br>
                 <strong>Prove:</strong> △ABC ≅ △DEF
@@ -777,31 +1162,131 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[6] = {
-      points: [
-        { id: "A", x: 40, y: 60, label: "A" },
-        { id: "B", x: 120, y: 60, label: "B" },
-        { id: "C", x: 40, y: 140, label: "C" },
-        { id: "D", x: 180, y: 60, label: "D" },
-        { id: "E", x: 260, y: 60, label: "E" },
-        { id: "F", x: 180, y: 140, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 120,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 60,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 180,
+          "y": 140,
+          "label": "F"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "BC", count: 1 }, { line: "EF", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "BC",
+            "count": 1
+          },
+          {
+            "line": "EF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "B",
+            "rays": [
+              "A",
+              "C"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "E",
+            "rays": [
+              "D",
+              "F"
+            ],
+            "count": 2
+          }
+        ]
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 7: Palace Vault</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;7<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Palace Vault</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ AD, BC ≅ DC<br>
                 <strong>Prove:</strong> ∠B ≅ ∠D
@@ -850,28 +1335,89 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[7] = {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 80, y: 130, label: "B" },
-        { id: "C", x: 160, y: 220, label: "C" },
-        { id: "D", x: 240, y: 130, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 130,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 240,
+          "y": 130,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DA", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "DA",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 8: Grand Portcullis</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;8<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Grand Portcullis</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠B and ∠D are right ∠s, AC ≅ EC, AB ≅ ED<br>
                 <strong>Prove:</strong> △ABC ≅ △EDC
@@ -915,30 +1461,100 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[8] = {
-      points: [
-        { id: "A", x: 60, y: 40, label: "A" },
-        { id: "B", x: 60, y: 140, label: "B" },
-        { id: "C", x: 160, y: 140, label: "C" },
-        { id: "D", x: 260, y: 140, label: "D" },
-        { id: "E", x: 260, y: 40, label: "E" }
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 140,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 140,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 40,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "ED", from: "E", to: "D" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "EC", from: "E", to: "C" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "ED",
+          "from": "E",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "EC",
+          "from": "E",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "EC", count: 1 }, { line: "AB", count: 2 }, { line: "ED", count: 2 }],
-        arcs: [] // Right angles rendered manually or via special mark
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "EC",
+            "count": 1
+          },
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "ED",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 9: Bell Tower</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;9<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Bell Tower</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ AC, AD bisects ∠BAC<br>
                 <strong>Prove:</strong> ∠B ≅ ∠C
@@ -992,30 +1608,96 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[9] = {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 80, y: 220, label: "B" },
-        { id: "C", x: 240, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AD", from: "A", to: "D" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "D"], count: 1 }, { vertex: "A", rays: ["C", "D"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "D"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "C",
+              "D"
+            ],
+            "count": 1
+          }
+        ]
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 10: Royal Vineyard</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;10<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Royal Vineyard</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠1 ≅ ∠2, Transversal t<br>
-                <strong>Prove:</strong> Line l ∥ Line m
+                <strong>Given:</strong> Line l ∥ Line m, Transversal t<br>
+                <strong>Prove:</strong> ∠3 ≅ ∠6
             </div>
             <div class="diagram-container">
                 <svg id="diagram-10" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1044,6 +1726,11 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1051,34 +1738,117 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[10] = {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "t" },
-        { id: "F", x: 200, y: 230, label: "" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "B",
+          "x": 280,
+          "y": 80,
+          "label": "l"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 180,
+          "label": ""
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "m"
+        },
+        {
+          "id": "E",
+          "x": 120,
+          "y": 30,
+          "label": "t"
+        },
+        {
+          "id": "F",
+          "x": 200,
+          "y": 230,
+          "label": ""
+        },
+        {
+          "id": "P",
+          "x": 140,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "Q",
+          "x": 180,
+          "y": 180,
+          "label": ""
+        }
       ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
+      "lines": [
+        {
+          "id": "l",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "m",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "t",
+          "from": "E",
+          "to": "F"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [
-          { vertex: "P", rays: ["A", "F"], count: 1, label: "1", radius: 18 },
-          { vertex: "Q", rays: ["D", "E"], count: 1, label: "2", radius: 18 }
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "P",
+            "rays": [
+              "B",
+              "E"
+            ],
+            "count": 1,
+            "label": "2",
+            "radius": 20
+          },
+          {
+            "vertex": "P",
+            "rays": [
+              "A",
+              "F"
+            ],
+            "count": 1,
+            "label": "3",
+            "radius": 20
+          },
+          {
+            "vertex": "Q",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "label": "6",
+            "radius": 20
+          }
         ]
       }
-
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 11: Rhind Papyrus Scriptum</div>
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;11<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Rhind Papyrus Scriptum</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> Rectangle ABCD, AB ≅ CD, BC ≅ DA<br>
                 <strong>Prove:</strong> △ABC ≅ △CDA
@@ -1122,30 +1892,91 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[11] = {
-      points: [
-        { id: "A", x: 60, y: 60, label: "A" },
-        { id: "B", x: 260, y: 60, label: "B" },
-        { id: "C", x: 260, y: 180, label: "C" },
-        { id: "D", x: 60, y: 180, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 180,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "CD", count: 1 }, { line: "BC", count: 2 }, { line: "DA", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CD",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "DA",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 12: Pyramid Capstone</div>
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;12<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Pyramid Capstone</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> △ABC is isosceles, AB ≅ AC, AD is altitude to BC<br>
+                <strong>Given:</strong> AB ≅ AC, AD is altitude to BC<br>
                 <strong>Prove:</strong> △ABD ≅ △ACD
             </div>
             <div class="diagram-container">
@@ -1192,30 +2023,79 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[12] = {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 60, y: 220, label: "B" },
-        { id: "C", x: 260, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AD", from: "A", to: "D" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 13: Pharaoh's Court</div>
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;13<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Pharaoh's Court</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> Line l ∥ Line m, Transversal t, ∠1 and ∠2 are corresp. ∠s<br>
-                <strong>Prove:</strong> ∠1 ≅ ∠2
+                <strong>Given:</strong> Lines AB and CD intersect at E<br>
+                <strong>Prove:</strong> ∠AEC ≅ ∠BED
             </div>
             <div class="diagram-container">
                 <svg id="diagram-13" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1244,6 +2124,31 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1251,33 +2156,66 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[13] = {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "" },
-        { id: "F", x: 200, y: 230, label: "t" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 60,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 160,
+          "y": 130,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "P", rays: ["A", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "E"], count: 1, label: "2" }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 14: Sphinx's Riddle</div>
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;14<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Sphinx's Riddle</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠E, AC ≅ EC, Line segments AE and BD intersect at C<br>
-                <strong>Prove:</strong> △ABC ≅ △EDC
+                <strong>Given:</strong> Parallelogram ABCD, Diagonal AC<br>
+                <strong>Prove:</strong> AB ≅ CD, BC ≅ AD
             </div>
             <div class="diagram-container">
                 <svg id="diagram-14" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1311,6 +2249,21 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1318,33 +2271,75 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[14] = {
-      points: [
-        { id: "A", x: 40, y: 40, label: "A" },
-        { id: "B", x: 40, y: 140, label: "B" },
-        { id: "C", x: 140, y: 90, label: "C" },
-        { id: "D", x: 240, y: 40, label: "D" },
-        { id: "E", x: 240, y: 140, label: "E" }
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "CE", from: "C", to: "E" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "E", rays: ["D", "C"], count: 1 }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 15: Valley of Kings</div>
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;15<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Valley of Kings</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠D, ∠B ≅ ∠E<br>
-                <strong>Prove:</strong> △ABC ~ △DEF
+                <strong>Given:</strong> Parallelogram ABCD, Diagonals AC, BD intersect at E<br>
+                <strong>Prove:</strong> AE ≅ CE, BE ≅ DE
             </div>
             <div class="diagram-container">
                 <svg id="diagram-15" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1373,6 +2368,26 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1380,34 +2395,86 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[15] = {
-      points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 160, y: 120, label: "D" },
-        { id: "E", x: 250, y: 30, label: "E" },
-        { id: "F", x: 310, y: 120, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 150,
+          "y": 120,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 16: Academy of Tara</div>
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;16<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Academy of Tara</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AB ≅ DE, ∠B ≅ ∠E, BC ≅ EF<br>
-                <strong>Prove:</strong> △ABC ≅ △DEF
+                <strong>Given:</strong> Line l ⊥ bisector of AB at M, Point P is on l<br>
+                <strong>Prove:</strong> PA ≅ PB
             </div>
             <div class="diagram-container">
                 <svg id="diagram-16" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1441,6 +2508,26 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1448,34 +2535,70 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[16] = {
-      points: [
-        { id: "A", x: 40, y: 40, label: "A" },
-        { id: "B", x: 40, y: 140, label: "B" },
-        { id: "C", x: 140, y: 140, label: "C" },
-        { id: "D", x: 200, y: 40, label: "D" },
-        { id: "E", x: 200, y: 140, label: "E" },
-        { id: "F", x: 300, y: 140, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 180,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "M",
+          "x": 160,
+          "y": 180,
+          "label": "M"
+        },
+        {
+          "id": "P",
+          "x": 160,
+          "y": 60,
+          "label": "P"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "PM",
+          "from": "P",
+          "to": "M"
+        },
+        {
+          "id": "PA",
+          "from": "P",
+          "to": "A"
+        },
+        {
+          "id": "PB",
+          "from": "P",
+          "to": "B"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "BC", count: 2 }, { line: "EF", count: 2 }],
-        arcs: [{ vertex: "B", rays: ["A", "C"], count: 1 }, { vertex: "E", rays: ["D", "F"], count: 1 }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 17: Glastonbury Gate</div>
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;17<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Glastonbury Gate</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠D, AB ≅ DE, ∠B ≅ ∠E<br>
-                <strong>Prove:</strong> △ABC ≅ △DEF
+                <strong>Given:</strong> △ABC with ∠B ≅ ∠C, AD is altitude to BC<br>
+                <strong>Prove:</strong> AB ≅ AC
             </div>
             <div class="diagram-container">
                 <svg id="diagram-17" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1509,6 +2632,26 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1516,34 +2659,89 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[17] = {
-      points: [
-        { id: "A", x: 40, y: 140, label: "A" },
-        { id: "B", x: 140, y: 140, label: "B" },
-        { id: "C", x: 90, y: 40, label: "C" },
-        { id: "D", x: 200, y: 140, label: "D" },
-        { id: "E", x: 300, y: 140, label: "E" },
-        { id: "F", x: 250, y: 40, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 200,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "B",
+            "rays": [
+              "C",
+              "A"
+            ],
+            "count": 1,
+            "radius": 20
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 18: Druid's Glen</div>
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;18<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Druid's Glen</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> Line l ∥ Line m, Transversal t, ∠1 and ∠7 are alt. exterior ∠s<br>
-                <strong>Prove:</strong> ∠1 ≅ ∠7
+                <strong>Given:</strong> △ABC, side BC extended to D<br>
+                <strong>Prove:</strong> m∠ACD = m∠A + m∠B
             </div>
             <div class="diagram-container">
                 <svg id="diagram-18" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1572,6 +2770,21 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1579,33 +2792,65 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[18] = {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "" },
-        { id: "F", x: 200, y: 230, label: "t" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
+      "points": [
+        {
+          "id": "A",
+          "x": 100,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 40,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 180,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "P", rays: ["B", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "F"], count: 1, label: "7" }]
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 19: Tailteann Games</div>
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;19<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Tailteann Games</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AB ≅ AD, BC ≅ DC, AC is a shared side<br>
-                <strong>Prove:</strong> △ABC ≅ △ADC
+                <strong>Given:</strong> Right △ABC with right ∠C, CD ⊥ AB<br>
+                <strong>Prove:</strong> △ACD ~ △ABC
             </div>
             <div class="diagram-container">
                 <svg id="diagram-19" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1639,6 +2884,16 @@
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -1646,31 +2901,70 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[19] = {
-      points: [
-        { id: "A", x: 160, y: 50, label: "A" },
-        { id: "B", x: 60, y: 140, label: "B" },
-        { id: "C", x: 160, y: 230, label: "C" },
-        { id: "D", x: 260, y: 140, label: "D" }
+      "points": [
+        {
+          "id": "C",
+          "x": 80,
+          "y": 60,
+          "label": "C"
+        },
+        {
+          "id": "A",
+          "x": 80,
+          "y": 200,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "D",
+          "x": 147,
+          "y": 148,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
+      "lines": [
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
       }
     };
         </script>
 
-        <div class="level-card">
-            <div class="level-header">Level 20: Fastnet Beacon</div>
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;20<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Fastnet Beacon</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠B, ∠E right ∠s, ∠A ≅ ∠D<br>
-                <strong>Prove:</strong> △ABC ~ △DEF
+                <strong>Given:</strong> AB ≅ AC, AD ≅ AE<br>
+                <strong>Prove:</strong> BE ≅ CD
             </div>
             <div class="diagram-container">
                 <svg id="diagram-20" width="320" height="260" style="max-width: 100%;"></svg>
@@ -1711,25 +3005,82 @@
         <script>
             window.diagramsData = window.diagramsData || {};
             window.diagramsData[20] = {
-      points: [
-        { id: "A", x: 40, y: 140, label: "A" },
-        { id: "B", x: 100, y: 140, label: "B" },
-        { id: "C", x: 100, y: 40, label: "C" },
-        { id: "D", x: 150, y: 180, label: "D" },
-        { id: "E", x: 240, y: 180, label: "E" },
-        { id: "F", x: 240, y: 30, label: "F" }
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 120,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 120,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 200,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 280,
+          "y": 200,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BE",
+          "from": "B",
+          "to": "E"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "AE",
+            "count": 2
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
       }
     };
         </script>
@@ -1753,6 +3104,20 @@ function drawDiagram(svg, diagram) {
     svg.innerHTML = "";
 
     const getPoint = (id) => diagram.points.find((p) => p.id === id);
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    diagram.points.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+    });
+    const padding = 40;
+    minX -= padding; minY -= padding; maxX += padding; maxY += padding;
+    svg.setAttribute("viewBox", `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+    svg.style.width = "100%";
+    svg.style.height = "auto";
+    svg.style.maxHeight = "160px";
 
     // Draw Lines
     if (diagram.lines) {
@@ -1813,12 +3178,25 @@ function drawDiagram(svg, diagram) {
 
         if (point.label) {
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", point.x + 8);
-            text.setAttribute("y", point.y - 8);
+            const cx = (minX + maxX) / 2;
+            const cy = (minY + maxY) / 2;
+            const dx = point.x > cx ? 12 : -12;
+            const dy = point.y > cy ? 12 : -12;
+            
+            text.setAttribute("x", point.x + dx);
+            text.setAttribute("y", point.y + dy);
             text.setAttribute("fill", "#3b2414");
             text.setAttribute("font-family", "'Crimson Text', serif");
-            text.setAttribute("font-size", "16");
+            text.setAttribute("font-size", "18");
             text.setAttribute("font-weight", "bold");
+            text.setAttribute("text-anchor", point.x > cx ? "start" : "end");
+            text.setAttribute("dominant-baseline", point.y > cy ? "hanging" : "auto");
+            
+            text.setAttribute("paint-order", "stroke fill");
+            text.setAttribute("stroke", "rgba(255,255,255,0.9)");
+            text.setAttribute("stroke-width", "5");
+            text.setAttribute("stroke-linejoin", "round");
+            
             text.textContent = point.label;
             svg.appendChild(text);
         }

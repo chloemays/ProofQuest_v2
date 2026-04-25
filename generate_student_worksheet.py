@@ -2,20 +2,37 @@ import re
 import json
 import os
 
+# Each region gets a distinct decorative symbol that prints well as outline-only
+# in B&W. Used to give each area a unique flavor that still flows together.
+#   Isocele           -> fleur-de-lis (⚜)   classical/courtly
+#   The Rhombic Sands -> white diamond (◇)   matches the region name + desert
+#   The Gaelic Grids  -> black florette (❀)  Celtic floral motif
+REGION_SYMBOLS = {
+    'Isocele': '&#9884;',
+    'The Rhombic Sands': '&#9671;',
+    'The Gaelic Grids': '&#10048;',
+}
+DEFAULT_REGION_SYMBOL = '&#10070;'
+
+
+def region_slug(region):
+    if not region:
+        return 'unknown'
+    s = region.lower().replace('the ', '').strip()
+    return re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+
+
 def extract_levels_from_js(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # Find the levels array in game.js
     match = re.search(r'const levels = \[(.*?)\];\s*(?:let|const|var) ', content, re.DOTALL)
     if not match:
         print("Could not find levels array in game.js")
         return []
 
     array_content = match.group(1)
-    
-    # Split into individual level objects using brace-counting
-    # Each top-level object in the array starts with { and ends with }
+
     level_strings = []
     depth = 0
     current_start = None
@@ -29,44 +46,50 @@ def extract_levels_from_js(filepath):
             if depth == 0 and current_start is not None:
                 level_strings.append(array_content[current_start:i+1])
                 current_start = None
-    
+
     levels_data = []
-    
+
     for block in level_strings:
-        # Extract top-level id (first occurrence, which is the level id)
-        level_id_match = re.search(r'^\s*\{\s*id:\s*(\d+)', block)
-        if not level_id_match: continue
-        level_id = level_id_match.group(1)
-        
-        name_match = re.search(r'name:\s*"([^"]+)"', block)
-        name = name_match.group(1) if name_match else "Unknown"
-        
-        given_match = re.search(r'given:\s*\[(.*?)\]', block, re.DOTALL)
+        level_id_match = re.search(r'^\s*\{\s*"?id"?:\s*(\d+)', block)
+        if not level_id_match:
+            continue
+        level_id = int(level_id_match.group(1))
+
+        def first_str(field):
+            m = re.search(r'"?' + field + r'"?:\s*"([^"]+)"', block)
+            return m.group(1) if m else ""
+
+        name = first_str('name') or "Unknown"
+        region = first_str('region')
+        theorem = first_str('theorem')
+        repair_time = first_str('repairTime')
+
+        given_match = re.search(r'"?given"?:\s*\[(.*?)\]', block, re.DOTALL)
         given_items = []
         if given_match:
             given_raw = given_match.group(1)
             if given_raw.strip():
                 given_items = [g.strip().strip('"').strip("'") for g in given_raw.split(',')]
-            
-        prove_match = re.search(r'prove:\s*"([^"]+)"', block)
-        prove = prove_match.group(1) if prove_match else "Unknown"
-        
-        steps_match = re.search(r'steps:\s*\[(.*?)\]\s*,', block, re.DOTALL)
+
+        prove = first_str('prove') or "Unknown"
+
+        steps_match = re.search(r'"?steps"?:\s*\[(.*?)\]\s*,', block, re.DOTALL)
         steps = []
         if steps_match:
             steps_raw = steps_match.group(1)
             step_blocks = re.findall(r'\{[^\}]+\}', steps_raw)
             for sb in step_blocks:
-                stmt_m = re.search(r'statement:\s*"([^"]+)"', sb)
-                rsn_m = re.search(r'reason:\s*"([^"]+)"', sb)
+                stmt_m = re.search(r'"?statement"?:\s*"([^"]+)"', sb)
+                rsn_m = re.search(r'"?reason"?:\s*"([^"]+)"', sb)
                 if stmt_m and rsn_m:
                     steps.append({
                         "statement": stmt_m.group(1),
                         "reason": rsn_m.group(1)
                     })
-                    
-        # Extract diagram using brace-counting from 'diagram: {'
-        diagram_start = block.find('diagram: {')
+
+        diagram_start = block.find('"diagram": {')
+        if diagram_start == -1:
+            diagram_start = block.find('diagram: {')
         diagram_str = "null"
         if diagram_start != -1:
             brace_start = block.find('{', diagram_start)
@@ -80,16 +103,19 @@ def extract_levels_from_js(filepath):
                         if d == 0:
                             diagram_str = block[brace_start:i+1]
                             break
-                            
+
         levels_data.append({
             "id": level_id,
             "name": name,
+            "region": region,
+            "theorem": theorem,
+            "repair_time": repair_time,
             "given": given_items,
             "prove": prove,
             "steps": steps,
-            "diagram_js": diagram_str
+            "diagram_js": diagram_str,
         })
-        
+
     return levels_data
 
 def generate_html(levels):
@@ -115,29 +141,28 @@ def generate_html(levels):
             --midnight: #1a1028;
             --border-ornate: #8b6914;
         }
-        
+
         body {
             font-family: 'Crimson Text', Georgia, serif;
             background-color: #ffffff;
             color: var(--ink-brown);
             margin: 0;
             padding: 2rem;
-            line-height: 1.6;
-            font-size: 1.1rem;
+            line-height: 1.55;
+            font-size: 1.05rem;
         }
-        
+
         .container {
-            max-width: 1200px; 
+            max-width: 1200px;
             margin: 0 auto;
             background: #ffffff;
             border: 3px double var(--border-ornate);
             border-radius: 4px;
-            padding: 2.5rem 3.5rem;
+            padding: 2rem 2.5rem;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             position: relative;
         }
-        
-        /* Ornate corner flourishes */
+
         .container::before,
         .container::after {
             content: '';
@@ -147,88 +172,119 @@ def generate_html(levels):
             border: 3px solid var(--royal-gold);
             opacity: 0.5;
         }
-        .container::before {
-            top: 14px; left: 14px;
-            border-right: none; border-bottom: none;
-        }
-        .container::after {
-            bottom: 14px; right: 14px;
-            border-left: none; border-top: none;
-        }
-        
-        .header-banner {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .header-banner img {
-            max-width: 100%;
-            height: auto;
-            max-height: 200px;
-            border-radius: 4px;
-            border: 3px solid var(--royal-gold);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            object-fit: cover;
-        }
-        
+        .container::before { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+        .container::after { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
         h1, h2, h3 {
             font-family: 'Cinzel Decorative', 'MedievalSharp', cursive;
             color: var(--deep-plum);
             text-align: center;
         }
-        
-        h1 {
-            font-size: 2.3rem;
+
+        /* Compact header: image, title, and name field on a single row */
+        .compact-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid var(--burnt-gold);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
+            position: relative;
+        }
+        .compact-header::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .compact-header .banner-img {
+            width: 110px;
+            height: 75px;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            border-radius: 3px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .compact-header .title-block { flex: 1; text-align: center; }
+        .compact-header h1 {
+            font-size: 1.55rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            padding-bottom: 0.5rem;
-            margin-top: 1rem;
-            margin-bottom: 0.3rem;
+            letter-spacing: 3px;
+            margin: 0;
             font-weight: 900;
-            color: var(--deep-plum);
-            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.25);
+            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.2);
+            line-height: 1.1;
         }
-        
-        .ornate-divider {
-            text-align: center;
-            margin: 0.3rem 0 1rem 0;
-            font-size: 1rem;
+        .compact-header .subtitle {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.0rem;
+            color: var(--blood-red);
+            margin-top: 0.15rem;
+            letter-spacing: 1px;
+        }
+        .compact-header .ornate-mini {
             color: var(--royal-gold);
-            letter-spacing: 10px;
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+            margin-top: 0.1rem;
         }
-        
+        .compact-header .name-field {
+            text-align: center;
+            min-width: 220px;
+            padding-left: 1rem;
+            border-left: 1px solid rgba(139, 105, 20, 0.4);
+            flex-shrink: 0;
+        }
+        .compact-header .name-label {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 0.95rem;
+            color: var(--faded-ink);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .compact-header .name-line {
+            border-bottom: 2px solid var(--faded-ink);
+            height: 1.3rem;
+            width: 100%;
+        }
+
         h2 {
             font-family: 'MedievalSharp', cursive;
-            font-size: 1.9rem;
-            margin-top: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.9rem;
             color: var(--blood-red);
             position: relative;
-            padding-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
         }
-        
+
         h2::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20%;
-            width: 60%;
+            left: 25%;
+            width: 50%;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--royal-gold), var(--burnt-gold), var(--royal-gold), transparent);
         }
-        
+
         .tutorial-box {
             background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
             border: 2px solid var(--burnt-gold);
-            padding: 2rem;
+            padding: 1rem 1.2rem;
             border-radius: 4px;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.2rem;
             position: relative;
         }
-        
+
         .tutorial-box::before {
             content: '';
             position: absolute;
@@ -237,269 +293,278 @@ def generate_html(levels):
             border-radius: 2px;
             pointer-events: none;
         }
-        
-        .tutorial-content { flex: 1; }
-        
-        .tutorial-image {
-            width: 200px;
-            flex-shrink: 0;
-            text-align: center;
-        }
-        
+
+        .tutorial-content { flex: 1; font-size: 0.95rem; }
+        .tutorial-content p { margin: 0.4rem 0; }
+        .tutorial-image { width: 130px; flex-shrink: 0; text-align: center; }
         .tutorial-image img {
             max-width: 100%;
-            border-radius: 8px;
-            border: 3px solid var(--royal-gold);
-            box-shadow: 0 4px 15px rgba(45, 27, 78, 0.35);
+            border-radius: 6px;
+            border: 2px solid var(--royal-gold);
+            box-shadow: 0 3px 10px rgba(45, 27, 78, 0.3);
         }
-        
         .tutorial-box h3 {
             font-family: 'MedievalSharp', cursive;
             color: var(--deep-plum);
-            margin-top: 0;
+            margin: 0 0 0.4rem 0;
             text-align: left;
             border-bottom: 1px solid rgba(139, 105, 20, 0.3);
-            padding-bottom: 0.5rem;
-            font-size: 1.7rem;
+            padding-bottom: 0.3rem;
+            font-size: 1.3rem;
         }
-        
+
         .hero-label {
             font-family: 'MedievalSharp', cursive;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
             font-weight: bold;
             color: var(--deep-plum);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
-        
-        .student-name-box {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 2rem;
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.4rem;
-            color: var(--faded-ink);
-        }
-        
-        .student-name-line {
-            border-bottom: 2px solid var(--faded-ink);
-            width: 300px;
-            margin-left: 1rem;
-        }
-        
-        /* Two-column layout */
+
+        /* Row-major grid: levels read top-to-bottom in order: 1,2 / 3,4 / ... */
         .levels-grid {
-            column-count: 2;
-            column-gap: 2rem;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem 1.2rem;
+            margin-top: 1.2rem;
         }
-        
+
         .level-card {
             background: #ffffff;
-            border: 2px solid var(--burnt-gold);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1.5px solid var(--burnt-gold);
+            padding: 0.75rem 0.85rem 0.6rem;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             break-inside: avoid;
             page-break-inside: avoid;
-            display: inline-block;
-            width: 100%;
             box-sizing: border-box;
+            position: relative;
         }
-        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* Region-specific accents (subtle, ink-friendly when printed). */
+        .level-card.region-isocele { border-color: #8b6914; }
+        .level-card.region-isocele .quest-symbol { color: #8b6914; }
+        .level-card.region-isocele .level-header { border-bottom-color: #c9a34f; }
+
+        .level-card.region-rhombic-sands { border-color: #b88840; }
+        .level-card.region-rhombic-sands .quest-symbol { color: #b88840; }
+        .level-card.region-rhombic-sands .level-header { border-bottom-color: #d4a86a; }
+        .level-card.region-rhombic-sands::before { border-style: dashed; border-color: rgba(184, 136, 64, 0.22); }
+
+        .level-card.region-gaelic-grids { border-color: #5a7345; }
+        .level-card.region-gaelic-grids .quest-symbol { color: #5a7345; }
+        .level-card.region-gaelic-grids .level-header { border-bottom-color: #8aa672; }
+        .level-card.region-gaelic-grids::before { border-color: rgba(90, 115, 69, 0.25); }
+
         .level-header {
-            font-size: 1.4rem;
+            font-family: 'MedievalSharp', cursive;
             font-weight: bold;
             color: var(--blood-red);
-            margin-bottom: 0.8rem;
-            font-family: 'MedievalSharp', cursive;
+            margin-bottom: 0.3rem;
             text-align: center;
             border-bottom: 1px solid var(--royal-gold);
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.4rem;
+            line-height: 1.15;
         }
-        
+        .quest-number {
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--burnt-gold);
+            margin-bottom: 0.05rem;
+            text-transform: uppercase;
+        }
+        .quest-symbol { font-size: 1rem; margin: 0 0.4rem; }
+        .quest-title { display: block; font-size: 1.25rem; }
+
+        .level-meta {
+            font-size: 0.78rem;
+            text-align: center;
+            color: var(--faded-ink);
+            margin-bottom: 0.35rem;
+            font-style: italic;
+            line-height: 1.25;
+        }
+        .level-meta .region-badge {
+            display: inline-block;
+            border: 1px solid rgba(139, 105, 20, 0.45);
+            border-radius: 10px;
+            padding: 0.05rem 0.55rem;
+            font-style: normal;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 0.78rem;
+            background: rgba(201, 163, 79, 0.06);
+        }
+        .level-card.region-rhombic-sands .level-meta .region-badge { border-color: rgba(184, 136, 64, 0.55); background: rgba(212, 168, 106, 0.08); }
+        .level-card.region-gaelic-grids .level-meta .region-badge { border-color: rgba(90, 115, 69, 0.55); background: rgba(138, 166, 114, 0.08); }
+        .level-meta .pip { color: var(--royal-gold); margin: 0 0.35rem; font-style: normal; }
+        .level-meta strong { font-style: normal; color: var(--ink-brown); }
+
         .given-prove {
-            margin-bottom: 0.8rem;
-            padding: 0.7rem 1rem;
+            margin-bottom: 0.45rem;
+            padding: 0.5rem 0.75rem;
             background: rgba(45, 27, 78, 0.04);
-            border-left: 4px solid var(--royal-gold);
-            border-radius: 0 4px 4px 0;
-            font-size: 1rem;
+            border-left: 3px solid var(--royal-gold);
+            border-radius: 0 3px 3px 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
-        
+
         .diagram-container {
             text-align: center;
-            margin-bottom: 0.8rem;
-            background: rgba(45, 27, 78, 0.025);
+            margin-bottom: 0.5rem;
+            background: rgba(45, 27, 78, 0.02);
             border: 1px dashed rgba(139, 105, 20, 0.25);
-            border-radius: 4px;
-            padding: 0.5rem;
+            border-radius: 3px;
+            padding: 0.3rem;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
-        
+
         th, td {
-            border: 2px solid rgba(139, 105, 20, 0.35);
-            padding: 0.9rem 0.7rem;
+            border: 1.5px solid rgba(139, 105, 20, 0.35);
+            padding: 0.55rem 0.5rem;
             text-align: left;
             vertical-align: top;
         }
-        
-        td { height: 2.5rem; }
-        
+
+        td { height: 1.8rem; }
+
         th {
             background: var(--deep-plum);
             color: var(--parchment);
             font-family: 'MedievalSharp', cursive;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
         }
-        
+
         @media print {
-            @page {
-                size: letter;
-                margin: 0.5in;
-            }
-            body {
-                background: white !important;
-                padding: 0;
-                margin: 0;
-                font-size: 11pt;
-            }
-            .container {
-                box-shadow: none;
-                border: none;
-                padding: 0.5rem 1rem;
-                max-width: 100%;
-                background: white !important;
-            }
+            @page { size: letter; margin: 0.45in; }
+            body { background: white !important; padding: 0; margin: 0; font-size: 9.5pt; line-height: 1.35; color: #000 !important; }
+            .container { box-shadow: none; border: none; padding: 0; max-width: 100%; background: white !important; }
             .container::before, .container::after { display: none; }
-            .header-banner { display: none; }
-            h1 {
-                font-size: 18pt;
-                margin-top: 0;
-                margin-bottom: 0.3rem;
-            }
-            h2 {
-                font-size: 14pt;
-                margin-top: 0.5rem;
-                margin-bottom: 0.5rem;
-            }
-            h2::after { display: none; }
-            .ornate-divider { margin: 0.2rem 0 0.5rem 0; }
-            .tutorial-box {
-                border: 1px solid #aaa;
-                background: white !important;
-                break-inside: avoid;
-                page-break-inside: avoid;
-                gap: 0.8rem;
-                padding: 1rem;
-                margin-bottom: 1.5rem;
-            }
+            .compact-header { border: 1px solid #555 !important; background: white !important; padding: 0.35rem 0.6rem; margin-bottom: 0.5rem; gap: 0.6rem; }
+            .compact-header::before { display: none; }
+            .compact-header .banner-img { display: none; }
+            .compact-header h1 { font-size: 13pt; letter-spacing: 1.5px; color: #000 !important; text-shadow: none !important; }
+            .compact-header .subtitle { font-size: 9.5pt; color: #000 !important; }
+            .compact-header .ornate-mini { color: #777 !important; font-size: 6.5pt; letter-spacing: 2px; }
+            .compact-header .name-field { min-width: 200px; padding-left: 0.6rem; border-left: 1px solid #888 !important; }
+            .compact-header .name-label { font-size: 9pt; color: #000 !important; }
+            .compact-header .name-line { border-bottom: 1.5px solid #000 !important; height: 1rem; }
+            h2 { font-size: 11.5pt; margin-top: 0.3rem; margin-bottom: 0.35rem; color: #000 !important; padding-bottom: 0.25rem; }
+            h2::after { background: #000 !important; height: 1px; left: 30%; width: 40%; }
+            .tutorial-box { border: 1px solid #555; background: white !important; break-inside: avoid; page-break-inside: avoid; gap: 0.5rem; padding: 0.5rem 0.7rem; margin-bottom: 0.6rem; }
             .tutorial-box::before { display: none; }
-            .tutorial-image { width: 120px; }
-            .tutorial-image img { border-width: 2px; }
-            .levels-grid {
-                column-count: 2;
-                column-gap: 1.2rem;
-            }
+            .tutorial-image { width: 80px; }
+            .tutorial-image img { border: 1.5px solid #555 !important; box-shadow: none !important; }
+            .tutorial-box h3 { font-size: 10.5pt; color: #000 !important; padding-bottom: 0.15rem; margin-bottom: 0.25rem; }
+            .tutorial-content { font-size: 8.5pt; }
+            .tutorial-content p { margin: 0.2rem 0; }
+            .hero-label { font-size: 8.5pt; color: #000 !important; }
+            .levels-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; column-gap: 0.5rem; row-gap: 0.45rem; margin-top: 0.4rem; }
             .level-card {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                border: 1.5px solid #999;
-                box-shadow: none;
-                margin-bottom: 12px;
-                padding: 0.7rem;
+                break-inside: avoid; page-break-inside: avoid;
+                border: 1px solid #555 !important;
+                box-shadow: none !important;
+                padding: 0.35rem 0.4rem 0.3rem;
                 background: white !important;
             }
-            .level-header {
-                font-size: 11pt;
-                margin-bottom: 0.4rem;
-                padding-bottom: 0.3rem;
-            }
-            .given-prove {
-                background: white !important;
-                border-left: 3px solid #999;
-                padding: 0.4rem 0.7rem;
-                margin-bottom: 0.5rem;
-                font-size: 9.5pt;
-            }
-            .diagram-container {
-                border: 1px solid #ddd;
-                background: white !important;
-                padding: 0.3rem;
-                margin-bottom: 0.5rem;
-            }
-            .diagram-container svg {
-                max-height: 180px;
-            }
-            table { font-size: 9.5pt; }
-            th, td { padding: 0.5rem; }
-            td { height: 1.8rem; }
-            th {
-                background: #444 !important;
-                color: white !important;
-                font-size: 10pt;
-            }
-            h2.print-break-before {
-                page-break-before: always;
-                break-before: page;
-            }
-            .student-name-box {
-                font-size: 12pt;
-                margin-bottom: 0.8rem;
-            }
+            .level-card::before { border: 1px solid #aaa !important; inset: 2px; }
+            /* Region styles in print: use border style only (ink-friendly). */
+            .level-card.region-isocele { border-color: #555 !important; }
+            .level-card.region-rhombic-sands { border: 1px dashed #555 !important; }
+            .level-card.region-rhombic-sands::before { border: 1px dashed #aaa !important; }
+            .level-card.region-gaelic-grids { border: 1.5px double #555 !important; }
+            .level-card.region-gaelic-grids::before { border: 1px solid #aaa !important; }
+            .level-header { color: #000 !important; padding-bottom: 0.2rem; margin-bottom: 0.25rem; border-bottom: 1px solid #777 !important; }
+            .quest-number { color: #555 !important; font-size: 7.5pt; letter-spacing: 2.5px; }
+            .quest-symbol { color: #555 !important; font-size: 9pt; }
+            .quest-title { font-size: 10.5pt; }
+            .level-meta { color: #333 !important; font-size: 7.4pt; margin-bottom: 0.25rem; }
+            .level-meta .region-badge { background: white !important; border: 1px solid #888 !important; padding: 0.02rem 0.4rem; }
+            .level-meta .pip { color: #888 !important; }
+            .given-prove { background: white !important; border-left: 2px solid #555 !important; padding: 0.25rem 0.45rem; margin-bottom: 0.3rem; font-size: 8.5pt; line-height: 1.3; }
+            .diagram-container { border: 1px solid #bbb !important; background: white !important; padding: 0.15rem; margin-bottom: 0.3rem; }
+            .diagram-container svg { max-height: 110px !important; margin-bottom: -3px; }
+            table { font-size: 8.5pt; }
+            th, td { padding: 0.35rem 0.3rem; border: 1px solid #777 !important; }
+            td { height: 1.4rem; }
+            th { background: #f0f0f0 !important; color: #000 !important; font-size: 8.5pt; padding-top: 0.18rem; padding-bottom: 0.18rem; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            h2.print-break-before { page-break-before: always; break-before: page; }
         }
-        
+
         @media (max-width: 800px) {
-            .levels-grid { column-count: 1; }
+            .levels-grid { grid-template-columns: 1fr; }
+            .compact-header { flex-direction: column; }
+            .compact-header .name-field { border-left: none; border-top: 1px solid rgba(139, 105, 20, 0.4); padding-left: 0; padding-top: 0.4rem; min-width: 0; width: 100%; }
             .tutorial-box { flex-direction: column; }
-            .container { padding: 1.5rem; }
+            .container { padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-banner">
-        <img src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
-    </div>
-    
-    <div class="student-name-box">
-        Student Name: <div class="student-name-line"></div>
-    </div>
-    
-    <h1>The Chronicles of Euclid</h1>
-    <div class="ornate-divider">&#9830; &#9830; &#9830;</div>
-    <h2>Student Quest Log</h2>
-    
-    <div class="tutorial-box">
-        <div class="tutorial-image">
-            <img src="Images/MightyHero_NoText.png" alt="Royal Heir">
-            <div class="hero-label">Royal Heir</div>
+    <div class="compact-header">
+        <img class="banner-img" src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
+        <div class="title-block">
+            <h1>The Chronicles of Euclid</h1>
+            <div class="subtitle">&#9874; Student Quest Log &#9874;</div>
+            <div class="ornate-mini">&#10086; &#10070; &#10086; &#10070; &#10086;</div>
         </div>
-        <div class="tutorial-content">
-            <h3>Your Geometry Quest Begins...</h3>
-            <p>Welcome to <strong>The Chronicles of Euclid</strong>! You are the Royal Heir to the kingdom. Unfortunately, the kingdom is suffering from "Logical Decay."</p>
-            <p>To rebuild the bridges, castles, and farmlands, you must complete <strong>two-column proofs</strong>. Use this Quest Log to write down your work and keep track of your logical deductions before entering them into the magical portals (your computer).</p>
-            <p><strong>Instructions:</strong> For each level below, read the Given information and look at the Prove goal. Then, fill in the blank table with the correct Statements and Reasons to complete the proof.</p>
+        <div class="name-field">
+            <span class="name-label">&#9876; Squire&#39;s Name &#9876;</span>
+            <div class="name-line"></div>
         </div>
     </div>
 
-    <h2 class="print-break-before">Your Proof Challenges</h2>
-    
+    <div class="tutorial-box">
+        <div class="tutorial-image">
+            <img src="Images/MightyHero_NoText.png" alt="Royal Heir">
+            <div class="hero-label">&#10070; Royal Heir &#10070;</div>
+        </div>
+        <div class="tutorial-content">
+            <h3>Thy Geometry Quest Begins...</h3>
+            <p>Hail, brave Heir! Welcome to <strong>The Chronicles of Euclid</strong>. The kingdom hath fallen ill with <em>Logical Decay</em> &mdash; only thou canst restore it. To rebuild the bridges, castles, and farmlands, thou must complete <strong>two-column proofs</strong>.</p>
+            <p><strong>&#10070; Instructions:</strong> For each Quest below, read the <em>Given</em> scroll and behold the <em>Prove</em> goal. Then fill the blank table with the proper Statements and Reasons. Each region of the realm bears its own crest: <strong>&#9884; Isocele</strong> &middot; <strong>&#9671; Rhombic Sands</strong> &middot; <strong>&#10048; Gaelic Grids</strong>.</p>
+        </div>
+    </div>
+
+    <h2 class="print-break-before">&#9876; Thy Proof Challenges &#9876;</h2>
+
     <div class="levels-grid">
 """
     
     for level in levels:
         given_str = ", ".join(level["given"])
+        region = level.get('region') or ''
+        slug = region_slug(region)
+        sym = REGION_SYMBOLS.get(region, DEFAULT_REGION_SYMBOL)
+
+        meta_html = ''
+        if region:
+            meta_html = f'<span class="region-badge">{sym}&nbsp;{region}&nbsp;{sym}</span>'
+
         html += f"""
-        <div class="level-card">
-            <div class="level-header">Level {level['id']}: {level['name']}</div>
+        <div class="level-card region-{slug}">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">{sym}</span>Quest&nbsp;{level['id']}<span class="quest-symbol">{sym}</span></span>
+                <span class="quest-title">{level['name']}</span>
+            </div>
+            <div class="level-meta">{meta_html}</div>
             <div class="given-prove">
                 <strong>Given:</strong> {given_str}<br>
                 <strong>Prove:</strong> {level['prove']}
@@ -516,7 +581,6 @@ def generate_html(levels):
                 </thead>
                 <tbody>
 """
-        # Create empty rows based on the number of steps
         for _ in range(len(level["steps"])):
             html += """
                     <tr>
@@ -529,8 +593,7 @@ def generate_html(levels):
             </table>
         </div>
 """
-        
-        # Inject diagram JS object
+
         diagram_js = level.get('diagram_js', "null")
         html += f"""
         <script>
@@ -559,6 +622,20 @@ function drawDiagram(svg, diagram) {
     svg.innerHTML = "";
 
     const getPoint = (id) => diagram.points.find((p) => p.id === id);
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    diagram.points.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+    });
+    const padding = 40;
+    minX -= padding; minY -= padding; maxX += padding; maxY += padding;
+    svg.setAttribute("viewBox", `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+    svg.style.width = "100%";
+    svg.style.height = "auto";
+    svg.style.maxHeight = "160px";
 
     // Draw Lines
     if (diagram.lines) {
@@ -619,12 +696,25 @@ function drawDiagram(svg, diagram) {
 
         if (point.label) {
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", point.x + 8);
-            text.setAttribute("y", point.y - 8);
+            const cx = (minX + maxX) / 2;
+            const cy = (minY + maxY) / 2;
+            const dx = point.x > cx ? 12 : -12;
+            const dy = point.y > cy ? 12 : -12;
+            
+            text.setAttribute("x", point.x + dx);
+            text.setAttribute("y", point.y + dy);
             text.setAttribute("fill", "#3b2414");
             text.setAttribute("font-family", "'Crimson Text', serif");
-            text.setAttribute("font-size", "16");
+            text.setAttribute("font-size", "18");
             text.setAttribute("font-weight", "bold");
+            text.setAttribute("text-anchor", point.x > cx ? "start" : "end");
+            text.setAttribute("dominant-baseline", point.y > cy ? "hanging" : "auto");
+            
+            text.setAttribute("paint-order", "stroke fill");
+            text.setAttribute("stroke", "rgba(255,255,255,0.9)");
+            text.setAttribute("stroke-width", "5");
+            text.setAttribute("stroke-linejoin", "round");
+            
             text.textContent = point.label;
             svg.appendChild(text);
         }

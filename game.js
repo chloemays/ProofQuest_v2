@@ -165,1137 +165,3152 @@ window.AudioManager = {
 
 const levels = [
   {
-    id: 1,
-    region: "Isocele",
-    name: "Moat Bridge",
-    theorem: "SSS",
-    repairTime: "3 Days",
-    narrative: {
-      intro: "Your Highness, the Moat Bridge has crumbled! Without it, we are isolated. Lady Aurelia and Commander Kaelen are debating how to proceed.",
-      choices: [
+    "id": 1,
+    "region": "Isocele",
+    "name": "Moat Bridge",
+    "theorem": "SSS",
+    "repairTime": "3 Days",
+    "narrative": {
+      "intro": "Your Highness, the Moat Bridge has crumbled! Without it, we are isolated. Lady Aurelia and Commander Kaelen are debating how to proceed.",
+      "choices": [
         {
-          speaker: "Lady Aurelia",
-          text: "We should focus on the structural integrity. A bridge of stone and reason will last for centuries.",
-          options: [
-            { text: "Prioritize Stone", impact: { food: 5, plague: 5 } },
-            { text: "Prioritize Speed", impact: { population: 20 } }
+          "speaker": "Lady Aurelia",
+          "text": "We should focus on the structural integrity. A bridge of stone and reason will last for centuries.",
+          "options": [
+            {
+              "text": "Prioritize Stone",
+              "impact": {
+                "food": 5,
+                "plague": 5
+              }
+            },
+            {
+              "text": "Prioritize Speed",
+              "impact": {
+                "population": 20
+              }
+            }
           ]
         }
       ],
-      victory: "Magnificent! The stones bind together as one. The path is open once more."
+      "victory": "Magnificent! The stones bind together as one. The path is open once more."
     },
-    proofData: {
-      given: ["AD ≅ CD", "AB ≅ CB", "BD shared"],
-      prove: "△ABD ≅ △CBD",
-      steps: [
-        { statement: "AD ≅ CD", reason: "Given" },
-        { statement: "AB ≅ CB", reason: "Given" },
-        { statement: "BD ≅ BD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △CBD", reason: "SSS Congruence" }
+    "proofData": {
+      "given": [
+        "AD ≅ CD",
+        "AB ≅ CB"
       ],
-      bank: {
-        statements: ["△ABD ≅ △CBD", "BD ≅ BD", "AD ≅ CD", "AB ≅ CB"],
-        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 230, label: "A" },
-        { id: "B", x: 160, y: 30, label: "B" },
-        { id: "C", x: 280, y: 230, label: "C" },
-        { id: "D", x: 160, y: 230, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "CB", from: "C", to: "B" },
-        { id: "AD", from: "A", to: "D" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "BD", from: "B", to: "D" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "CB", count: 1 }, { line: "AD", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
-      }
-    }
-  },
-  {
-    id: 2,
-    region: "Isocele",
-    name: "Market Stalls",
-    theorem: "SAS",
-    repairTime: "5 Days",
-    narrative: {
-      intro: "The market is a ghost town, Your Highness. Valerius has a proposal to stimulate the economy.",
-      choices: [
+      "prove": "△ABD ≅ △CBD",
+      "steps": [
         {
-          speaker: "Valerius",
-          text: "If we lower the tariffs now, we can attract traders from the Oasis. It's a risk to our immediate treasury, but the people will be fed.",
-          options: [
-            { text: "Lower Tariffs", impact: { food: 15, sovereign: -50 } },
-            { text: "Keep High Tariffs", impact: { sovereign: 50, food: -5 } }
-          ]
+          "statement": "AD ≅ CD",
+          "reason": "Given"
+        },
+        {
+          "statement": "AB ≅ CB",
+          "reason": "Given"
+        },
+        {
+          "statement": "BD ≅ BD",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABD ≅ △CBD",
+          "reason": "SSS Congruence"
         }
       ],
-      victory: "The market thrives again! The stalls are sturdy and balanced."
-    },
-    proofData: {
-      given: ["AB ≅ AD", "∠1 ≅ ∠2", "AC shared"],
-      prove: "△ABC ≅ △ADC",
-      steps: [
-        { statement: "AB ≅ AD", reason: "Given" },
-        { statement: "∠1 ≅ ∠2", reason: "Given" },
-        { statement: "AC ≅ AC", reason: "Reflexive Property" },
-        { statement: "△ABC ≅ △ADC", reason: "SAS Congruence" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △ADC", "AC ≅ AC", "∠1 ≅ ∠2", "AB ≅ AD"],
-        reasons: ["Given", "Reflexive Property", "SAS Congruence", "ASA Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 160, y: 50, label: "A" },
-        { id: "B", x: 60, y: 150, label: "B" },
-        { id: "C", x: 160, y: 230, label: "C" },
-        { id: "D", x: 260, y: 150, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AD", from: "A", to: "D" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "AC", from: "A", to: "C" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "A", rays: ["D", "C"], count: 1 }]
-      }
-    }
-  },
-  {
-    id: 3,
-    region: "Isocele",
-    name: "Sentry Wall",
-    theorem: "Reflexive Property",
-    repairTime: "1 Week",
-    narrative: {
-      intro: "Commander Kaelen warns that the Northern Watch is blinded without the Sentry Wall. We must decide on a patrol strategy.",
-      choices: [
-        {
-          speaker: "Commander Kaelen",
-          text: "We can either double the patrols along the jagged cliffs or focus our archers on the main road. Which do you command?",
-          options: [
-            { text: "Double Patrols", impact: { defense: 20, food: -5 } },
-            { text: "Focus Road", impact: { population: 20, defense: 5 } }
-          ]
-        }
-      ],
-      victory: "The wall stands firm. The Reflexive Property has made it unbreakable."
-    },
-    proofData: {
-      given: ["AB ≅ CB", "BD bisects AC"],
-      prove: "△ABD ≅ △CBD",
-      steps: [
-        { statement: "AB ≅ CB", reason: "Given" },
-        { statement: "BD bisects AC", reason: "Given" },
-        { statement: "AD ≅ CD", reason: "Definition of Segment Bisector" },
-        { statement: "BD ≅ BD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △CBD", reason: "SSS Congruence" }
-      ],
-      bank: {
-        statements: ["BD ≅ BD", "AD ≅ CD", "△ABD ≅ △CBD", "AB ≅ CB", "BD bisects AC"],
-        reasons: ["Given", "Reflexive Property", "Definition of Segment Bisector", "SSS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 80, y: 50, label: "A" },
-        { id: "D", x: 160, y: 50, label: "D" },
-        { id: "C", x: 240, y: 50, label: "C" },
-        { id: "B", x: 160, y: 220, label: "B" }
-      ],
-      lines: [
-        { id: "AD", from: "A", to: "D" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "AB", from: "A", to: "B" },
-        { id: "CB", from: "C", to: "B" },
-        { id: "DB", from: "D", to: "B" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 2 }, { line: "CB", count: 2 }, { line: "AD", count: 1 }, { line: "DC", count: 1 }],
-        arcs: []
-      }
-    }
-  },
-  {
-    id: 4,
-    region: "Isocele",
-    name: "Blacksmith Tongs",
-    theorem: "Vertical Angles",
-    repairTime: "8 Days",
-    narrative: {
-      intro: "Master Valerius and the Blacksmith are arguing over the quality of the iron. We need a decision on the forge's fuel.",
-      choices: [
-        {
-          speaker: "Valerius",
-          text: "If we import the expensive Blue Coal, the tools will be unbreakable, but it will cost us dearly. Otherwise, we use local peat.",
-          options: [
-            { text: "Import Blue Coal", impact: { food: 5, defense: 5, sovereign: -40 } },
-            { text: "Use Local Peat", impact: { sovereign: 40, population: 5 } }
-          ]
-        }
-      ],
-      victory: "The tongs are true once more. The forge is ready for your crown."
-    },
-    proofData: {
-      given: ["Lines AE and BD intersect at C", "AC ≅ CE", "BC ≅ CD"],
-      prove: "△ABC ≅ △EDC",
-      steps: [
-        { statement: "AC ≅ CE", reason: "Given" },
-        { statement: "BC ≅ CD", reason: "Given" },
-        { statement: "∠ACB ≅ ∠ECD", reason: "Vertical Angles Theorem" },
-        { statement: "△ABC ≅ △EDC", reason: "SAS Congruence" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △EDC", "∠ACB ≅ ∠ECD", "AC ≅ CE", "BC ≅ CD"],
-        reasons: ["Given", "Vertical Angles Theorem", "SAS Congruence", "SSS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 60, y: 60, label: "A" },
-        { id: "B", x: 260, y: 60, label: "B" },
-        { id: "C", x: 160, y: 140, label: "C" },
-        { id: "D", x: 60, y: 220, label: "D" },
-        { id: "E", x: 260, y: 220, label: "E" }
-      ],
-      lines: [
-        { id: "AE", from: "A", to: "E" },
-        { id: "BD", from: "B", to: "D" },
-        { id: "AB", from: "A", to: "B" },
-        { id: "DE", from: "D", to: "E" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
-      }
-    }
-  },
-  {
-    id: 5,
-    region: "Isocele",
-    name: "Fishing Docks",
-    theorem: "ASA",
-    repairTime: "2 Weeks",
-    narrative: {
-      intro: "The Docks are failing. Master Valerius wants to prioritize trade, while the Vizier suggests local safety.",
-      choices: [
-        {
-          speaker: "Valerius",
-          text: "Expand the foreign berth! We need the silver from the East more than we need more fish for the locals.",
-          options: [
-            { text: "Expand Berths", impact: { sovereign: 60, population: 15, food: -10 } },
-            { text: "Focus Fisheries", impact: { food: 25, defense: 5 } }
-          ]
-        }
-      ],
-      victory: "The docks are anchored. The kingdom will not go hungry tonight."
-    },
-    proofData: {
-      given: ["∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
-      prove: "△ABC ≅ △DEF",
-      steps: [
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "AC ≅ DF", reason: "Given" },
-        { statement: "∠C ≅ ∠F", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △DEF", "∠A ≅ ∠D", "AC ≅ DF", "∠C ≅ ∠F"],
-        reasons: ["Given", "ASA Congruence", "AAS Congruence", "SAS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 180, y: 100, label: "D" },
-        { id: "E", x: 240, y: 40, label: "E" },
-        { id: "F", x: 280, y: 100, label: "F" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "DF", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "C", rays: ["A", "B"], count: 2 }, { vertex: "F", rays: ["D", "E"], count: 2 }]
-      }
-    }
-  },
-  {
-    id: 6,
-    region: "Isocele",
-    name: "Stable Rafters",
-    theorem: "AAS",
-    repairTime: "12 Days",
-    narrative: {
-      intro: "The Rafters of the Stables are precarious. Advisor Aurelia and Commander Kaelen have different visions for the cavalry.",
-      choices: [
-        {
-          speaker: "Commander Kaelen",
-          text: "We need war-ready stalls! If we reinforce with timber from the Elder Forest, our horses will be armored by the spirits.",
-          options: [
-            { text: "War Rafters", impact: { defense: 30, population: -10 } },
-            { text: "Civic Stables", impact: { population: 20, food: 10 } }
-          ]
-        }
-      ],
-      victory: "The roof is secure. The horses are safe from the Logical Decay."
-    },
-    proofData: {
-      given: ["∠A ≅ ∠D", "∠B ≅ ∠E", "BC ≅ EF"],
-      prove: "△ABC ≅ △DEF",
-      steps: [
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "∠B ≅ ∠E", reason: "Given" },
-        { statement: "BC ≅ EF", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "AAS Congruence" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △DEF", "∠B ≅ ∠E", "BC ≅ EF", "∠A ≅ ∠D"],
-        reasons: ["Given", "AAS Congruence", "ASA Congruence", "SSS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 60, label: "A" },
-        { id: "B", x: 120, y: 60, label: "B" },
-        { id: "C", x: 40, y: 140, label: "C" },
-        { id: "D", x: 180, y: 60, label: "D" },
-        { id: "E", x: 260, y: 60, label: "E" },
-        { id: "F", x: 180, y: 140, label: "F" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "BC", count: 1 }, { line: "EF", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
-      }
-    }
-  },
-  {
-    id: 7,
-    region: "Isocele",
-    name: "Palace Vault",
-    theorem: "CPCTC",
-    repairTime: "3 Weeks",
-    narrative: {
-      intro: "Advisor Aurelia and Valerius are outside the Vault. They disagree on how to handle the treasure found within.",
-      choices: [
-        {
-          speaker: "Valerius",
-          text: "If we use this gold to pay off the foreign debt, Euclid's sovereignty will be unchallenged. But Aurelia wants to spend it on marble. What say you?",
-          options: [
-            { text: "Pay Foreign Debt", impact: { sovereign: 150, population: 10 } },
-            { text: "Grand Renovation", impact: { food: 10, defense: 10, population: 30 } }
-          ]
-        }
-      ],
-      victory: "The vault is open! CPCTC: Corresponding Parts of Congruent Triangles are Congruent."
-    },
-    proofData: {
-      given: ["AB ≅ AD", "BC ≅ DC"],
-      prove: "∠B ≅ ∠D",
-      steps: [
-        { statement: "AB ≅ AD", reason: "Given" },
-        { statement: "BC ≅ DC", reason: "Given" },
-        { statement: "AC ≅ AC", reason: "Reflexive Property" },
-        { statement: "△ABC ≅ △ADC", reason: "SSS Congruence" },
-        { statement: "∠B ≅ ∠D", reason: "CPCTC" }
-      ],
-      bank: {
-        statements: ["∠B ≅ ∠D", "△ABC ≅ △ADC", "AC ≅ AC", "AB ≅ AD", "BC ≅ DC"],
-        reasons: ["Given", "Reflexive Property", "SSS Congruence", "CPCTC"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 80, y: 130, label: "B" },
-        { id: "C", x: 160, y: 220, label: "C" },
-        { id: "D", x: 240, y: 130, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DA", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
-      }
-    }
-  },
-  {
-    id: 8,
-    region: "Isocele",
-    name: "Grand Portcullis",
-    theorem: "HL Theorem",
-    repairTime: "1 Month",
-    narrative: {
-      intro: "The Portcullis is stuck. Commander Kaelen wants to use it for training, but Valerius sees a tourist opportunity.",
-      choices: [
-        {
-          speaker: "Commander Kaelen",
-          text: "We should reinforce the mechanism for heavy use by the guards. A strong gate is a clear signal to our enemies.",
-          options: [
-            { text: "Reinforce Mechanism", impact: { defense: 25, food: -5 } },
-            { text: "Open for Pilgrims", impact: { sovereign: 80, population: 40 } }
-          ]
-        }
-      ],
-      victory: "The gate rises. The Law of HL has proven its worth."
-    },
-    proofData: {
-      given: ["∠B and ∠D are right ∠s", "AC ≅ EC", "AB ≅ ED"],
-      prove: "△ABC ≅ △EDC",
-      steps: [
-        { statement: "∠B and ∠D are right ∠s", reason: "Given" },
-        { statement: "AC ≅ EC", reason: "Given" },
-        { statement: "AB ≅ ED", reason: "Given" },
-        { statement: "△ABC ≅ △EDC", reason: "HL Theorem" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △EDC", "AC ≅ EC", "AB ≅ ED", "∠B and ∠D are right ∠s"],
-        reasons: ["Given", "HL Theorem", "SSS Congruence", "SAS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 60, y: 40, label: "A" },
-        { id: "B", x: 60, y: 140, label: "B" },
-        { id: "C", x: 160, y: 140, label: "C" },
-        { id: "D", x: 260, y: 140, label: "D" },
-        { id: "E", x: 260, y: 40, label: "E" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "ED", from: "E", to: "D" },
-        { id: "DC", from: "D", to: "C" },
-        { id: "EC", from: "E", to: "C" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "EC", count: 1 }, { line: "AB", count: 2 }, { line: "ED", count: 2 }],
-        arcs: [] // Right angles rendered manually or via special mark
-      }
-    }
-  },
-  {
-    id: 9,
-    region: "Isocele",
-    name: "Bell Tower",
-    theorem: "Base Angles",
-    repairTime: "5 Weeks",
-    narrative: {
-      intro: "The Bell Tower's resonance can heal or warn. Lady Aurelia and the Vizier await your word.",
-      choices: [
-        {
-          speaker: "Lady Aurelia",
-          text: "The geometry of the bell can be adjusted to vibrate at a frequency that purifies the air. Or we can use its volume to warn of incoming threats.",
-          options: [
-            { text: "Purify Mist", impact: { plague: 25, food: 10 } },
-            { text: "Sound the Alarm", impact: { defense: 30, population: 10 } }
-          ]
-        }
-      ],
-      victory: "The bell tolls! Its sound banishes the shadows of doubt."
-    },
-    proofData: {
-      given: ["AB ≅ AC", "AD bisects ∠BAC"],
-      prove: "∠B ≅ ∠C",
-      steps: [
-        { statement: "AB ≅ AC", reason: "Given" },
-        { statement: "AD bisects ∠BAC", reason: "Given" },
-        { statement: "∠BAD ≅ ∠CAD", reason: "Definition of Angle Bisector" },
-        { statement: "AD ≅ AD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △ACD", reason: "SAS Congruence" },
-        { statement: "∠B ≅ ∠C", reason: "CPCTC" }
-      ],
-      bank: {
-        statements: ["∠B ≅ ∠C", "△ABD ≅ △ACD", "AD ≅ AD", "∠BAD ≅ ∠CAD", "AB ≅ AC", "AD bisects ∠BAC"],
-        reasons: ["Given", "Definition of Angle Bisector", "Reflexive Property", "SAS Congruence", "CPCTC"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 80, y: 220, label: "B" },
-        { id: "C", x: 240, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AD", from: "A", to: "D" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "D"], count: 1 }, { vertex: "A", rays: ["C", "D"], count: 1 }]
-      }
-    }
-  },
-  {
-    id: 10,
-    region: "Isocele",
-    name: "Royal Vineyard",
-    theorem: "Converse Parallel",
-    repairTime: "2 Months",
-    narrative: {
-      intro: "The Chaos Rot is thickest here. Commander Kaelen and Valerius disagree on the vineyard's future.",
-      choices: [
-        {
-          speaker: "Valerius",
-          text: "We should bottle the remaining 'Logic-Wine' as a premium vintage to fund the final restoration. Kaelen wants to use it as a medicinal tonic for the infirm.",
-          options: [
-            { text: "Logic-Wine Vintage", impact: { sovereign: 200, population: 20 } },
-            { text: "Medicinal Tonic", impact: { plague: 30, population: 50 } }
-          ]
-        }
-      ],
-      victory: "The vines are pruned and the trellis is straight. You have bound the kingdom together!"
-    },
-    proofData: {
-      given: ["∠1 ≅ ∠2", "Transversal t"],
-      prove: "Line l ∥ Line m",
-      steps: [
-        { statement: "∠1 ≅ ∠2", reason: "Given" },
-        { statement: "∠1 and ∠2 are alt. interior ∠s", reason: "Given" },
-        { statement: "Line l ∥ Line m", reason: "Converse Alt. Int. ∠s Theorem" }
-      ],
-      bank: {
-        statements: ["Line l ∥ Line m", "∠1 and ∠2 are alt. interior ∠s", "∠1 ≅ ∠2"],
-        reasons: ["Given", "Converse Alt. Int. ∠s Theorem", "Alt. Int. ∠s Theorem"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "t" },
-        { id: "F", x: 200, y: 230, label: "" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
-      ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
-      ],
-      givenMarks: {
-        ticks: [],
-        arcs: [
-          { vertex: "P", rays: ["A", "F"], count: 1, label: "1", radius: 18 },
-          { vertex: "Q", rays: ["D", "E"], count: 1, label: "2", radius: 18 }
+      "bank": {
+        "statements": [
+          "△ABD ≅ △CBD",
+          "BD ≅ BD",
+          "AD ≅ CD",
+          "AB ≅ CB"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "SSS Congruence",
+          "SAS Congruence"
         ]
       }
-
-    }
-  },
-  {
-    id: 11,
-    region: "The Rhombic Sands",
-    name: "Rhind Papyrus Scriptum",
-    theorem: "Rectangular Area",
-    repairTime: "3 Days",
-    before: "Images/BeforeRhindPapyrus.png",
-    after: "Images/AfterRhindPapyrus.png",
-    narrative: {
-      intro: "We have reached the sun-drenched sands of Egypt. The scribes are in an uproar; the ancient Rhind Papyrus has been damaged. We must prove the area of the scripts to restore them.",
-      choices: [
+    },
+    "diagram": {
+      "points": [
         {
-          speaker: "High Scribe",
-          text: "The ink must be made from the finest lotus or the common reed. Which shall we use for the restoration?",
-          options: [
-            { text: "Finest Lotus", impact: { sovereign: -20, food: 5 } },
-            { text: "Common Reed", impact: { population: 10 } }
-          ]
+          "id": "A",
+          "x": 40,
+          "y": 230,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 30,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 280,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 230,
+          "label": "D"
         }
       ],
-      victory: "The Papyrus is restored! The wisdom of the ancients flows once more."
-    },
-    proofData: {
-      given: ["Rectangle ABCD", "AB ≅ CD", "BC ≅ DA"],
-      prove: "△ABC ≅ △CDA",
-      steps: [
-        { statement: "AB ≅ CD", reason: "Given" },
-        { statement: "BC ≅ DA", reason: "Given" },
-        { statement: "AC ≅ AC", reason: "Reflexive Property" },
-        { statement: "△ABC ≅ △CDA", reason: "SSS Congruence" }
-      ],
-      bank: {
-        statements: ["△ABC ≅ △CDA", "AC ≅ AC", "AB ≅ CD", "BC ≅ DA"],
-        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
-      }
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 60, y: 60, label: "A" },
-        { id: "B", x: 260, y: 60, label: "B" },
-        { id: "C", x: 260, y: 180, label: "C" },
-        { id: "D", x: 60, y: 180, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "CD", count: 1 }, { line: "BC", count: 2 }, { line: "DA", count: 2 }],
-        arcs: []
-      }
-    }
-  },
-  {
-    id: 12,
-    region: "The Rhombic Sands",
-    name: "Pyramid Capstone",
-    theorem: "Isosceles Triangle",
-    repairTime: "1 Week",
-    before: "Images/BeforePyramidCapstone.png",
-    after: "Images/AfterPyramidCapstone.png",
-
-    narrative: {
-      intro: "The Great Pyramid is missing its golden capstone. The angles must be perfect to catch the first light of Ra.",
-      choices: [
+      "lines": [
         {
-          speaker: "Architect Imhotep",
-          text: "Shall we use solid gold, which is heavy and draws thieves, or gilded limestone?",
-          options: [
-            { text: "Solid Gold", impact: { defense: -10, sovereign: 50 } },
-            { text: "Gilded Limestone", impact: { defense: 10, population: 5 } }
-          ]
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
         }
       ],
-      victory: " Ra's light shines upon the pyramid! The capstone is secure."
-    },
-    proofData: {
-      given: ["△ABC is isosceles", "AB ≅ AC", "AD is altitude to BC"],
-      prove: "△ABD ≅ △ACD",
-      steps: [
-        { statement: "AB ≅ AC", reason: "Given" },
-        { statement: "AD ⊥ BC", reason: "Definition of Altitude" },
-        { statement: "∠ADB, ∠ADC are right ∠s", reason: "Definition of Perpendicular" },
-        { statement: "AD ≅ AD", reason: "Reflexive Property" },
-        { statement: "△ABD ≅ △ACD", reason: "HL Theorem" }
-      ],
-
-      bank: {
-        statements: ["△ABD ≅ △ACD", "∠ADB, ∠ADC are right ∠s", "AD ≅ AD", "AB ≅ AC", "AD ⊥ BC"],
-        reasons: ["Given", "Reflexive Property", "HL Theorem", "Definition of Altitude", "Definition of Perpendicular"]
-      }
-
-    },
-    diagram: {
-      points: [
-        { id: "A", x: 160, y: 40, label: "A" },
-        { id: "B", x: 60, y: 220, label: "B" },
-        { id: "C", x: 260, y: 220, label: "C" },
-        { id: "D", x: 160, y: 220, label: "D" }
-      ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AD", from: "A", to: "D" }
-      ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AC", count: 1 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     }
   },
   {
-    id: 13,
-    region: "The Rhombic Sands",
-    name: "Pharaoh's Court",
-    theorem: "Parallel Transversal",
-    repairTime: "10 Days",
-    before: "Images/BeforePharaohsCourt.png",
-    after: "Images/AfterPharaohsCourt.png",
-    narrative: {
-      intro: "The Pharaoh's court is in disarray. The columns must be aligned perfectly parallel to ensure the roof doesn't collapse under the weight of history.",
-      choices: [
+    "id": 2,
+    "region": "Isocele",
+    "name": "Market Stalls",
+    "theorem": "SAS",
+    "repairTime": "5 Days",
+    "narrative": {
+      "intro": "The market is a ghost town, Your Highness. Valerius has a proposal to stimulate the economy.",
+      "choices": [
         {
-          speaker: "Grand Vizier Hemiunu",
-          text: "Should we use cedar from Lebanon or local palm wood? Cedar is stronger but palm is plentiful.",
-          options: [
-            { text: "Lebanese Cedar", impact: { sovereign: -40, defense: 20 } },
-            { text: "Local Palm", impact: { food: 15, population: 10 } }
+          "speaker": "Valerius",
+          "text": "If we lower the tariffs now, we can attract traders from the Oasis. It's a risk to our immediate treasury, but the people will be fed.",
+          "options": [
+            {
+              "text": "Lower Tariffs",
+              "impact": {
+                "food": 15,
+                "sovereign": -50
+              }
+            },
+            {
+              "text": "Keep High Tariffs",
+              "impact": {
+                "sovereign": 50,
+                "food": -5
+              }
+            }
           ]
         }
       ],
-      victory: "The columns are true. The Pharaoh's court stands grand and parallel."
+      "victory": "The market thrives again! The stalls are sturdy and balanced."
     },
-    proofData: {
-      given: ["Line l ∥ Line m", "Transversal t", "∠1 and ∠2 are corresp. ∠s"],
-      prove: "∠1 ≅ ∠2",
-      steps: [
-        { statement: "Line l ∥ Line m", reason: "Given" },
-        { statement: "∠1 and ∠2 are corresp. ∠s", reason: "Given" },
-        { statement: "∠1 ≅ ∠2", reason: "Corresponding Angles Postulate" }
+    "proofData": {
+      "given": [
+        "AB ≅ AD",
+        "∠1 ≅ ∠2"
       ],
-      bank: {
-        statements: ["∠1 ≅ ∠2", "Line l ∥ Line m", "∠1 and ∠2 are corresp. ∠s"],
-        reasons: ["Given", "Corresponding Angles Postulate", "Alt. Interior Angles Theorem"]
+      "prove": "△ABC ≅ △ADC",
+      "steps": [
+        {
+          "statement": "AB ≅ AD",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠1 ≅ ∠2",
+          "reason": "Given"
+        },
+        {
+          "statement": "AC ≅ AC",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABC ≅ △ADC",
+          "reason": "SAS Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △ADC",
+          "AC ≅ AC",
+          "∠1 ≅ ∠2",
+          "AB ≅ AD"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "SAS Congruence",
+          "ASA Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "" },
-        { id: "F", x: 200, y: 230, label: "t" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 150,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 150,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "P", rays: ["A", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "E"], count: 1, label: "2" }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "C"
+            ],
+            "count": 1
+          }
+        ]
       }
     }
   },
   {
-    id: 14,
-    region: "The Rhombic Sands",
-    name: "Sphinx's Riddle",
-    theorem: "ASA",
-    repairTime: "2 Weeks",
-    before: "Images/BeforeSphinxRiddle.png",
-    after: "Images/AfterSphinxRiddle.png",
-    narrative: {
-      intro: "The Sphinx blocks the path to the Nile. To pass, you must prove the congruence of the triangles formed by its paws and the sands.",
-      choices: [
+    "id": 3,
+    "region": "Isocele",
+    "name": "Sentry Wall",
+    "theorem": "Reflexive Property",
+    "repairTime": "1 Week",
+    "narrative": {
+      "intro": "Commander Kaelen warns that the Northern Watch is blinded without the Sentry Wall. We must decide on a patrol strategy.",
+      "choices": [
         {
-          speaker: "Sphinx",
-          text: "Will you offer a sacrifice of grain or solve the riddle with logic?",
-          options: [
-            { text: "Offer Grain", impact: { food: -30, population: 20 } },
-            { text: "Solve Riddle", impact: { sovereign: 100, totalXP: 50 } }
+          "speaker": "Commander Kaelen",
+          "text": "We can either double the patrols along the jagged cliffs or focus our archers on the main road. Which do you command?",
+          "options": [
+            {
+              "text": "Double Patrols",
+              "impact": {
+                "defense": 20,
+                "food": -5
+              }
+            },
+            {
+              "text": "Focus Road",
+              "impact": {
+                "population": 20,
+                "defense": 5
+              }
+            }
           ]
         }
       ],
-      victory: "The Sphinx is satisfied. The path to the Nile is open."
+      "victory": "The wall stands firm. The Reflexive Property has made it unbreakable."
     },
-    proofData: {
-      given: ["∠A ≅ ∠E", "AC ≅ EC", "Line segments AE and BD intersect at C"],
-      prove: "△ABC ≅ △EDC",
-      steps: [
-        { statement: "∠A ≅ ∠E", reason: "Given" },
-        { statement: "AC ≅ EC", reason: "Given" },
-        { statement: "∠ACB ≅ ∠ECD", reason: "Vertical Angles Theorem" },
-        { statement: "△ABC ≅ △EDC", reason: "ASA Congruence" }
+    "proofData": {
+      "given": [
+        "AB ≅ CB",
+        "BD bisects AC"
       ],
-      bank: {
-        statements: ["△ABC ≅ △EDC", "∠A ≅ ∠E", "AC ≅ EC", "∠ACB ≅ ∠ECD"],
-        reasons: ["Given", "ASA Congruence", "Vertical Angles Theorem", "Reflexive Property"]
+      "prove": "△ABD ≅ △CBD",
+      "steps": [
+        {
+          "statement": "AB ≅ CB",
+          "reason": "Given"
+        },
+        {
+          "statement": "BD bisects AC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AD ≅ CD",
+          "reason": "Definition of Segment Bisector"
+        },
+        {
+          "statement": "BD ≅ BD",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABD ≅ △CBD",
+          "reason": "SSS Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "BD ≅ BD",
+          "AD ≅ CD",
+          "△ABD ≅ △CBD",
+          "AB ≅ CB",
+          "BD bisects AC"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "Definition of Segment Bisector",
+          "SSS Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 40, label: "A" },
-        { id: "B", x: 40, y: 140, label: "B" },
-        { id: "C", x: 140, y: 90, label: "C" },
-        { id: "D", x: 240, y: 40, label: "D" },
-        { id: "E", x: 240, y: 140, label: "E" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 50,
+          "label": "D"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 50,
+          "label": "C"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 220,
+          "label": "B"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "CE", from: "C", to: "E" }
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "DB",
+          "from": "D",
+          "to": "B"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AC", count: 1 }, { line: "CE", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "E", rays: ["D", "C"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "CB",
+            "count": 2
+          },
+          {
+            "line": "AD",
+            "count": 1
+          },
+          {
+            "line": "DC",
+            "count": 1
+          }
+        ],
+        "arcs": []
       }
     }
   },
   {
-    id: 15,
-    region: "The Rhombic Sands",
-    name: "Valley of Kings",
-    theorem: "Similar Triangles",
-    repairTime: "1 Month",
-    before: "Images/BeforeValleyKings.png",
-    after: "Images/AfterValleyKings.png",
-    narrative: {
-      intro: "The tombs are hidden. By using the shadows of the obelisks, we can find the entrance. We must prove the triangles are similar.",
-      choices: [
+    "id": 4,
+    "region": "Isocele",
+    "name": "Blacksmith Tongs",
+    "theorem": "Vertical Angles",
+    "repairTime": "8 Days",
+    "narrative": {
+      "intro": "Master Valerius and the Blacksmith are arguing over the quality of the iron. We need a decision on the forge's fuel.",
+      "choices": [
         {
-          speaker: "Priest of Amun",
-          text: "Should we perform a ritual of protection or focus on the precision of the measurements?",
-          options: [
-            { text: "Ritual", impact: { defense: 30, sovereign: -30 } },
-            { text: "Precision", impact: { population: 25, totalXP: 100 } }
+          "speaker": "Valerius",
+          "text": "If we import the expensive Blue Coal, the tools will be unbreakable, but it will cost us dearly. Otherwise, we use local peat.",
+          "options": [
+            {
+              "text": "Import Blue Coal",
+              "impact": {
+                "food": 5,
+                "defense": 5,
+                "sovereign": -40
+              }
+            },
+            {
+              "text": "Use Local Peat",
+              "impact": {
+                "sovereign": 40,
+                "population": 5
+              }
+            }
           ]
         }
       ],
-      victory: "The shadows show the way. The entrance is revealed."
+      "victory": "The tongs are true once more. The forge is ready for your crown."
     },
-    proofData: {
-      given: ["∠A ≅ ∠D", "∠B ≅ ∠E"],
-      prove: "△ABC ~ △DEF",
-      steps: [
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "∠B ≅ ∠E", reason: "Given" },
-        { statement: "△ABC ~ △DEF", reason: "AA Similarity" }
+    "proofData": {
+      "given": [
+        "Lines AE and BD intersect at C",
+        "AC ≅ CE",
+        "BC ≅ CD"
       ],
-      bank: {
-        statements: ["△ABC ~ △DEF", "∠A ≅ ∠D", "∠B ≅ ∠E"],
-        reasons: ["Given", "AA Similarity", "SAS Similarity"]
+      "prove": "△ABC ≅ △EDC",
+      "steps": [
+        {
+          "statement": "AC ≅ CE",
+          "reason": "Given"
+        },
+        {
+          "statement": "BC ≅ CD",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠ACB ≅ ∠ECD",
+          "reason": "Vertical Angles Theorem"
+        },
+        {
+          "statement": "△ABC ≅ △EDC",
+          "reason": "SAS Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △EDC",
+          "∠ACB ≅ ∠ECD",
+          "AC ≅ CE",
+          "BC ≅ CD"
+        ],
+        "reasons": [
+          "Given",
+          "Vertical Angles Theorem",
+          "SAS Congruence",
+          "SSS Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 100, label: "A" },
-        { id: "B", x: 100, y: 40, label: "B" },
-        { id: "C", x: 140, y: 100, label: "C" },
-        { id: "D", x: 160, y: 120, label: "D" },
-        { id: "E", x: 250, y: 30, label: "E" },
-        { id: "F", x: 310, y: 120, label: "F" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 220,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 220,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "CE",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     }
   },
   {
-    id: 16,
-    region: "The Gaelic Grids",
-    name: "Academy of Tara",
-    theorem: "SAS",
-    repairTime: "1 Week",
-    before: "Images/BeforeAcademyTara.png",
-    after: "Images/AfterAcademyTara.png",
-    narrative: {
-      intro: "The Great Hall's dimensions must be verified. The Arch-Druids believe the sacred ratio is the key to Ireland's stability.",
-      choices: [
+    "id": 5,
+    "region": "Isocele",
+    "name": "Fishing Docks",
+    "theorem": "ASA",
+    "repairTime": "2 Weeks",
+    "narrative": {
+      "intro": "The Docks are failing. Master Valerius wants to prioritize trade, while the Vizier suggests local safety.",
+      "choices": [
         {
-          speaker: "The Arch-Druid",
-          text: "Should we align the foundations with the rising sun or the setting moon? The choice will affect the hall's spiritual resonance.",
-          options: [
-            { text: "Rising Sun (Growth)", impact: { population: 30, sovereign: -20 } },
-            { text: "Setting Moon (Wisdom)", impact: { totalXP: 100, food: 10 } }
+          "speaker": "Valerius",
+          "text": "Expand the foreign berth! We need the silver from the East more than we need more fish for the locals.",
+          "options": [
+            {
+              "text": "Expand Berths",
+              "impact": {
+                "sovereign": 60,
+                "population": 15,
+                "food": -10
+              }
+            },
+            {
+              "text": "Focus Fisheries",
+              "impact": {
+                "food": 25,
+                "defense": 5
+              }
+            }
           ]
         }
       ],
-      victory: "The sacred ratio is confirmed! Knowledge will flourish here once more."
+      "victory": "The docks are anchored. The kingdom will not go hungry tonight."
     },
-    proofData: {
-      given: ["AB ≅ DE", "∠B ≅ ∠E", "BC ≅ EF"],
-      prove: "△ABC ≅ △DEF",
-      steps: [
-        { statement: "AB ≅ DE", reason: "Given" },
-        { statement: "∠B ≅ ∠E", reason: "Given" },
-        { statement: "BC ≅ EF", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "SAS Congruence" }
+    "proofData": {
+      "given": [
+        "∠A ≅ ∠D",
+        "AC ≅ DF",
+        "∠C ≅ ∠F"
       ],
-      bank: {
-        statements: ["△ABC ≅ △DEF", "BC ≅ EF", "∠B ≅ ∠E", "AB ≅ DE"],
-        reasons: ["Given", "SAS Congruence", "SSS Congruence", "ASA Congruence"]
+      "prove": "△ABC ≅ △DEF",
+      "steps": [
+        {
+          "statement": "∠A ≅ ∠D",
+          "reason": "Given"
+        },
+        {
+          "statement": "AC ≅ DF",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠C ≅ ∠F",
+          "reason": "Given"
+        },
+        {
+          "statement": "△ABC ≅ △DEF",
+          "reason": "ASA Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △DEF",
+          "∠A ≅ ∠D",
+          "AC ≅ DF",
+          "∠C ≅ ∠F"
+        ],
+        "reasons": [
+          "Given",
+          "ASA Congruence",
+          "AAS Congruence",
+          "SAS Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 40, label: "A" },
-        { id: "B", x: 40, y: 140, label: "B" },
-        { id: "C", x: 140, y: 140, label: "C" },
-        { id: "D", x: 200, y: 40, label: "D" },
-        { id: "E", x: 200, y: 140, label: "E" },
-        { id: "F", x: 300, y: 140, label: "F" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 100,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 40,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 140,
+          "y": 100,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 100,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 240,
+          "y": 40,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 280,
+          "y": 100,
+          "label": "F"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }, { line: "BC", count: 2 }, { line: "EF", count: 2 }],
-        arcs: [{ vertex: "B", rays: ["A", "C"], count: 1 }, { vertex: "E", rays: ["D", "F"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "DF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "F",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 2
+          }
+        ]
       }
     }
   },
   {
-    id: 17,
-    region: "The Gaelic Grids",
-    name: "Glastonbury Gate",
-    theorem: "ASA",
-    repairTime: "10 Days",
-    before: "Images/BeforeGlastonburyGate.png",
-    after: "Images/AfterGlastonburyGate.png",
-    narrative: {
-      intro: "The mystical gates are jammed. Two Druids disagree on the incantation needed to release the lock.",
-      choices: [
+    "id": 6,
+    "region": "Isocele",
+    "name": "Stable Rafters",
+    "theorem": "AAS",
+    "repairTime": "12 Days",
+    "narrative": {
+      "intro": "The Rafters of the Stables are precarious. Advisor Aurelia and Commander Kaelen have different visions for the cavalry.",
+      "choices": [
         {
-          speaker: "Druid Oisin",
-          text: "We should use the melody of the wind to vibrate the lock open. It's gentle and won't harm the ancient stone.",
-          options: [
-            { text: "Wind Melody", impact: { food: 5, population: 15 } },
-            { text: "Earth Tremor", impact: { defense: 20, sovereign: -30 } }
+          "speaker": "Commander Kaelen",
+          "text": "We need war-ready stalls! If we reinforce with timber from the Elder Forest, our horses will be armored by the spirits.",
+          "options": [
+            {
+              "text": "War Rafters",
+              "impact": {
+                "defense": 30,
+                "population": -10
+              }
+            },
+            {
+              "text": "Civic Stables",
+              "impact": {
+                "population": 20,
+                "food": 10
+              }
+            }
           ]
         }
       ],
-      victory: "The gate swings open! The flow of logic is restored to the valley."
+      "victory": "The roof is secure. The horses are safe from the Logical Decay."
     },
-    proofData: {
-      given: ["∠A ≅ ∠D", "AB ≅ DE", "∠B ≅ ∠E"],
-      prove: "△ABC ≅ △DEF",
-      steps: [
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "AB ≅ DE", reason: "Given" },
-        { statement: "∠B ≅ ∠E", reason: "Given" },
-        { statement: "△ABC ≅ △DEF", reason: "ASA Congruence" }
+    "proofData": {
+      "given": [
+        "∠A ≅ ∠D",
+        "∠B ≅ ∠E",
+        "BC ≅ EF"
       ],
-      bank: {
-        statements: ["△ABC ≅ △DEF", "∠B ≅ ∠E", "AB ≅ DE", "∠A ≅ ∠D"],
-        reasons: ["Given", "ASA Congruence", "SAS Congruence", "SSS Congruence"]
+      "prove": "△ABC ≅ △DEF",
+      "steps": [
+        {
+          "statement": "∠A ≅ ∠D",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠B ≅ ∠E",
+          "reason": "Given"
+        },
+        {
+          "statement": "BC ≅ EF",
+          "reason": "Given"
+        },
+        {
+          "statement": "△ABC ≅ △DEF",
+          "reason": "AAS Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △DEF",
+          "∠B ≅ ∠E",
+          "BC ≅ EF",
+          "∠A ≅ ∠D"
+        ],
+        "reasons": [
+          "Given",
+          "AAS Congruence",
+          "ASA Congruence",
+          "SSS Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 140, label: "A" },
-        { id: "B", x: 140, y: 140, label: "B" },
-        { id: "C", x: 90, y: 40, label: "C" },
-        { id: "D", x: 200, y: 140, label: "D" },
-        { id: "E", x: 300, y: 140, label: "E" },
-        { id: "F", x: 250, y: 40, label: "F" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 120,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 60,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 180,
+          "y": 140,
+          "label": "F"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "DE", count: 1 }],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }, { vertex: "B", rays: ["A", "C"], count: 2 }, { vertex: "E", rays: ["D", "F"], count: 2 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "BC",
+            "count": 1
+          },
+          {
+            "line": "EF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "B",
+            "rays": [
+              "A",
+              "C"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "E",
+            "rays": [
+              "D",
+              "F"
+            ],
+            "count": 2
+          }
+        ]
       }
     }
   },
   {
-    id: 18,
-    region: "The Gaelic Grids",
-    name: "Druid's Glen",
-    theorem: "Parallel Transversal",
-    repairTime: "3 Weeks",
-    before: "Images/BeforeDruidsGlen.png",
-    after: "Images/AfterDruidsGlen.png",
-    narrative: {
-      intro: "The path through the Glen is split by the mists of Danu. The ancient stones must be aligned to reflect the moon's light across the parallel pathways.",
-      choices: [
+    "id": 7,
+    "region": "Isocele",
+    "name": "Palace Vault",
+    "theorem": "CPCTC",
+    "repairTime": "3 Weeks",
+    "narrative": {
+      "intro": "Advisor Aurelia and Valerius are outside the Vault. They disagree on how to handle the treasure found within.",
+      "choices": [
         {
-          speaker: "The Seer of Danu",
-          text: "Will you ask about the future of the kingdom or the ancient wisdom of the Tuatha Dé Danann?",
-          options: [
-            { text: "Future of Kingdom", impact: { population: 30, food: 10 } },
-            { text: "Ancient Wisdom", impact: { totalXP: 100, sovereign: 50 } }
+          "speaker": "Valerius",
+          "text": "If we use this gold to pay off the foreign debt, Euclid's sovereignty will be unchallenged. But Aurelia wants to spend it on marble. What say you?",
+          "options": [
+            {
+              "text": "Pay Foreign Debt",
+              "impact": {
+                "sovereign": 150,
+                "population": 10
+              }
+            },
+            {
+              "text": "Grand Renovation",
+              "impact": {
+                "food": 10,
+                "defense": 10,
+                "population": 30
+              }
+            }
           ]
         }
       ],
-      victory: "The mist clears. The stones are in perfect alignment."
+      "victory": "The vault is open! CPCTC: Corresponding Parts of Congruent Triangles are Congruent."
     },
-    proofData: {
-      given: ["Line l ∥ Line m", "Transversal t", "∠1 and ∠7 are alt. exterior ∠s"],
-      prove: "∠1 ≅ ∠7",
-      steps: [
-        { statement: "Line l ∥ Line m", reason: "Given" },
-        { statement: "∠1 and ∠7 are alt. exterior ∠s", reason: "Given" },
-        { statement: "∠1 ≅ ∠7", reason: "Alternate Exterior Angles Theorem" }
+    "proofData": {
+      "given": [
+        "AB ≅ AD",
+        "BC ≅ DC"
       ],
-      bank: {
-        statements: ["∠1 ≅ ∠7", "Line l ∥ Line m", "∠1 and ∠7 are alt. exterior ∠s"],
-        reasons: ["Given", "Alternate Exterior Angles Theorem", "Vertical Angles Theorem"]
+      "prove": "∠B ≅ ∠D",
+      "steps": [
+        {
+          "statement": "AB ≅ AD",
+          "reason": "Given"
+        },
+        {
+          "statement": "BC ≅ DC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AC ≅ AC",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABC ≅ △ADC",
+          "reason": "SSS Congruence"
+        },
+        {
+          "statement": "∠B ≅ ∠D",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "∠B ≅ ∠D",
+          "△ABC ≅ △ADC",
+          "AC ≅ AC",
+          "AB ≅ AD",
+          "BC ≅ DC"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "SSS Congruence",
+          "CPCTC"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 80, label: "" },
-        { id: "B", x: 280, y: 80, label: "l" },
-        { id: "C", x: 40, y: 180, label: "" },
-        { id: "D", x: 280, y: 180, label: "m" },
-        { id: "E", x: 120, y: 30, label: "" },
-        { id: "F", x: 200, y: 230, label: "t" },
-        { id: "P", x: 140, y: 80, label: "" },
-        { id: "Q", x: 180, y: 180, label: "" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 130,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 240,
+          "y": 130,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "l", from: "A", to: "B" },
-        { id: "m", from: "C", to: "D" },
-        { id: "t", from: "E", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "P", rays: ["B", "E"], count: 1, label: "1" }, { vertex: "Q", rays: ["C", "F"], count: 1, label: "7" }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "DA",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     }
   },
   {
-    id: 19,
-    region: "The Gaelic Grids",
-    name: "Tailteann Games",
-    theorem: "SSS",
-    repairTime: "1 Month",
-    before: "Images/BeforeTailteannGames.png",
-    after: "Images/AfterTailteannGames.png",
-    narrative: {
-      intro: "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh. Using a shared base is the traditional way.",
-      choices: [
+    "id": 8,
+    "region": "Isocele",
+    "name": "Grand Portcullis",
+    "theorem": "HL Theorem",
+    "repairTime": "1 Month",
+    "narrative": {
+      "intro": "The Portcullis is stuck. Commander Kaelen wants to use it for training, but Valerius sees a tourist opportunity.",
+      "choices": [
         {
-          speaker: "Lugh the Long-Arm",
-          text: "Should the games be in honor of the Dagda or Brigid? The choice affects the warriors' spirit.",
-          options: [
-            { text: "The Dagda (Strength)", impact: { defense: 40, food: -10 } },
-            { text: "Brigid (Healing)", impact: { population: 40, sovereign: 20 } }
+          "speaker": "Commander Kaelen",
+          "text": "We should reinforce the mechanism for heavy use by the guards. A strong gate is a clear signal to our enemies.",
+          "options": [
+            {
+              "text": "Reinforce Mechanism",
+              "impact": {
+                "defense": 25,
+                "food": -5
+              }
+            },
+            {
+              "text": "Open for Pilgrims",
+              "impact": {
+                "sovereign": 80,
+                "population": 40
+              }
+            }
           ]
         }
       ],
-      victory: "The games are true. The champion is crowned!"
+      "victory": "The gate rises. The Law of HL has proven its worth."
     },
-    proofData: {
-      given: ["AB ≅ AD", "BC ≅ DC", "AC is a shared side"],
-      prove: "△ABC ≅ △ADC",
-      steps: [
-        { statement: "AB ≅ AD", reason: "Given" },
-        { statement: "BC ≅ DC", reason: "Given" },
-        { statement: "AC ≅ AC", reason: "Reflexive Property" },
-        { statement: "△ABC ≅ △ADC", reason: "SSS Congruence" }
+    "proofData": {
+      "given": [
+        "∠B and ∠D are right ∠s",
+        "AC ≅ EC",
+        "AB ≅ ED"
       ],
-      bank: {
-        statements: ["△ABC ≅ △ADC", "AC ≅ AC", "BC ≅ DC", "AB ≅ AD"],
-        reasons: ["Given", "Reflexive Property", "SSS Congruence", "SAS Congruence"]
+      "prove": "△ABC ≅ △EDC",
+      "steps": [
+        {
+          "statement": "∠B and ∠D are right ∠s",
+          "reason": "Given"
+        },
+        {
+          "statement": "AC ≅ EC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AB ≅ ED",
+          "reason": "Given"
+        },
+        {
+          "statement": "△ABC ≅ △EDC",
+          "reason": "HL Theorem"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △EDC",
+          "AC ≅ EC",
+          "AB ≅ ED",
+          "∠B and ∠D are right ∠s"
+        ],
+        "reasons": [
+          "Given",
+          "HL Theorem",
+          "SSS Congruence",
+          "SAS Congruence"
+        ]
       }
     },
-    diagram: {
-      points: [
-        { id: "A", x: 160, y: 50, label: "A" },
-        { id: "B", x: 60, y: 140, label: "B" },
-        { id: "C", x: 160, y: 230, label: "C" },
-        { id: "D", x: 260, y: 140, label: "D" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 140,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 140,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 40,
+          "label": "E"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "CD", from: "C", to: "D" },
-        { id: "DA", from: "D", to: "A" },
-        { id: "AC", from: "A", to: "C" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "ED",
+          "from": "E",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "EC",
+          "from": "E",
+          "to": "C"
+        }
       ],
-      givenMarks: {
-        ticks: [{ line: "AB", count: 1 }, { line: "AD", count: 1 }, { line: "BC", count: 2 }, { line: "CD", count: 2 }],
-        arcs: []
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "EC",
+            "count": 1
+          },
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "ED",
+            "count": 2
+          }
+        ],
+        "arcs": []
       }
     }
   },
   {
-    id: 20,
-    region: "The Gaelic Grids",
-    name: "Fastnet Beacon",
-    theorem: "Similar Right Triangles",
-    repairTime: "2 Months",
-    before: "Images/BeforeFastnetBeacon.png",
-    after: "Images/AfterFastnetBeacon.png",
-    narrative: {
-      intro: "The lighthouse must be tall enough to guide ships from across the Mediterranean. Prove the similarity of the base and the tower to complete your legacy.",
-      choices: [
+    "id": 9,
+    "region": "Isocele",
+    "name": "Bell Tower",
+    "theorem": "Base Angles",
+    "repairTime": "5 Weeks",
+    "narrative": {
+      "intro": "The Bell Tower's resonance can heal or warn. Lady Aurelia and the Vizier await your word.",
+      "choices": [
         {
-          speaker: "Chares of Lindos",
-          text: "Should the light be fueled by oil or the magic of the Sage?",
-          options: [
-            { text: "Oil (Trade)", impact: { sovereign: 300, food: 40 } },
-            { text: "Magic (Logic)", impact: { totalXP: 500, defense: 50 } }
+          "speaker": "Lady Aurelia",
+          "text": "The geometry of the bell can be adjusted to vibrate at a frequency that purifies the air. Or we can use its volume to warn of incoming threats.",
+          "options": [
+            {
+              "text": "Purify Mist",
+              "impact": {
+                "plague": 25,
+                "food": 10
+              }
+            },
+            {
+              "text": "Sound the Alarm",
+              "impact": {
+                "defense": 30,
+                "population": 10
+              }
+            }
           ]
         }
       ],
-      victory: "The light is lit! Greece is secured, and the Logical Decay retreats. You are truly a Master of Euclid!"
+      "victory": "The bell tolls! Its sound banishes the shadows of doubt."
     },
-    proofData: {
-      given: ["∠B, ∠E right ∠s", "∠A ≅ ∠D"],
-      prove: "△ABC ~ △DEF",
-      steps: [
-        { statement: "∠B, ∠E right ∠s", reason: "Given" },
-        { statement: "∠B ≅ ∠E", reason: "All right ∠s are ≅" },
-        { statement: "∠A ≅ ∠D", reason: "Given" },
-        { statement: "△ABC ~ △DEF", reason: "AA Similarity" }
+    "proofData": {
+      "given": [
+        "AB ≅ AC",
+        "AD bisects ∠BAC"
       ],
-      bank: {
-        statements: ["△ABC ~ △DEF", "∠B ≅ ∠E", "∠A ≅ ∠D", "∠B, ∠E right ∠s"],
-        reasons: ["Given", "All right ∠s are ≅", "AA Similarity", "SAS Similarity"]
+      "prove": "∠B ≅ ∠C",
+      "steps": [
+        {
+          "statement": "AB ≅ AC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AD bisects ∠BAC",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠BAD ≅ ∠CAD",
+          "reason": "Definition of Angle Bisector"
+        },
+        {
+          "statement": "AD ≅ AD",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABD ≅ △ACD",
+          "reason": "SAS Congruence"
+        },
+        {
+          "statement": "∠B ≅ ∠C",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "∠B ≅ ∠C",
+          "△ABD ≅ △ACD",
+          "AD ≅ AD",
+          "∠BAD ≅ ∠CAD",
+          "AB ≅ AC",
+          "AD bisects ∠BAC"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Angle Bisector",
+          "Reflexive Property",
+          "SAS Congruence",
+          "CPCTC"
+        ]
       }
     },
-
-    diagram: {
-      points: [
-        { id: "A", x: 40, y: 140, label: "A" },
-        { id: "B", x: 100, y: 140, label: "B" },
-        { id: "C", x: 100, y: 40, label: "C" },
-        { id: "D", x: 150, y: 180, label: "D" },
-        { id: "E", x: 240, y: 180, label: "E" },
-        { id: "F", x: 240, y: 30, label: "F" }
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
       ],
-      lines: [
-        { id: "AB", from: "A", to: "B" },
-        { id: "BC", from: "B", to: "C" },
-        { id: "AC", from: "A", to: "C" },
-        { id: "DE", from: "D", to: "E" },
-        { id: "EF", from: "E", to: "F" },
-        { id: "DF", from: "D", to: "F" }
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
       ],
-      givenMarks: {
-        ticks: [],
-        arcs: [{ vertex: "A", rays: ["B", "C"], count: 1 }, { vertex: "D", rays: ["E", "F"], count: 1 }]
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "D"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "C",
+              "D"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": 10,
+    "region": "Isocele",
+    "name": "Royal Vineyard",
+    "theorem": "Alt. Int. Angles",
+    "repairTime": "2 Months",
+    "narrative": {
+      "intro": "The Chaos Rot is thickest here. Commander Kaelen and Valerius disagree on the vineyard's future.",
+      "choices": [
+        {
+          "speaker": "Valerius",
+          "text": "We should bottle the remaining 'Logic-Wine' as a premium vintage to fund the final restoration. Kaelen wants to use it as a medicinal tonic for the infirm.",
+          "options": [
+            {
+              "text": "Logic-Wine Vintage",
+              "impact": {
+                "sovereign": 200,
+                "population": 20
+              }
+            },
+            {
+              "text": "Medicinal Tonic",
+              "impact": {
+                "plague": 30,
+                "population": 50
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The vines are pruned and the trellis is straight. You have bound the kingdom together!"
+    },
+    "proofData": {
+      "given": [
+        "Line l ∥ Line m",
+        "Transversal t"
+      ],
+      "prove": "∠3 ≅ ∠6",
+      "steps": [
+        {
+          "statement": "Line l ∥ Line m",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠2 ≅ ∠6",
+          "reason": "Corresponding Angles Postulate"
+        },
+        {
+          "statement": "∠2 ≅ ∠3",
+          "reason": "Vertical Angles Theorem"
+        },
+        {
+          "statement": "∠3 ≅ ∠6",
+          "reason": "Transitive Property"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Line l ∥ Line m",
+          "∠3 ≅ ∠6",
+          "∠2 ≅ ∠6",
+          "∠2 ≅ ∠3"
+        ],
+        "reasons": [
+          "Given",
+          "Corresponding Angles Postulate",
+          "Vertical Angles Theorem",
+          "Transitive Property",
+          "Alt. Int. ∠s Theorem"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "B",
+          "x": 280,
+          "y": 80,
+          "label": "l"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 180,
+          "label": ""
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "m"
+        },
+        {
+          "id": "E",
+          "x": 120,
+          "y": 30,
+          "label": "t"
+        },
+        {
+          "id": "F",
+          "x": 200,
+          "y": 230,
+          "label": ""
+        },
+        {
+          "id": "P",
+          "x": 140,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "Q",
+          "x": 180,
+          "y": 180,
+          "label": ""
+        }
+      ],
+      "lines": [
+        {
+          "id": "l",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "m",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "t",
+          "from": "E",
+          "to": "F"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "P",
+            "rays": [
+              "B",
+              "E"
+            ],
+            "count": 1,
+            "label": "2",
+            "radius": 20
+          },
+          {
+            "vertex": "P",
+            "rays": [
+              "A",
+              "F"
+            ],
+            "count": 1,
+            "label": "3",
+            "radius": 20
+          },
+          {
+            "vertex": "Q",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "label": "6",
+            "radius": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": 11,
+    "region": "The Rhombic Sands",
+    "name": "Rhind Papyrus Scriptum",
+    "theorem": "Rectangular Area",
+    "repairTime": "3 Days",
+    "before": "Images/BeforeRhindPapyrus.png",
+    "after": "Images/AfterRhindPapyrus.png",
+    "narrative": {
+      "intro": "We have reached the sun-drenched sands of Egypt. The scribes are in an uproar; the ancient Rhind Papyrus has been damaged. We must prove the area of the scripts to restore them.",
+      "choices": [
+        {
+          "speaker": "High Scribe",
+          "text": "The ink must be made from the finest lotus or the common reed. Which shall we use for the restoration?",
+          "options": [
+            {
+              "text": "Finest Lotus",
+              "impact": {
+                "sovereign": -20,
+                "food": 5
+              }
+            },
+            {
+              "text": "Common Reed",
+              "impact": {
+                "population": 10
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The Papyrus is restored! The wisdom of the ancients flows once more."
+    },
+    "proofData": {
+      "given": [
+        "Rectangle ABCD",
+        "AB ≅ CD",
+        "BC ≅ DA"
+      ],
+      "prove": "△ABC ≅ △CDA",
+      "steps": [
+        {
+          "statement": "AB ≅ CD",
+          "reason": "Given"
+        },
+        {
+          "statement": "BC ≅ DA",
+          "reason": "Given"
+        },
+        {
+          "statement": "AC ≅ AC",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABC ≅ △CDA",
+          "reason": "SSS Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC ≅ △CDA",
+          "AC ≅ AC",
+          "AB ≅ CD",
+          "BC ≅ DA"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "SSS Congruence",
+          "SAS Congruence"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CD",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "DA",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 12,
+    "region": "The Rhombic Sands",
+    "name": "Pyramid Capstone",
+    "theorem": "Isosceles Triangle",
+    "repairTime": "1 Week",
+    "before": "Images/BeforePyramidCapstone.png",
+    "after": "Images/AfterPyramidCapstone.png",
+    "narrative": {
+      "intro": "The Great Pyramid is missing its golden capstone. The angles must be perfect to catch the first light of Ra.",
+      "choices": [
+        {
+          "speaker": "Architect Imhotep",
+          "text": "Shall we use solid gold, which is heavy and draws thieves, or gilded limestone?",
+          "options": [
+            {
+              "text": "Solid Gold",
+              "impact": {
+                "defense": -10,
+                "sovereign": 50
+              }
+            },
+            {
+              "text": "Gilded Limestone",
+              "impact": {
+                "defense": 10,
+                "population": 5
+              }
+            }
+          ]
+        }
+      ],
+      "victory": " Ra's light shines upon the pyramid! The capstone is secure."
+    },
+    "proofData": {
+      "given": [
+        "AB ≅ AC",
+        "AD is altitude to BC"
+      ],
+      "prove": "△ABD ≅ △ACD",
+      "steps": [
+        {
+          "statement": "AB ≅ AC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AD ⊥ BC",
+          "reason": "Definition of Altitude"
+        },
+        {
+          "statement": "∠ADB, ∠ADC are right ∠s",
+          "reason": "Definition of Perpendicular"
+        },
+        {
+          "statement": "AD ≅ AD",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABD ≅ △ACD",
+          "reason": "HL Theorem"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABD ≅ △ACD",
+          "∠ADB, ∠ADC are right ∠s",
+          "AD ≅ AD",
+          "AB ≅ AC",
+          "AD ⊥ BC"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "HL Theorem",
+          "Definition of Altitude",
+          "Definition of Perpendicular"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 13,
+    "region": "The Rhombic Sands",
+    "name": "Pharaoh's Court",
+    "theorem": "Vertical Angles",
+    "repairTime": "10 Days",
+    "before": "Images/BeforePharaohsCourt.png",
+    "after": "Images/AfterPharaohsCourt.png",
+    "narrative": {
+      "intro": "The Pharaoh's court is in disarray. The columns must be aligned perfectly parallel to ensure the roof doesn't collapse under the weight of history.",
+      "choices": [
+        {
+          "speaker": "Grand Vizier Hemiunu",
+          "text": "Should we use cedar from Lebanon or local palm wood? Cedar is stronger but palm is plentiful.",
+          "options": [
+            {
+              "text": "Lebanese Cedar",
+              "impact": {
+                "sovereign": -40,
+                "defense": 20
+              }
+            },
+            {
+              "text": "Local Palm",
+              "impact": {
+                "food": 15,
+                "population": 10
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The columns are true. The Pharaoh's court stands grand and parallel."
+    },
+    "proofData": {
+      "given": [
+        "Lines AB and CD intersect at E"
+      ],
+      "prove": "∠AEC ≅ ∠BED",
+      "steps": [
+        {
+          "statement": "Lines AB and CD intersect at E",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠AEC and ∠AED form a linear pair",
+          "reason": "Definition of Linear Pair"
+        },
+        {
+          "statement": "m∠AEC + m∠AED = 180°",
+          "reason": "Linear Pair Postulate"
+        },
+        {
+          "statement": "∠AED and ∠BED form a linear pair",
+          "reason": "Definition of Linear Pair"
+        },
+        {
+          "statement": "m∠AED + m∠BED = 180°",
+          "reason": "Linear Pair Postulate"
+        },
+        {
+          "statement": "m∠AEC + m∠AED = m∠AED + m∠BED",
+          "reason": "Substitution Property"
+        },
+        {
+          "statement": "m∠AEC = m∠BED",
+          "reason": "Subtraction Property of Equality"
+        },
+        {
+          "statement": "∠AEC ≅ ∠BED",
+          "reason": "Definition of Congruence"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Lines AB and CD intersect at E",
+          "∠AEC and ∠AED form a linear pair",
+          "m∠AEC + m∠AED = 180°",
+          "∠AED and ∠BED form a linear pair",
+          "m∠AED + m∠BED = 180°",
+          "m∠AEC + m∠AED = m∠AED + m∠BED",
+          "m∠AEC = m∠BED",
+          "∠AEC ≅ ∠BED"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Linear Pair",
+          "Linear Pair Postulate",
+          "Substitution Property",
+          "Subtraction Property of Equality",
+          "Definition of Congruence",
+          "Angle Addition Postulate"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 60,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 160,
+          "y": 130,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 14,
+    "region": "The Rhombic Sands",
+    "name": "Sphinx's Riddle",
+    "theorem": "Parallelogram Opp. Sides",
+    "repairTime": "2 Weeks",
+    "before": "Images/BeforeSphinxRiddle.png",
+    "after": "Images/AfterSphinxRiddle.png",
+    "narrative": {
+      "intro": "The Sphinx blocks the path to the Nile. To pass, you must prove the congruence of the triangles formed by its paws and the sands.",
+      "choices": [
+        {
+          "speaker": "Sphinx",
+          "text": "Will you offer a sacrifice of grain or solve the riddle with logic?",
+          "options": [
+            {
+              "text": "Offer Grain",
+              "impact": {
+                "food": -30,
+                "population": 20
+              }
+            },
+            {
+              "text": "Solve Riddle",
+              "impact": {
+                "sovereign": 100,
+                "totalXP": 50
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The Sphinx is satisfied. The path to the Nile is open."
+    },
+    "proofData": {
+      "given": [
+        "Parallelogram ABCD",
+        "Diagonal AC"
+      ],
+      "prove": "AB ≅ CD, BC ≅ AD",
+      "steps": [
+        {
+          "statement": "Parallelogram ABCD",
+          "reason": "Given"
+        },
+        {
+          "statement": "AB ∥ CD, BC ∥ AD",
+          "reason": "Definition of Parallelogram"
+        },
+        {
+          "statement": "∠BAC ≅ ∠DCA",
+          "reason": "Alt. Int. ∠s Theorem"
+        },
+        {
+          "statement": "∠BCA ≅ ∠DAC",
+          "reason": "Alt. Int. ∠s Theorem"
+        },
+        {
+          "statement": "AC ≅ AC",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABC ≅ △CDA",
+          "reason": "ASA Congruence"
+        },
+        {
+          "statement": "AB ≅ CD, BC ≅ AD",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Parallelogram ABCD",
+          "AB ∥ CD, BC ∥ AD",
+          "∠BAC ≅ ∠DCA",
+          "∠BCA ≅ ∠DAC",
+          "AC ≅ AC",
+          "△ABC ≅ △CDA",
+          "AB ≅ CD, BC ≅ AD"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Parallelogram",
+          "Alt. Int. ∠s Theorem",
+          "Reflexive Property",
+          "ASA Congruence",
+          "CPCTC",
+          "SSS Congruence"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 15,
+    "region": "The Rhombic Sands",
+    "name": "Valley of Kings",
+    "theorem": "Parallelogram Diagonals",
+    "repairTime": "1 Month",
+    "before": "Images/BeforeValleyKings.png",
+    "after": "Images/AfterValleyKings.png",
+    "narrative": {
+      "intro": "The tombs are hidden. By using the shadows of the obelisks, we can find the entrance. We must prove the triangles are similar.",
+      "choices": [
+        {
+          "speaker": "Priest of Amun",
+          "text": "Should we perform a ritual of protection or focus on the precision of the measurements?",
+          "options": [
+            {
+              "text": "Ritual",
+              "impact": {
+                "defense": 30,
+                "sovereign": -30
+              }
+            },
+            {
+              "text": "Precision",
+              "impact": {
+                "population": 25,
+                "totalXP": 100
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The shadows show the way. The entrance is revealed."
+    },
+    "proofData": {
+      "given": [
+        "Parallelogram ABCD",
+        "Diagonals AC, BD intersect at E"
+      ],
+      "prove": "AE ≅ CE, BE ≅ DE",
+      "steps": [
+        {
+          "statement": "Parallelogram ABCD",
+          "reason": "Given"
+        },
+        {
+          "statement": "AB ∥ CD",
+          "reason": "Definition of Parallelogram"
+        },
+        {
+          "statement": "AB ≅ CD",
+          "reason": "Opposite sides of parallelogram are ≅"
+        },
+        {
+          "statement": "∠BAE ≅ ∠DCE",
+          "reason": "Alt. Int. ∠s Theorem"
+        },
+        {
+          "statement": "∠ABE ≅ ∠CDE",
+          "reason": "Alt. Int. ∠s Theorem"
+        },
+        {
+          "statement": "△ABE ≅ △CDE",
+          "reason": "ASA Congruence"
+        },
+        {
+          "statement": "AE ≅ CE, BE ≅ DE",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Parallelogram ABCD",
+          "AB ∥ CD",
+          "AB ≅ CD",
+          "∠BAE ≅ ∠DCE",
+          "∠ABE ≅ ∠CDE",
+          "△ABE ≅ △CDE",
+          "AE ≅ CE, BE ≅ DE"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Parallelogram",
+          "Opposite sides of parallelogram are ≅",
+          "Alt. Int. ∠s Theorem",
+          "ASA Congruence",
+          "CPCTC",
+          "Vertical Angles Theorem"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 150,
+          "y": 120,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 16,
+    "region": "The Gaelic Grids",
+    "name": "Academy of Tara",
+    "theorem": "Perp. Bisector",
+    "repairTime": "1 Week",
+    "before": "Images/BeforeAcademyTara.png",
+    "after": "Images/AfterAcademyTara.png",
+    "narrative": {
+      "intro": "The Great Hall's dimensions must be verified. The Arch-Druids believe the sacred ratio is the key to Ireland's stability.",
+      "choices": [
+        {
+          "speaker": "The Arch-Druid",
+          "text": "Should we align the foundations with the rising sun or the setting moon? The choice will affect the hall's spiritual resonance.",
+          "options": [
+            {
+              "text": "Rising Sun (Growth)",
+              "impact": {
+                "population": 30,
+                "sovereign": -20
+              }
+            },
+            {
+              "text": "Setting Moon (Wisdom)",
+              "impact": {
+                "totalXP": 100,
+                "food": 10
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The sacred ratio is confirmed! Knowledge will flourish here once more."
+    },
+    "proofData": {
+      "given": [
+        "Line l ⊥ bisector of AB at M",
+        "Point P is on l"
+      ],
+      "prove": "PA ≅ PB",
+      "steps": [
+        {
+          "statement": "Line l is ⊥ bisector of AB at M",
+          "reason": "Given"
+        },
+        {
+          "statement": "M is the midpoint of AB",
+          "reason": "Definition of Segment Bisector"
+        },
+        {
+          "statement": "AM ≅ BM",
+          "reason": "Definition of Midpoint"
+        },
+        {
+          "statement": "∠PMA and ∠PMB are right ∠s",
+          "reason": "Definition of Perpendicular"
+        },
+        {
+          "statement": "∠PMA ≅ ∠PMB",
+          "reason": "All right ∠s are ≅"
+        },
+        {
+          "statement": "PM ≅ PM",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△PMA ≅ △PMB",
+          "reason": "SAS Congruence"
+        },
+        {
+          "statement": "PA ≅ PB",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Line l is ⊥ bisector of AB at M",
+          "M is the midpoint of AB",
+          "AM ≅ BM",
+          "∠PMA and ∠PMB are right ∠s",
+          "∠PMA ≅ ∠PMB",
+          "PM ≅ PM",
+          "△PMA ≅ △PMB",
+          "PA ≅ PB"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Segment Bisector",
+          "Definition of Midpoint",
+          "Definition of Perpendicular",
+          "All right ∠s are ≅",
+          "Reflexive Property",
+          "SAS Congruence",
+          "CPCTC",
+          "SSS Congruence"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 180,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "M",
+          "x": 160,
+          "y": 180,
+          "label": "M"
+        },
+        {
+          "id": "P",
+          "x": 160,
+          "y": 60,
+          "label": "P"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "PM",
+          "from": "P",
+          "to": "M"
+        },
+        {
+          "id": "PA",
+          "from": "P",
+          "to": "A"
+        },
+        {
+          "id": "PB",
+          "from": "P",
+          "to": "B"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 17,
+    "region": "The Gaelic Grids",
+    "name": "Glastonbury Gate",
+    "theorem": "Conv. Isosceles",
+    "repairTime": "10 Days",
+    "before": "Images/BeforeGlastonburyGate.png",
+    "after": "Images/AfterGlastonburyGate.png",
+    "narrative": {
+      "intro": "The mystical gates are jammed. Two Druids disagree on the incantation needed to release the lock.",
+      "choices": [
+        {
+          "speaker": "Druid Oisin",
+          "text": "We should use the melody of the wind to vibrate the lock open. It's gentle and won't harm the ancient stone.",
+          "options": [
+            {
+              "text": "Wind Melody",
+              "impact": {
+                "food": 5,
+                "population": 15
+              }
+            },
+            {
+              "text": "Earth Tremor",
+              "impact": {
+                "defense": 20,
+                "sovereign": -30
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The gate swings open! The flow of logic is restored to the valley."
+    },
+    "proofData": {
+      "given": [
+        "△ABC with ∠B ≅ ∠C",
+        "AD is altitude to BC"
+      ],
+      "prove": "AB ≅ AC",
+      "steps": [
+        {
+          "statement": "△ABC with ∠B ≅ ∠C",
+          "reason": "Given"
+        },
+        {
+          "statement": "AD is altitude to BC",
+          "reason": "Given"
+        },
+        {
+          "statement": "AD ⊥ BC",
+          "reason": "Definition of Altitude"
+        },
+        {
+          "statement": "∠ADB and ∠ADC are right ∠s",
+          "reason": "Definition of Perpendicular"
+        },
+        {
+          "statement": "∠ADB ≅ ∠ADC",
+          "reason": "All right ∠s are ≅"
+        },
+        {
+          "statement": "AD ≅ AD",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABD ≅ △ACD",
+          "reason": "AAS Congruence"
+        },
+        {
+          "statement": "AB ≅ AC",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC with ∠B ≅ ∠C",
+          "AD is altitude to BC",
+          "AD ⊥ BC",
+          "∠ADB and ∠ADC are right ∠s",
+          "∠ADB ≅ ∠ADC",
+          "AD ≅ AD",
+          "△ABD ≅ △ACD",
+          "AB ≅ AC"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Altitude",
+          "Definition of Perpendicular",
+          "All right ∠s are ≅",
+          "Reflexive Property",
+          "AAS Congruence",
+          "CPCTC",
+          "SAS Congruence"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 200,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "B",
+            "rays": [
+              "C",
+              "A"
+            ],
+            "count": 1,
+            "radius": 20
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": 18,
+    "region": "The Gaelic Grids",
+    "name": "Druid's Glen",
+    "theorem": "Exterior Angle",
+    "repairTime": "3 Weeks",
+    "before": "Images/BeforeDruidsGlen.png",
+    "after": "Images/AfterDruidsGlen.png",
+    "narrative": {
+      "intro": "The path through the Glen is split by the mists of Danu. The ancient stones must be aligned to reflect the moon's light across the parallel pathways.",
+      "choices": [
+        {
+          "speaker": "The Seer of Danu",
+          "text": "Will you ask about the future of the kingdom or the ancient wisdom of the Tuatha Dé Danann?",
+          "options": [
+            {
+              "text": "Future of Kingdom",
+              "impact": {
+                "population": 30,
+                "food": 10
+              }
+            },
+            {
+              "text": "Ancient Wisdom",
+              "impact": {
+                "totalXP": 100,
+                "sovereign": 50
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The mist clears. The stones are in perfect alignment."
+    },
+    "proofData": {
+      "given": [
+        "△ABC, side BC extended to D"
+      ],
+      "prove": "m∠ACD = m∠A + m∠B",
+      "steps": [
+        {
+          "statement": "△ABC, side BC extended to D",
+          "reason": "Given"
+        },
+        {
+          "statement": "m∠A + m∠B + m∠BCA = 180°",
+          "reason": "Triangle Angle Sum Theorem"
+        },
+        {
+          "statement": "∠ACD and ∠BCA form a linear pair",
+          "reason": "Definition of Linear Pair"
+        },
+        {
+          "statement": "m∠ACD + m∠BCA = 180°",
+          "reason": "Linear Pair Postulate"
+        },
+        {
+          "statement": "m∠A + m∠B + m∠BCA = m∠ACD + m∠BCA",
+          "reason": "Substitution Property"
+        },
+        {
+          "statement": "m∠A + m∠B = m∠ACD",
+          "reason": "Subtraction Property of Equality"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "△ABC, side BC extended to D",
+          "m∠A + m∠B + m∠BCA = 180°",
+          "∠ACD and ∠BCA form a linear pair",
+          "m∠ACD + m∠BCA = 180°",
+          "m∠A + m∠B + m∠BCA = m∠ACD + m∠BCA",
+          "m∠A + m∠B = m∠ACD"
+        ],
+        "reasons": [
+          "Given",
+          "Triangle Angle Sum Theorem",
+          "Definition of Linear Pair",
+          "Linear Pair Postulate",
+          "Substitution Property",
+          "Subtraction Property of Equality",
+          "Exterior Angle Theorem"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 100,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 40,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 180,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 19,
+    "region": "The Gaelic Grids",
+    "name": "Tailteann Games",
+    "theorem": "Altitude Similarity",
+    "repairTime": "1 Month",
+    "before": "Images/BeforeTailteannGames.png",
+    "after": "Images/AfterTailteannGames.png",
+    "narrative": {
+      "intro": "The hurdle blocks of the games must be perfectly identical. Prove their congruence to ensure a fair competition in the sight of Lugh. Using a shared base is the traditional way.",
+      "choices": [
+        {
+          "speaker": "Lugh the Long-Arm",
+          "text": "Should the games be in honor of the Dagda or Brigid? The choice affects the warriors' spirit.",
+          "options": [
+            {
+              "text": "The Dagda (Strength)",
+              "impact": {
+                "defense": 40,
+                "food": -10
+              }
+            },
+            {
+              "text": "Brigid (Healing)",
+              "impact": {
+                "population": 40,
+                "sovereign": 20
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The games are true. The champion is crowned!"
+    },
+    "proofData": {
+      "given": [
+        "Right △ABC with right ∠C",
+        "CD ⊥ AB"
+      ],
+      "prove": "△ACD ~ △ABC",
+      "steps": [
+        {
+          "statement": "Right △ABC with right ∠C",
+          "reason": "Given"
+        },
+        {
+          "statement": "CD ⊥ AB",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠ADC is a right angle",
+          "reason": "Definition of Perpendicular"
+        },
+        {
+          "statement": "∠C ≅ ∠ADC",
+          "reason": "All right ∠s are ≅"
+        },
+        {
+          "statement": "∠A ≅ ∠A",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ACD ~ △ABC",
+          "reason": "AA Similarity"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "Right △ABC with right ∠C",
+          "CD ⊥ AB",
+          "∠ADC is a right angle",
+          "∠C ≅ ∠ADC",
+          "∠A ≅ ∠A",
+          "△ACD ~ △ABC"
+        ],
+        "reasons": [
+          "Given",
+          "Definition of Perpendicular",
+          "All right ∠s are ≅",
+          "Reflexive Property",
+          "AA Similarity",
+          "SAS Similarity",
+          "Right Angle Congruence Theorem"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "C",
+          "x": 80,
+          "y": 60,
+          "label": "C"
+        },
+        {
+          "id": "A",
+          "x": 80,
+          "y": 200,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "D",
+          "x": 147,
+          "y": 148,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    }
+  },
+  {
+    "id": 20,
+    "region": "The Gaelic Grids",
+    "name": "Fastnet Beacon",
+    "theorem": "Overlapping △s",
+    "repairTime": "2 Months",
+    "before": "Images/BeforeFastnetBeacon.png",
+    "after": "Images/AfterFastnetBeacon.png",
+    "narrative": {
+      "intro": "The lighthouse must be tall enough to guide ships from across the Mediterranean. Prove the similarity of the base and the tower to complete your legacy.",
+      "choices": [
+        {
+          "speaker": "Chares of Lindos",
+          "text": "Should the light be fueled by oil or the magic of the Sage?",
+          "options": [
+            {
+              "text": "Oil (Trade)",
+              "impact": {
+                "sovereign": 300,
+                "food": 40
+              }
+            },
+            {
+              "text": "Magic (Logic)",
+              "impact": {
+                "totalXP": 500,
+                "defense": 50
+              }
+            }
+          ]
+        }
+      ],
+      "victory": "The light is lit! Greece is secured, and the Logical Decay retreats. You are truly a Master of Euclid!"
+    },
+    "proofData": {
+      "given": [
+        "AB ≅ AC, AD ≅ AE"
+      ],
+      "prove": "BE ≅ CD",
+      "steps": [
+        {
+          "statement": "AB ≅ AC, AD ≅ AE",
+          "reason": "Given"
+        },
+        {
+          "statement": "∠A ≅ ∠A",
+          "reason": "Reflexive Property"
+        },
+        {
+          "statement": "△ABE ≅ △ACD",
+          "reason": "SAS Congruence"
+        },
+        {
+          "statement": "BE ≅ CD",
+          "reason": "CPCTC"
+        }
+      ],
+      "bank": {
+        "statements": [
+          "AB ≅ AC, AD ≅ AE",
+          "∠A ≅ ∠A",
+          "△ABE ≅ △ACD",
+          "BE ≅ CD"
+        ],
+        "reasons": [
+          "Given",
+          "Reflexive Property",
+          "SAS Congruence",
+          "CPCTC",
+          "SSS Congruence"
+        ]
+      }
+    },
+    "diagram": {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 120,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 120,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 200,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 280,
+          "y": 200,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BE",
+          "from": "B",
+          "to": "E"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "AE",
+            "count": 2
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
       }
     }
   }

@@ -4,313 +4,447 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Chronicles of Euclid - Teacher Answer Key</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=MedievalSharp&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --medieval-gold: #b8860b; 
-            --earthy-brown: #5c4033; 
-            --parchment: #fdfbf7; 
-            --border-color: #8b5a2b;
-            --accent-green: #4a5d23;
+            --deep-plum: #2d1b4e;
+            --royal-gold: #c9a34f;
+            --burnt-gold: #a67c2e;
+            --parchment: #f5e6c8;
+            --parchment-dark: #e8d4a8;
+            --ink-brown: #3b2414;
+            --faded-ink: #5c3d2a;
+            --blood-red: #7a2018;
+            --emerald: #2e5339;
+            --midnight: #1a1028;
+            --border-ornate: #8b6914;
         }
-        
-        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Alice&display=swap');
-        
+
         body {
-            font-family: 'Alice', serif;
-            background-color: #eaddcf; 
-            background-image: radial-gradient(circle at center, #f5ecd8 0%, #eaddcf 100%);
-            color: #2c1e16;
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: #ffffff;
+            color: var(--ink-brown);
             margin: 0;
             padding: 2rem;
-            line-height: 1.5;
-            font-size: 1.15rem; /* Larger base font size */
+            line-height: 1.55;
+            font-size: 1.0rem;
         }
-        
+
         .container {
-            max-width: 1200px; /* Wider to accommodate columns */
+            max-width: 1200px;
             margin: 0 auto;
-            background: var(--parchment);
-            border: 4px double var(--border-color);
-            border-radius: 8px;
-            padding: 3rem 4rem;
-            box-shadow: 0 10px 40px rgba(92, 64, 51, 0.4);
+            background: #ffffff;
+            border: 3px double var(--border-ornate);
+            border-radius: 4px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             position: relative;
         }
-        
-        .header-banner {
-            text-align: center;
-            margin-bottom: 2rem;
+
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--royal-gold);
+            opacity: 0.5;
         }
-        
-        .header-banner img {
-            max-width: 100%;
-            height: auto;
-            max-height: 200px;
-            border-radius: 8px;
-            border: 3px solid var(--border-color);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            object-fit: cover;
-        }
-        
+        .container::before { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+        .container::after { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
         h1, h2, h3 {
-            font-family: 'MedievalSharp', cursive;
-            color: var(--earthy-brown);
+            font-family: 'Cinzel Decorative', 'MedievalSharp', cursive;
+            color: var(--deep-plum);
             text-align: center;
         }
-        
-        h1 {
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            border-bottom: 2px solid var(--medieval-gold);
-            padding-bottom: 0.5rem;
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-        
-        h2 {
-            font-size: 2.2rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-        
-        .tutorial-box {
-            background: rgba(184, 134, 11, 0.05);
-            border: 2px solid var(--medieval-gold);
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 3rem;
-            box-shadow: inset 0 0 20px rgba(184, 134, 11, 0.05);
+
+        /* Compact header: image + title block in a single row */
+        .compact-header {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.2rem;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid var(--burnt-gold);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
+            position: relative;
         }
-        
-        .tutorial-content {
-            flex: 1;
+        .compact-header::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
         }
-        
-        .tutorial-image {
-            width: 200px;
+        .compact-header .banner-img {
+            width: 110px;
+            height: 75px;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+            border-radius: 3px;
             flex-shrink: 0;
-            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-        
+        .compact-header .title-block { flex: 1; text-align: center; }
+        .compact-header h1 {
+            font-size: 1.55rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.2);
+            line-height: 1.1;
+        }
+        .compact-header .subtitle {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.0rem;
+            color: var(--blood-red);
+            margin-top: 0.15rem;
+            letter-spacing: 1px;
+        }
+        .compact-header .ornate-mini {
+            color: var(--royal-gold);
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+            margin-top: 0.1rem;
+        }
+
+        h2 {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.9rem;
+            color: var(--blood-red);
+            position: relative;
+            padding-bottom: 0.6rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--royal-gold), var(--burnt-gold), var(--royal-gold), transparent);
+        }
+
+        .tutorial-box {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.05) 0%, rgba(139, 105, 20, 0.05) 100%);
+            border: 2px solid var(--burnt-gold);
+            padding: 1rem 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+        }
+
+        .tutorial-box::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(139, 105, 20, 0.15);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .tutorial-content { flex: 1; font-size: 0.95rem; }
+        .tutorial-content p { margin: 0.4rem 0; }
+        .tutorial-image { width: 130px; flex-shrink: 0; text-align: center; }
         .tutorial-image img {
             max-width: 100%;
-            border-radius: 50%;
-            border: 3px solid var(--border-color);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        
-        .tutorial-box h3 {
-            color: var(--accent-green);
-            margin-top: 0;
-            text-align: left;
-            border-bottom: 1px solid rgba(74, 93, 35, 0.3);
-            padding-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-        
-        .standards-box {
-            background: rgba(74, 93, 35, 0.05);
-            border-left: 5px solid var(--accent-green);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            font-size: 1.05rem;
-        }
-        
-        /* Two-column layout for levels to save pages */
-        .levels-grid {
-            column-count: 2;
-            column-gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .level-card {
-            background: white;
-            border: 2px solid rgba(139, 90, 43, 0.4);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
             border-radius: 6px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            
-            /* CRITICAL FOR PRINTING: Page Breaks */
+            border: 2px solid var(--royal-gold);
+            box-shadow: 0 3px 10px rgba(45, 27, 78, 0.3);
+        }
+        .tutorial-box h3 {
+            font-family: 'MedievalSharp', cursive;
+            color: var(--deep-plum);
+            margin: 0 0 0.4rem 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(139, 105, 20, 0.3);
+            padding-bottom: 0.3rem;
+            font-size: 1.3rem;
+        }
+
+        .standards-box {
+            background: rgba(45, 27, 78, 0.05);
+            border-left: 5px solid var(--royal-gold);
+            padding: 1rem 1.5rem;
+            margin: 1.2rem 0;
+            font-size: 1.0rem;
+        }
+        .standards-box ul { margin: 0.4rem 0 0 0; padding-left: 1.2rem; }
+        .standards-box li { margin-bottom: 0.2rem; }
+
+        /* Row-major grid: levels read top-to-bottom in order: 1,2 / 3,4 / ... */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .level-card {
+            background: #ffffff;
+            border: 1.5px solid var(--burnt-gold);
+            padding: 0.6rem 0.7rem 0.5rem;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             break-inside: avoid;
             page-break-inside: avoid;
-            display: inline-block; /* Forces block not to split in columns */
-            width: 100%;
             box-sizing: border-box;
+            position: relative;
         }
-        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(139, 105, 20, 0.18);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* Region-specific accents (subtle, ink-friendly when printed). */
+        .level-card.region-isocele { border-color: #8b6914; }
+        .level-card.region-isocele .quest-symbol { color: #8b6914; }
+        .level-card.region-isocele .level-header { border-bottom-color: #c9a34f; }
+
+        .level-card.region-rhombic-sands { border-color: #b88840; }
+        .level-card.region-rhombic-sands .quest-symbol { color: #b88840; }
+        .level-card.region-rhombic-sands .level-header { border-bottom-color: #d4a86a; }
+        .level-card.region-rhombic-sands::before { border-style: dashed; border-color: rgba(184, 136, 64, 0.22); }
+
+        .level-card.region-gaelic-grids { border-color: #5a7345; }
+        .level-card.region-gaelic-grids .quest-symbol { color: #5a7345; }
+        .level-card.region-gaelic-grids .level-header { border-bottom-color: #8aa672; }
+        .level-card.region-gaelic-grids::before { border-color: rgba(90, 115, 69, 0.25); }
+
         .level-header {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: var(--earthy-brown);
-            margin-bottom: 0.8rem;
             font-family: 'MedievalSharp', cursive;
+            font-weight: bold;
+            color: var(--blood-red);
+            margin-bottom: 0.25rem;
             text-align: center;
-            border-bottom: 1px solid rgba(139, 90, 43, 0.2);
-            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--royal-gold);
+            padding-bottom: 0.35rem;
+            position: relative;
+            line-height: 1.15;
         }
-        
+        .quest-number {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 3px;
+            color: var(--burnt-gold);
+            margin-bottom: 0.05rem;
+            text-transform: uppercase;
+        }
+        .quest-symbol { font-size: 1rem; margin: 0 0.4rem; }
+        .quest-title { display: block; font-size: 1.2rem; }
+
+        .level-meta {
+            font-size: 0.78rem;
+            text-align: center;
+            color: var(--faded-ink);
+            margin-bottom: 0.35rem;
+            font-style: italic;
+            line-height: 1.25;
+        }
+        .level-meta .region-badge {
+            display: inline-block;
+            border: 1px solid rgba(139, 105, 20, 0.45);
+            border-radius: 10px;
+            padding: 0.05rem 0.55rem;
+            font-style: normal;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 0.78rem;
+            background: rgba(201, 163, 79, 0.06);
+            margin-right: 0.35rem;
+        }
+        .level-card.region-rhombic-sands .level-meta .region-badge { border-color: rgba(184, 136, 64, 0.55); background: rgba(212, 168, 106, 0.08); }
+        .level-card.region-gaelic-grids .level-meta .region-badge { border-color: rgba(90, 115, 69, 0.55); background: rgba(138, 166, 114, 0.08); }
+        .level-meta .pip { color: var(--royal-gold); margin: 0 0.35rem; font-style: normal; }
+        .level-meta strong { font-style: normal; color: var(--ink-brown); }
+        .standards-line {
+            font-size: 0.72rem;
+            text-align: center;
+            color: var(--faded-ink);
+            margin-bottom: 0.35rem;
+            font-family: 'Crimson Text', serif;
+        }
+        .standards-line strong { color: var(--ink-brown); }
+        .standards-line .std-tag {
+            display: inline-block;
+            border: 1px solid rgba(139, 105, 20, 0.55);
+            border-radius: 2px;
+            padding: 0 0.3rem;
+            margin: 0 0.12rem;
+            background: rgba(201, 163, 79, 0.08);
+            font-weight: 600;
+        }
+
         .given-prove {
-            margin-bottom: 1rem;
-            padding: 0.8rem 1rem;
-            background: rgba(92, 64, 51, 0.04);
-            border-left: 4px solid var(--medieval-gold);
-            border-radius: 0 4px 4px 0;
-            font-size: 1.1rem;
+            margin-bottom: 0.35rem;
+            padding: 0.45rem 0.7rem;
+            background: rgba(45, 27, 78, 0.04);
+            border-left: 3px solid var(--royal-gold);
+            border-radius: 0 3px 3px 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
-        
+
+        .diagram-container {
+            text-align: center;
+            margin-bottom: 0.35rem;
+            background: rgba(45, 27, 78, 0.02);
+            border: 1px dashed rgba(139, 105, 20, 0.25);
+            border-radius: 3px;
+            padding: 0.3rem;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.1rem; /* Larger font for table */
+            font-size: 0.92rem;
         }
-        
+
         th, td {
-            border: 1px solid rgba(139, 90, 43, 0.3);
-            padding: 0.6rem 0.8rem; /* Condensed padding */
+            border: 1.5px solid rgba(139, 105, 20, 0.35);
+            padding: 0.3rem 0.45rem;
             text-align: left;
             vertical-align: top;
         }
-        
+
         th {
-            background: rgba(184, 134, 11, 0.1);
-            color: var(--earthy-brown);
+            background: var(--deep-plum);
+            color: var(--parchment);
             font-family: 'MedievalSharp', cursive;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 0.95rem;
         }
-        
-        /* Print Styles - Ensure perfect printing */
+
         @media print {
-            @page {
-                size: letter;
-                margin: 0.5in;
-            }
-            body {
-                background: white !important;
-                padding: 0;
-                margin: 0;
-                font-size: 12pt; /* Point sizes work better for print */
-            }
-            .container {
-                box-shadow: none;
-                border: none;
-                padding: 0;
-                max-width: 100%;
-            }
-            .header-banner {
-                display: none; /* Save ink */
-            }
-            h1 {
-                font-size: 24pt;
-                margin-top: 0;
-            }
-            .tutorial-box {
-                border: 2px solid #ccc;
-                background: #fafafa !important;
-                break-inside: avoid;
-                gap: 1rem;
-            }
-            .levels-grid {
-                column-count: 2;
-                column-gap: 1.5rem;
-            }
+            @page { size: letter; margin: 0.45in; }
+            body { background: white !important; padding: 0; margin: 0; font-size: 9.5pt; line-height: 1.35; color: #000 !important; }
+            .container { box-shadow: none; border: none; padding: 0; max-width: 100%; background: white !important; }
+            .container::before, .container::after { display: none; }
+            .compact-header { border: 1px solid #555 !important; background: white !important; padding: 0.35rem 0.6rem; margin-bottom: 0.5rem; gap: 0.6rem; }
+            .compact-header::before { display: none; }
+            .compact-header .banner-img { display: none; }
+            .compact-header h1 { font-size: 13pt; letter-spacing: 1.5px; color: #000 !important; text-shadow: none !important; }
+            .compact-header .subtitle { font-size: 9.5pt; color: #000 !important; }
+            .compact-header .ornate-mini { color: #777 !important; font-size: 6.5pt; letter-spacing: 2px; }
+            h2 { font-size: 11.5pt; margin-top: 0.3rem; margin-bottom: 0.35rem; color: #000 !important; padding-bottom: 0.25rem; }
+            h2::after { background: #000 !important; height: 1px; left: 30%; width: 40%; }
+            .tutorial-box { border: 1px solid #555; background: white !important; break-inside: avoid; page-break-inside: avoid; gap: 0.5rem; padding: 0.5rem 0.7rem; margin-bottom: 0.6rem; }
+            .tutorial-box::before { display: none; }
+            .tutorial-image { width: 80px; }
+            .tutorial-image img { border: 1.5px solid #555 !important; box-shadow: none !important; }
+            .tutorial-box h3 { font-size: 10.5pt; color: #000 !important; padding-bottom: 0.15rem; margin-bottom: 0.25rem; }
+            .tutorial-content { font-size: 8.5pt; }
+            .tutorial-content p { margin: 0.2rem 0; }
+            .standards-box { background: white !important; border-left: 2px solid #000; padding: 0.35rem 0.6rem; margin: 0.4rem 0; font-size: 8.5pt; }
+            .standards-box ul { padding-left: 1rem; }
+            .levels-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; column-gap: 0.5rem; row-gap: 0.4rem; margin-top: 0.4rem; }
             .level-card {
-                break-inside: avoid;
-                page-break-inside: avoid;
-                border: 1px solid #ccc;
-                box-shadow: none;
-                margin-bottom: 15px;
-                padding: 1rem;
+                break-inside: avoid; page-break-inside: avoid;
+                border: 1px solid #555 !important;
+                box-shadow: none !important;
+                padding: 0.3rem 0.35rem 0.25rem;
+                background: white !important;
             }
-            table {
-                font-size: 11pt;
-            }
-            th, td {
-                padding: 0.4rem;
-            }
-            th {
-                background: #f0f0f0 !important;
-            }
-            .given-prove {
-                background: #f9f9f9 !important;
-                border-left: 3px solid #666;
-            }
-            /* Force page break before H2s if needed */
-            h2.print-break-before {
-                page-break-before: always;
-                break-before: page;
-            }
+            .level-card::before { border: 1px solid #aaa !important; inset: 2px; }
+            /* Region styles in print: use border style only (ink-friendly). */
+            .level-card.region-isocele { border-color: #555 !important; }
+            .level-card.region-rhombic-sands { border: 1px dashed #555 !important; }
+            .level-card.region-rhombic-sands::before { border: 1px dashed #aaa !important; }
+            .level-card.region-gaelic-grids { border: 1.5px double #555 !important; }
+            .level-card.region-gaelic-grids::before { border: 1px solid #aaa !important; }
+            .level-header { color: #000 !important; padding-bottom: 0.2rem; margin-bottom: 0.2rem; border-bottom: 1px solid #777 !important; }
+            .quest-number { color: #555 !important; font-size: 7.5pt; letter-spacing: 2.5px; }
+            .quest-symbol { color: #555 !important; font-size: 9pt; }
+            .quest-title { font-size: 10.5pt; }
+            .level-meta { color: #333 !important; font-size: 7.2pt; margin-bottom: 0.2rem; }
+            .level-meta .region-badge { background: white !important; border: 1px solid #888 !important; padding: 0.02rem 0.4rem; }
+            .level-meta .pip { color: #888 !important; }
+            .standards-line { color: #333 !important; font-size: 6.8pt; margin-bottom: 0.2rem; }
+            .standards-line .std-tag { background: white !important; border-color: #888 !important; }
+            .given-prove { background: white !important; border-left: 2px solid #555 !important; padding: 0.2rem 0.4rem; margin-bottom: 0.25rem; font-size: 8.4pt; line-height: 1.3; }
+            .diagram-container { border: 1px solid #bbb !important; background: white !important; padding: 0.15rem; margin-bottom: 0.25rem; }
+            .diagram-container svg { max-height: 105px !important; margin-bottom: -3px; }
+            table { font-size: 8pt; }
+            th, td { padding: 0.18rem 0.3rem; border: 1px solid #777 !important; }
+            th { background: #f0f0f0 !important; color: #000 !important; font-size: 8pt; padding-top: 0.15rem; padding-bottom: 0.15rem; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            h2.print-break-before { page-break-before: always; break-before: page; }
         }
-        
-        /* Mobile fallback for grid */
         @media (max-width: 800px) {
-            .levels-grid {
-                column-count: 1;
-            }
-            .tutorial-box {
-                flex-direction: column;
-            }
+            .levels-grid { grid-template-columns: 1fr; }
+            .compact-header { flex-direction: column; }
+            .tutorial-box { flex-direction: column; }
+            .container { padding: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-banner">
-        <img src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
+    <div class="compact-header">
+        <img class="banner-img" src="Images/CastleTitle.jpg" alt="The Chronicles of Euclid Castle">
+        <div class="title-block">
+            <h1>The Chronicles of Euclid</h1>
+            <div class="subtitle">&#9876; Teacher Answer Key &#9876;</div>
+            <div class="ornate-mini">&#10086; &#10070; &#10086; &#10070; &#10086;</div>
+        </div>
     </div>
-    
-    <h1>The Chronicles of Euclid</h1>
-    <h2>Teacher Answer Key & Guide</h2>
-    
+
     <div class="tutorial-box">
         <div class="tutorial-image">
             <img src="Images/SageCharacter.png" alt="The Royal Sage">
-            <div style="font-family: 'MedievalSharp', cursive; margin-top: 0.5rem; font-weight: bold; color: var(--earthy-brown);">The Royal Sage</div>
+            <div style="font-family: 'MedievalSharp', cursive; margin-top: 0.3rem; font-weight: bold; color: var(--deep-plum); font-size: 0.95rem;">&#10070; The Royal Sage &#10070;</div>
         </div>
         <div class="tutorial-content">
-            <h3>Classroom Walkthrough & Tutorial</h3>
-            <p>Welcome to <strong>The Chronicles of Euclid</strong>! This interactive Geometry Proof Quest is designed to help students master geometric proofs through an engaging, medieval narrative. Students act as the Royal Heir to the Kingdom of Euclid. The kingdom is suffering from "Logical Decay." To rebuild infrastructure, students must complete two-column proofs.</p>
-            
+            <h3>Classroom Walkthrough &amp; Tutorial</h3>
+            <p>Welcome to <strong>The Chronicles of Euclid</strong>! This interactive Geometry Proof Quest helps students master geometric proofs through an engaging, medieval narrative. Students act as the Royal Heir to the Kingdom of Euclid &mdash; a realm afflicted by "Logical Decay." To rebuild bridges, castles, and farmlands, students must complete two-column proofs.</p>
+            <p style="margin-bottom: 0.4rem;"><strong>Realm crests:</strong> <strong>&#9884; Isocele</strong> (Levels 1&ndash;10) &middot; <strong>&#9671; Rhombic Sands</strong> (11&ndash;15) &middot; <strong>&#10048; Gaelic Grids</strong> (16&ndash;20).</p>
+
             <div class="standards-box">
-                <strong>Common Core State Standards (CCSS) Aligned:</strong>
-                <ul style="margin-top: 0.5rem; margin-bottom: 0;">
-                    <li><strong>HSG.CO.C.9:</strong> Prove theorems about lines and angles.</li>
-                    <li><strong>HSG.CO.C.10:</strong> Prove theorems about triangles.</li>
-                    <li><strong>HSG.SRT.B.4:</strong> Prove theorems about similarity.</li>
-                    <li><strong>HSG.SRT.B.5:</strong> Use congruence and similarity criteria for triangles.</li>
+                <strong>&#10070; Common Core State Standards (CCSS) Aligned &#10070;</strong>
+                <ul>
+                    <li><strong>HSG.CO.C.9:</strong> Prove theorems about lines and angles. <em>(Levels 4, 10, 13, 16)</em></li>
+                    <li><strong>HSG.CO.C.10:</strong> Prove theorems about triangles. <em>(Levels 1&ndash;9, 11&ndash;12, 14&ndash;18, 20)</em></li>
+                    <li><strong>HSG.CO.C.11:</strong> Prove theorems about parallelograms. <em>(Levels 11, 14, 15)</em></li>
+                    <li><strong>HSG.SRT.B.4:</strong> Prove theorems about similarity. <em>(Level 19)</em></li>
+                    <li><strong>HSG.SRT.B.5:</strong> Use congruence and similarity criteria for triangles. <em>(Levels 1&ndash;8, 11&ndash;12, 14&ndash;17, 19, 20)</em></li>
                 </ul>
             </div>
-            
-            <p><strong>Gameplay Loop & Mechanics:</strong></p>
-            <ol>
-                <li>Students select a region and choose a node on the map to restore.</li>
-                <li>They read a short scenario and make a leadership choice.</li>
-                <li>They enter the <strong>Proof Table</strong> to complete the geometric proof.</li>
-                <li><strong>Hint System:</strong> If students get stuck, they can click "Seek Wisdom" for a helpful nudge.</li>
-            </ol>
-            
-            <p style="margin-bottom: 0;"><strong>Premium Access:</strong> The first 5 levels are free. To unlock the remaining 15 levels, provide students with the password: <strong style="font-size:1.3rem; color:#3b1d00;">MathI5Fun</strong>. <em>(Please do not distribute this password outside of your own classroom!)</em></p>
+
+            <p style="margin-bottom: 0;"><strong>Premium Access:</strong> The first 5 levels are free. To unlock the remaining 15 levels, provide students with the password: <strong style="font-size:1.2rem; color:var(--blood-red);">MathI5Fun</strong>.</p>
         </div>
     </div>
 
-    <h2 class="print-break-before">Complete Proof Answer Key</h2>
-    
+    <h2 class="print-break-before">&#9874; Complete Proof Answer Key &#9874;</h2>
+
     <div class="levels-grid">
 
-        <div class="level-card">
-            <div class="level-header">Level 1: Moat Bridge</div>
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;1<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Moat Bridge</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;SSS</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AD ≅ CD, AB ≅ CB, BD shared<br>
+                <strong>Given:</strong> AD ≅ CD, AB ≅ CB<br>
                 <strong>Prove:</strong> △ABD ≅ △CBD
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-1" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -345,11 +479,99 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 2: Market Stalls</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[1] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 230,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 30,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 280,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 230,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;2<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Market Stalls</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;SAS</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> AB ≅ AD, ∠1 ≅ ∠2, AC shared<br>
+                <strong>Given:</strong> AB ≅ AD, ∠1 ≅ ∠2<br>
                 <strong>Prove:</strong> △ABC ≅ △ADC
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-2" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -384,11 +606,108 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 3: Sentry Wall</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[2] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 150,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 230,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 150,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AD",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "C"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;3<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Sentry Wall</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Reflexive Property</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ CB, BD bisects AC<br>
                 <strong>Prove:</strong> △ABD ≅ △CBD
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-3" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -428,11 +747,99 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 4: Blacksmith Tongs</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[3] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 50,
+          "label": "A"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 50,
+          "label": "D"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 50,
+          "label": "C"
+        },
+        {
+          "id": "B",
+          "x": 160,
+          "y": 220,
+          "label": "B"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "DB",
+          "from": "D",
+          "to": "B"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "CB",
+            "count": 2
+          },
+          {
+            "line": "AD",
+            "count": 1
+          },
+          {
+            "line": "DC",
+            "count": 1
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;4<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Blacksmith Tongs</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Vertical Angles</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.9</span><span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> Lines AE and BD intersect at C, AC ≅ CE, BC ≅ CD<br>
                 <strong>Prove:</strong> △ABC ≅ △EDC
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-4" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -467,11 +874,100 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 5: Fishing Docks</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[4] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 220,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 220,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "CE",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;5<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Fishing Docks</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;ASA</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠A ≅ ∠D, AC ≅ DF, ∠C ≅ ∠F<br>
                 <strong>Prove:</strong> △ABC ≅ △DEF
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-5" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -506,11 +1002,141 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 6: Stable Rafters</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[5] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 100,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 40,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 140,
+          "y": 100,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 100,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 240,
+          "y": 40,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 280,
+          "y": 100,
+          "label": "F"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "DF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "F",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 2
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;6<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Stable Rafters</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;AAS</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠A ≅ ∠D, ∠B ≅ ∠E, BC ≅ EF<br>
                 <strong>Prove:</strong> △ABC ≅ △DEF
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-6" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -545,11 +1171,141 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 7: Palace Vault</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[6] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 120,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 180,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 60,
+          "label": "E"
+        },
+        {
+          "id": "F",
+          "x": 180,
+          "y": 140,
+          "label": "F"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "EF",
+          "from": "E",
+          "to": "F"
+        },
+        {
+          "id": "DF",
+          "from": "D",
+          "to": "F"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "BC",
+            "count": 1
+          },
+          {
+            "line": "EF",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "C"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "D",
+            "rays": [
+              "E",
+              "F"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "B",
+            "rays": [
+              "A",
+              "C"
+            ],
+            "count": 2
+          },
+          {
+            "vertex": "E",
+            "rays": [
+              "D",
+              "F"
+            ],
+            "count": 2
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;7<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Palace Vault</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;CPCTC</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ AD, BC ≅ DC<br>
                 <strong>Prove:</strong> ∠B ≅ ∠D
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-7" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -589,11 +1345,99 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 8: Grand Portcullis</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[7] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 130,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 240,
+          "y": 130,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "DA",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "CD",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;8<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Grand Portcullis</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;HL Theorem</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> ∠B and ∠D are right ∠s, AC ≅ EC, AB ≅ ED<br>
                 <strong>Prove:</strong> △ABC ≅ △EDC
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-8" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -628,11 +1472,110 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 9: Bell Tower</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[8] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 140,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 160,
+          "y": 140,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 140,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 260,
+          "y": 40,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "ED",
+          "from": "E",
+          "to": "D"
+        },
+        {
+          "id": "DC",
+          "from": "D",
+          "to": "C"
+        },
+        {
+          "id": "EC",
+          "from": "E",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AC",
+            "count": 1
+          },
+          {
+            "line": "EC",
+            "count": 1
+          },
+          {
+            "line": "AB",
+            "count": 2
+          },
+          {
+            "line": "ED",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;9<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Bell Tower</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Base Angles</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> AB ≅ AC, AD bisects ∠BAC<br>
                 <strong>Prove:</strong> ∠B ≅ ∠C
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-9" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -677,11 +1620,103 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 10: Royal Vineyard</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[9] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 80,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 240,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "B",
+              "D"
+            ],
+            "count": 1
+          },
+          {
+            "vertex": "A",
+            "rays": [
+              "C",
+              "D"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-isocele">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9884;</span>Quest&nbsp;10<span class="quest-symbol">&#9884;</span></span>
+                <span class="quest-title">Royal Vineyard</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9884;&nbsp;Isocele&nbsp;&#9884;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Alt. Int. Angles</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.9</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠1 ≅ ∠2, Transversal t<br>
-                <strong>Prove:</strong> Line l ∥ Line m
+                <strong>Given:</strong> Line l ∥ Line m, Transversal t<br>
+                <strong>Prove:</strong> ∠3 ≅ ∠6
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-10" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -693,29 +1728,150 @@
                 <tbody>
 
                     <tr>
-                        <td>∠1 ≅ ∠2</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠1 and ∠2 are alt. interior ∠s</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
                         <td>Line l ∥ Line m</td>
-                        <td>Converse Alt. Int. ∠s Theorem</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠2 ≅ ∠6</td>
+                        <td>Corresponding Angles Postulate</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠2 ≅ ∠3</td>
+                        <td>Vertical Angles Theorem</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠3 ≅ ∠6</td>
+                        <td>Transitive Property</td>
                     </tr>
 
                 </tbody>
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 11: Rhind Papyrus Scriptum</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[10] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 40,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "B",
+          "x": 280,
+          "y": 80,
+          "label": "l"
+        },
+        {
+          "id": "C",
+          "x": 40,
+          "y": 180,
+          "label": ""
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "m"
+        },
+        {
+          "id": "E",
+          "x": 120,
+          "y": 30,
+          "label": "t"
+        },
+        {
+          "id": "F",
+          "x": 200,
+          "y": 230,
+          "label": ""
+        },
+        {
+          "id": "P",
+          "x": 140,
+          "y": 80,
+          "label": ""
+        },
+        {
+          "id": "Q",
+          "x": 180,
+          "y": 180,
+          "label": ""
+        }
+      ],
+      "lines": [
+        {
+          "id": "l",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "m",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "t",
+          "from": "E",
+          "to": "F"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "P",
+            "rays": [
+              "B",
+              "E"
+            ],
+            "count": 1,
+            "label": "2",
+            "radius": 20
+          },
+          {
+            "vertex": "P",
+            "rays": [
+              "A",
+              "F"
+            ],
+            "count": 1,
+            "label": "3",
+            "radius": 20
+          },
+          {
+            "vertex": "Q",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "label": "6",
+            "radius": 20
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;11<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Rhind Papyrus Scriptum</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Rectangular Area</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">CO.C.11</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
                 <strong>Given:</strong> Rectangle ABCD, AB ≅ CD, BC ≅ DA<br>
                 <strong>Prove:</strong> △ABC ≅ △CDA
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-11" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -750,11 +1906,99 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 12: Pyramid Capstone</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[11] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 60,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "CD",
+            "count": 1
+          },
+          {
+            "line": "BC",
+            "count": 2
+          },
+          {
+            "line": "DA",
+            "count": 2
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;12<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Pyramid Capstone</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Isosceles Triangle</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> △ABC is isosceles, AB ≅ AC, AD is altitude to BC<br>
+                <strong>Given:</strong> AB ≅ AC, AD is altitude to BC<br>
                 <strong>Prove:</strong> △ABD ≅ △ACD
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-12" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -794,11 +2038,86 @@
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 13: Pharaoh's Court</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[12] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 220,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 220,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 220,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AB",
+            "count": 1
+          },
+          {
+            "line": "AC",
+            "count": 1
+          }
+        ],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;13<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Pharaoh's Court</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Vertical Angles</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.9</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> Line l ∥ Line m, Transversal t, ∠1 and ∠2 are corresp. ∠s<br>
-                <strong>Prove:</strong> ∠1 ≅ ∠2
+                <strong>Given:</strong> Lines AB and CD intersect at E<br>
+                <strong>Prove:</strong> ∠AEC ≅ ∠BED
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-13" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -810,29 +2129,116 @@
                 <tbody>
 
                     <tr>
-                        <td>Line l ∥ Line m</td>
+                        <td>Lines AB and CD intersect at E</td>
                         <td>Given</td>
                     </tr>
 
                     <tr>
-                        <td>∠1 and ∠2 are corresp. ∠s</td>
-                        <td>Given</td>
+                        <td>∠AEC and ∠AED form a linear pair</td>
+                        <td>Definition of Linear Pair</td>
                     </tr>
 
                     <tr>
-                        <td>∠1 ≅ ∠2</td>
-                        <td>Corresponding Angles Postulate</td>
+                        <td>m∠AEC + m∠AED = 180°</td>
+                        <td>Linear Pair Postulate</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠AED and ∠BED form a linear pair</td>
+                        <td>Definition of Linear Pair</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠AED + m∠BED = 180°</td>
+                        <td>Linear Pair Postulate</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠AEC + m∠AED = m∠AED + m∠BED</td>
+                        <td>Substitution Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠AEC = m∠BED</td>
+                        <td>Subtraction Property of Equality</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠AEC ≅ ∠BED</td>
+                        <td>Definition of Congruence</td>
                     </tr>
 
                 </tbody>
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 14: Sphinx's Riddle</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[13] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 60,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 260,
+          "y": 60,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 160,
+          "y": 130,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;14<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Sphinx's Riddle</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Parallelogram Opp. Sides</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">CO.C.11</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠E, AC ≅ EC, Line segments AE and BD intersect at C<br>
-                <strong>Prove:</strong> △ABC ≅ △EDC
+                <strong>Given:</strong> Parallelogram ABCD, Diagonal AC<br>
+                <strong>Prove:</strong> AB ≅ CD, BC ≅ AD
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-14" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -844,198 +2250,23 @@
                 <tbody>
 
                     <tr>
-                        <td>∠A ≅ ∠E</td>
+                        <td>Parallelogram ABCD</td>
                         <td>Given</td>
                     </tr>
 
                     <tr>
-                        <td>AC ≅ EC</td>
-                        <td>Given</td>
+                        <td>AB ∥ CD, BC ∥ AD</td>
+                        <td>Definition of Parallelogram</td>
                     </tr>
 
                     <tr>
-                        <td>∠ACB ≅ ∠ECD</td>
-                        <td>Vertical Angles Theorem</td>
+                        <td>∠BAC ≅ ∠DCA</td>
+                        <td>Alt. Int. ∠s Theorem</td>
                     </tr>
 
                     <tr>
-                        <td>△ABC ≅ △EDC</td>
-                        <td>ASA Congruence</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="level-card">
-            <div class="level-header">Level 15: Valley of Kings</div>
-            <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠D, ∠B ≅ ∠E<br>
-                <strong>Prove:</strong> △ABC ~ △DEF
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Statement</th>
-                        <th style="width: 50%;">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>∠A ≅ ∠D</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠B ≅ ∠E</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>△ABC ~ △DEF</td>
-                        <td>AA Similarity</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="level-card">
-            <div class="level-header">Level 16: Academy of Tara</div>
-            <div class="given-prove">
-                <strong>Given:</strong> AB ≅ DE, ∠B ≅ ∠E, BC ≅ EF<br>
-                <strong>Prove:</strong> △ABC ≅ △DEF
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Statement</th>
-                        <th style="width: 50%;">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>AB ≅ DE</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠B ≅ ∠E</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>BC ≅ EF</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>△ABC ≅ △DEF</td>
-                        <td>SAS Congruence</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="level-card">
-            <div class="level-header">Level 17: Glastonbury Gate</div>
-            <div class="given-prove">
-                <strong>Given:</strong> ∠A ≅ ∠D, AB ≅ DE, ∠B ≅ ∠E<br>
-                <strong>Prove:</strong> △ABC ≅ △DEF
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Statement</th>
-                        <th style="width: 50%;">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>∠A ≅ ∠D</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>AB ≅ DE</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠B ≅ ∠E</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>△ABC ≅ △DEF</td>
-                        <td>ASA Congruence</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="level-card">
-            <div class="level-header">Level 18: Druid's Glen</div>
-            <div class="given-prove">
-                <strong>Given:</strong> Line l ∥ Line m, Transversal t, ∠1 and ∠7 are alt. exterior ∠s<br>
-                <strong>Prove:</strong> ∠1 ≅ ∠7
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Statement</th>
-                        <th style="width: 50%;">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>Line l ∥ Line m</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠1 and ∠7 are alt. exterior ∠s</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>∠1 ≅ ∠7</td>
-                        <td>Alternate Exterior Angles Theorem</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="level-card">
-            <div class="level-header">Level 19: Tailteann Games</div>
-            <div class="given-prove">
-                <strong>Given:</strong> AB ≅ AD, BC ≅ DC, AC is a shared side<br>
-                <strong>Prove:</strong> △ABC ≅ △ADC
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Statement</th>
-                        <th style="width: 50%;">Reason</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>AB ≅ AD</td>
-                        <td>Given</td>
-                    </tr>
-
-                    <tr>
-                        <td>BC ≅ DC</td>
-                        <td>Given</td>
+                        <td>∠BCA ≅ ∠DAC</td>
+                        <td>Alt. Int. ∠s Theorem</td>
                     </tr>
 
                     <tr>
@@ -1044,19 +2275,95 @@
                     </tr>
 
                     <tr>
-                        <td>△ABC ≅ △ADC</td>
-                        <td>SSS Congruence</td>
+                        <td>△ABC ≅ △CDA</td>
+                        <td>ASA Congruence</td>
+                    </tr>
+
+                    <tr>
+                        <td>AB ≅ CD, BC ≅ AD</td>
+                        <td>CPCTC</td>
                     </tr>
 
                 </tbody>
             </table>
         </div>
 
-        <div class="level-card">
-            <div class="level-header">Level 20: Fastnet Beacon</div>
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[14] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-rhombic-sands">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#9671;</span>Quest&nbsp;15<span class="quest-symbol">&#9671;</span></span>
+                <span class="quest-title">Valley of Kings</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#9671;&nbsp;The Rhombic Sands&nbsp;&#9671;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Parallelogram Diagonals</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">CO.C.11</span><span class="std-tag">SRT.B.5</span></div>
             <div class="given-prove">
-                <strong>Given:</strong> ∠B, ∠E right ∠s, ∠A ≅ ∠D<br>
-                <strong>Prove:</strong> △ABC ~ △DEF
+                <strong>Given:</strong> Parallelogram ABCD, Diagonals AC, BD intersect at E<br>
+                <strong>Prove:</strong> AE ≅ CE, BE ≅ DE
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-15" width="320" height="260" style="max-width: 100%;"></svg>
             </div>
             <table>
                 <thead>
@@ -1068,22 +2375,547 @@
                 <tbody>
 
                     <tr>
-                        <td>∠B, ∠E right ∠s</td>
+                        <td>Parallelogram ABCD</td>
                         <td>Given</td>
                     </tr>
 
                     <tr>
-                        <td>∠B ≅ ∠E</td>
+                        <td>AB ∥ CD</td>
+                        <td>Definition of Parallelogram</td>
+                    </tr>
+
+                    <tr>
+                        <td>AB ≅ CD</td>
+                        <td>Opposite sides of parallelogram are ≅</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠BAE ≅ ∠DCE</td>
+                        <td>Alt. Int. ∠s Theorem</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠ABE ≅ ∠CDE</td>
+                        <td>Alt. Int. ∠s Theorem</td>
+                    </tr>
+
+                    <tr>
+                        <td>△ABE ≅ △CDE</td>
+                        <td>ASA Congruence</td>
+                    </tr>
+
+                    <tr>
+                        <td>AE ≅ CE, BE ≅ DE</td>
+                        <td>CPCTC</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[15] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 80,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 180,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 150,
+          "y": 120,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DA",
+          "from": "D",
+          "to": "A"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;16<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Academy of Tara</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Perp. Bisector</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.9</span><span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
+            <div class="given-prove">
+                <strong>Given:</strong> Line l ⊥ bisector of AB at M, Point P is on l<br>
+                <strong>Prove:</strong> PA ≅ PB
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-16" width="320" height="260" style="max-width: 100%;"></svg>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Statement</th>
+                        <th style="width: 50%;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Line l is ⊥ bisector of AB at M</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>M is the midpoint of AB</td>
+                        <td>Definition of Segment Bisector</td>
+                    </tr>
+
+                    <tr>
+                        <td>AM ≅ BM</td>
+                        <td>Definition of Midpoint</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠PMA and ∠PMB are right ∠s</td>
+                        <td>Definition of Perpendicular</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠PMA ≅ ∠PMB</td>
                         <td>All right ∠s are ≅</td>
                     </tr>
 
                     <tr>
-                        <td>∠A ≅ ∠D</td>
+                        <td>PM ≅ PM</td>
+                        <td>Reflexive Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>△PMA ≅ △PMB</td>
+                        <td>SAS Congruence</td>
+                    </tr>
+
+                    <tr>
+                        <td>PA ≅ PB</td>
+                        <td>CPCTC</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[16] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 60,
+          "y": 180,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "M",
+          "x": 160,
+          "y": 180,
+          "label": "M"
+        },
+        {
+          "id": "P",
+          "x": 160,
+          "y": 60,
+          "label": "P"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "PM",
+          "from": "P",
+          "to": "M"
+        },
+        {
+          "id": "PA",
+          "from": "P",
+          "to": "A"
+        },
+        {
+          "id": "PB",
+          "from": "P",
+          "to": "B"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;17<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Glastonbury Gate</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Conv. Isosceles</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
+            <div class="given-prove">
+                <strong>Given:</strong> △ABC with ∠B ≅ ∠C, AD is altitude to BC<br>
+                <strong>Prove:</strong> AB ≅ AC
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-17" width="320" height="260" style="max-width: 100%;"></svg>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Statement</th>
+                        <th style="width: 50%;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>△ABC with ∠B ≅ ∠C</td>
                         <td>Given</td>
                     </tr>
 
                     <tr>
-                        <td>△ABC ~ △DEF</td>
+                        <td>AD is altitude to BC</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>AD ⊥ BC</td>
+                        <td>Definition of Altitude</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠ADB and ∠ADC are right ∠s</td>
+                        <td>Definition of Perpendicular</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠ADB ≅ ∠ADC</td>
+                        <td>All right ∠s are ≅</td>
+                    </tr>
+
+                    <tr>
+                        <td>AD ≅ AD</td>
+                        <td>Reflexive Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>△ABD ≅ △ACD</td>
+                        <td>AAS Congruence</td>
+                    </tr>
+
+                    <tr>
+                        <td>AB ≅ AC</td>
+                        <td>CPCTC</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[17] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 60,
+          "y": 200,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 260,
+          "y": 200,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 160,
+          "y": 200,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": [
+          {
+            "vertex": "B",
+            "rays": [
+              "C",
+              "A"
+            ],
+            "count": 1,
+            "radius": 20
+          },
+          {
+            "vertex": "C",
+            "rays": [
+              "A",
+              "B"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
+      }
+    };
+        </script>
+
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;18<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Druid's Glen</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Exterior Angle</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span></div>
+            <div class="given-prove">
+                <strong>Given:</strong> △ABC, side BC extended to D<br>
+                <strong>Prove:</strong> m∠ACD = m∠A + m∠B
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-18" width="320" height="260" style="max-width: 100%;"></svg>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Statement</th>
+                        <th style="width: 50%;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>△ABC, side BC extended to D</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠A + m∠B + m∠BCA = 180°</td>
+                        <td>Triangle Angle Sum Theorem</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠ACD and ∠BCA form a linear pair</td>
+                        <td>Definition of Linear Pair</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠ACD + m∠BCA = 180°</td>
+                        <td>Linear Pair Postulate</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠A + m∠B + m∠BCA = m∠ACD + m∠BCA</td>
+                        <td>Substitution Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>m∠A + m∠B = m∠ACD</td>
+                        <td>Subtraction Property of Equality</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[18] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 100,
+          "y": 60,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 40,
+          "y": 180,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 180,
+          "y": 180,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 280,
+          "y": 180,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;19<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Tailteann Games</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Altitude Similarity</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">SRT.B.4</span><span class="std-tag">SRT.B.5</span></div>
+            <div class="given-prove">
+                <strong>Given:</strong> Right △ABC with right ∠C, CD ⊥ AB<br>
+                <strong>Prove:</strong> △ACD ~ △ABC
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-19" width="320" height="260" style="max-width: 100%;"></svg>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Statement</th>
+                        <th style="width: 50%;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Right △ABC with right ∠C</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>CD ⊥ AB</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠ADC is a right angle</td>
+                        <td>Definition of Perpendicular</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠C ≅ ∠ADC</td>
+                        <td>All right ∠s are ≅</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠A ≅ ∠A</td>
+                        <td>Reflexive Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>△ACD ~ △ABC</td>
                         <td>AA Similarity</td>
                     </tr>
 
@@ -1091,7 +2923,387 @@
             </table>
         </div>
 
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[19] = {
+      "points": [
+        {
+          "id": "C",
+          "x": 80,
+          "y": 60,
+          "label": "C"
+        },
+        {
+          "id": "A",
+          "x": 80,
+          "y": 200,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 260,
+          "y": 60,
+          "label": "B"
+        },
+        {
+          "id": "D",
+          "x": 147,
+          "y": 148,
+          "label": "D"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "CB",
+          "from": "C",
+          "to": "B"
+        },
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [],
+        "arcs": []
+      }
+    };
+        </script>
+
+        <div class="level-card region-gaelic-grids">
+            <div class="level-header">
+                <span class="quest-number"><span class="quest-symbol">&#10048;</span>Quest&nbsp;20<span class="quest-symbol">&#10048;</span></span>
+                <span class="quest-title">Fastnet Beacon</span>
+            </div>
+            <div class="level-meta"><span class="region-badge">&#10048;&nbsp;The Gaelic Grids&nbsp;&#10048;</span><span class="pip">&#10070;</span><strong>Theorem:</strong>&nbsp;Overlapping △s</div>
+            <div class="standards-line"><strong>CCSS:</strong> <span class="std-tag">CO.C.10</span><span class="std-tag">SRT.B.5</span></div>
+            <div class="given-prove">
+                <strong>Given:</strong> AB ≅ AC, AD ≅ AE<br>
+                <strong>Prove:</strong> BE ≅ CD
+            </div>
+            <div class="diagram-container">
+                <svg id="diagram-20" width="320" height="260" style="max-width: 100%;"></svg>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Statement</th>
+                        <th style="width: 50%;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>AB ≅ AC, AD ≅ AE</td>
+                        <td>Given</td>
+                    </tr>
+
+                    <tr>
+                        <td>∠A ≅ ∠A</td>
+                        <td>Reflexive Property</td>
+                    </tr>
+
+                    <tr>
+                        <td>△ABE ≅ △ACD</td>
+                        <td>SAS Congruence</td>
+                    </tr>
+
+                    <tr>
+                        <td>BE ≅ CD</td>
+                        <td>CPCTC</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            window.diagramsData = window.diagramsData || {};
+            window.diagramsData[20] = {
+      "points": [
+        {
+          "id": "A",
+          "x": 160,
+          "y": 40,
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "x": 100,
+          "y": 120,
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "x": 220,
+          "y": 120,
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "x": 40,
+          "y": 200,
+          "label": "D"
+        },
+        {
+          "id": "E",
+          "x": 280,
+          "y": 200,
+          "label": "E"
+        }
+      ],
+      "lines": [
+        {
+          "id": "AD",
+          "from": "A",
+          "to": "D"
+        },
+        {
+          "id": "AE",
+          "from": "A",
+          "to": "E"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "BE",
+          "from": "B",
+          "to": "E"
+        }
+      ],
+      "givenMarks": {
+        "ticks": [
+          {
+            "line": "AD",
+            "count": 2
+          },
+          {
+            "line": "AE",
+            "count": 2
+          }
+        ],
+        "arcs": [
+          {
+            "vertex": "A",
+            "rays": [
+              "D",
+              "E"
+            ],
+            "count": 1,
+            "radius": 20
+          }
+        ]
+      }
+    };
+        </script>
+
     </div>
 </div>
+
+<script>
+function renderDiagrams() {
+    for (let id in window.diagramsData) {
+        let diagram = window.diagramsData[id];
+        let svg = document.getElementById("diagram-" + id);
+        if (svg && diagram) {
+            drawDiagram(svg, diagram);
+        }
+    }
+}
+
+function drawDiagram(svg, diagram) {
+    if (!diagram || !diagram.points) return;
+    svg.innerHTML = "";
+
+    const getPoint = (id) => diagram.points.find((p) => p.id === id);
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    diagram.points.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+    });
+    const padding = 40;
+    minX -= padding; minY -= padding; maxX += padding; maxY += padding;
+    svg.setAttribute("viewBox", `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+    svg.style.width = "100%";
+    svg.style.height = "auto";
+    svg.style.maxHeight = "160px";
+
+    if (diagram.lines) {
+        diagram.lines.forEach((line) => {
+            const from = getPoint(line.from);
+            const to = getPoint(line.to);
+            if (!from || !to) return;
+            const lineEl = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            lineEl.setAttribute("x1", from.x);
+            lineEl.setAttribute("y1", from.y);
+            lineEl.setAttribute("x2", to.x);
+            lineEl.setAttribute("y2", to.y);
+            lineEl.setAttribute("stroke", "#2d1b4e");
+            lineEl.setAttribute("stroke-width", "2.5");
+            svg.appendChild(lineEl);
+        });
+    }
+
+    if (diagram.givenMarks && diagram.givenMarks.ticks) {
+        diagram.givenMarks.ticks.forEach(tickMark => {
+            let p1, p2;
+            const line = diagram.lines.find(l => l.id === tickMark.line);
+            if (line) {
+                p1 = getPoint(line.from);
+                p2 = getPoint(line.to);
+            } else {
+                const chars = tickMark.line.split('');
+                if (chars.length === 2) {
+                    p1 = getPoint(chars[0]);
+                    p2 = getPoint(chars[1]);
+                }
+            }
+            if (!p1 || !p2) return;
+            drawTicks(svg, p1, p2, tickMark.count);
+        });
+    }
+
+    if (diagram.givenMarks && diagram.givenMarks.arcs) {
+        diagram.givenMarks.arcs.forEach(arcMark => {
+            const vertex = getPoint(arcMark.vertex);
+            const rays = arcMark.rays.map(rId => getPoint(rId));
+            if (!vertex || rays.length < 2 || !rays[0] || !rays[1]) return;
+            drawArc(svg, vertex, rays, arcMark.count, arcMark.label, arcMark.radius);
+        });
+    }
+
+    diagram.points.forEach((point) => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", point.x);
+        circle.setAttribute("cy", point.y);
+        circle.setAttribute("r", "4");
+        circle.setAttribute("fill", "#2d1b4e");
+        svg.appendChild(circle);
+
+        if (point.label) {
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            const cx = (minX + maxX) / 2;
+            const cy = (minY + maxY) / 2;
+            const dx = point.x > cx ? 12 : -12;
+            const dy = point.y > cy ? 12 : -12;
+            
+            text.setAttribute("x", point.x + dx);
+            text.setAttribute("y", point.y + dy);
+            text.setAttribute("fill", "#3b2414");
+            text.setAttribute("font-family", "'Crimson Text', serif");
+            text.setAttribute("font-size", "18");
+            text.setAttribute("font-weight", "bold");
+            text.setAttribute("text-anchor", point.x > cx ? "start" : "end");
+            text.setAttribute("dominant-baseline", point.y > cy ? "hanging" : "auto");
+            
+            text.setAttribute("paint-order", "stroke fill");
+            text.setAttribute("stroke", "rgba(255,255,255,0.9)");
+            text.setAttribute("stroke-width", "5");
+            text.setAttribute("stroke-linejoin", "round");
+            
+            text.textContent = point.label;
+            svg.appendChild(text);
+        }
+    });
+}
+
+function drawTicks(svg, p1, p2, count, pos = 0.5) {
+    const midX = p1.x + (p2.x - p1.x) * pos;
+    const midY = p1.y + (p2.y - p1.y) * pos;
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y;
+    const angle = Math.atan2(dy, dx);
+    const perp = angle + Math.PI / 2;
+    const spacing = 8;
+    const tickLen = 12;
+
+    for (let i = 0; i < count; i++) {
+        const offset = (i - (count - 1) / 2) * spacing;
+        const tx = midX + Math.cos(angle) * offset;
+        const ty = midY + Math.sin(angle) * offset;
+
+        const x1 = tx + Math.cos(perp) * (tickLen / 2);
+        const y1 = ty + Math.sin(perp) * (tickLen / 2);
+        const x2 = tx - Math.cos(perp) * (tickLen / 2);
+        const y2 = ty - Math.sin(perp) * (tickLen / 2);
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
+        line.setAttribute("stroke", "#c9a34f");
+        line.setAttribute("stroke-width", "2.5");
+        svg.appendChild(line);
+    }
+}
+
+function drawArc(svg, vertex, rays, count, label, overrideRadius = null) {
+    const angles = rays.map(r => Math.atan2(r.y - vertex.y, r.x - vertex.x));
+    let start = angles[0];
+    let end = angles[1];
+
+    let diff = end - start;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+
+    const baseRadius = overrideRadius || 30;
+    const spacing = 6;
+
+    for (let i = 0; i < count; i++) {
+        const r = baseRadius + i * spacing;
+        const x1 = vertex.x + Math.cos(start) * r;
+        const y1 = vertex.y + Math.sin(start) * r;
+        const x2 = vertex.x + Math.cos(start + diff) * r;
+        const y2 = vertex.y + Math.sin(start + diff) * r;
+
+        const largeArc = Math.abs(diff) > Math.PI ? 1 : 0;
+        const sweep = diff > 0 ? 1 : 0;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} ${sweep} ${x2} ${y2}`);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#c9a34f");
+        path.setAttribute("stroke-width", "2.5");
+        svg.appendChild(path);
+    }
+
+    if (label) {
+        const midAngle = start + diff / 2;
+        const labelR = baseRadius + (count * spacing) + 12;
+        const lx = vertex.x + Math.cos(midAngle) * labelR;
+        const ly = vertex.y + Math.sin(midAngle) * labelR;
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", lx);
+        text.setAttribute("y", ly);
+        text.setAttribute("fill", "#2d1b4e");
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("dominant-baseline", "middle");
+        text.setAttribute("font-size", "14");
+        text.setAttribute("font-weight", "bold");
+        text.textContent = label;
+        svg.appendChild(text);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', renderDiagrams);
+</script>
 </body>
 </html>
